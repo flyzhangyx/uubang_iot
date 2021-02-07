@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<FileVersion major="1" minor="0" />
+	<ActiveTarget name="Release" />
+	<File name="src\Register.c" open="1" top="0" tabpos="30" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="86" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\StartThread.c" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="187" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="head\libThreadPool.h" open="1" top="0" tabpos="45" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="669" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\SIGN_IN.c" open="1" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="591" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\CheckStillOnline.c" open="1" top="0" tabpos="17" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="751" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\IoT_Talk.c" open="1" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="843" topLine="28" />
+		</Cursor>
+	</File>
+	<File name="src\main.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="3" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1226" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="libstpool\stpool_caps.h" open="1" top="0" tabpos="52" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="51" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\Delete_outlineUser.c" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="137" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\UserGetIotData.c" open="1" top="0" tabpos="41" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="750" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\ServerWorkThread.c" open="1" top="0" tabpos="44" split="0" active="1" splitpos="0" zoom_1="3" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3292" topLine="50" />
+		</Cursor>
+	</File>
+	<File name="src\fun_send.c" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="217" topLine="19" />
+		</Cursor>
+	</File>
+	<File name="src\MySqlConnInit.c" open="1" top="0" tabpos="18" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1352" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\NewUserFriend.c" open="1" top="0" tabpos="24" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="491" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\log.c" open="1" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="206" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\NewUserMsgStorge.c" open="1" top="0" tabpos="39" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="501" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="head\SERVER.h" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4845" topLine="158" />
+		</Cursor>
+	</File>
+	<File name="src\UserReqFriendRelation.c" open="1" top="0" tabpos="37" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="629" topLine="15" />
+		</Cursor>
+	</File>
+	<File name="src\IotUpdateData.c" open="1" top="0" tabpos="40" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="218" topLine="22" />
+		</Cursor>
+	</File>
+	<File name="src\DateCmp.c" open="1" top="0" tabpos="33" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="302" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\InitServer.c" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1323" topLine="16" />
+		</Cursor>
+	</File>
+	<File name="src\UserRegister.c" open="1" top="0" tabpos="31" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="929" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\Talk_to.c" open="1" top="0" tabpos="49" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\UserReqIotRel.c" open="1" top="0" tabpos="42" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="242" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\Talk.c" open="1" top="1" tabpos="7" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1371" topLine="27" />
+		</Cursor>
+	</File>
+	<File name="src\NewUserMsgTalbleInSQL.c" open="1" top="0" tabpos="36" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="186" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\CopyCln2Sendbag.c" open="1" top="0" tabpos="47" split="0" active="1" splitpos="0" zoom_1="3" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1024" topLine="1" />
+		</Cursor>
+	</File>
+	<File name="src\FindUserOrIotNode.c" open="1" top="0" tabpos="21" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1112" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\AddtoLcoal.c" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="734" topLine="6" />
+		</Cursor>
+	</File>
+	<File name="src\RequestMessages.c" open="1" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1314" topLine="2" />
+		</Cursor>
+	</File>
+	<File name="src\UdpInit.c" open="1" top="0" tabpos="19" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="MYSQL\include\big_endian.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="75" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\String.c" open="1" top="0" tabpos="16" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="28" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\IotDevRegister.c" open="1" top="0" tabpos="38" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="915" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\libThreadPool.c" open="1" top="0" tabpos="46" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="8533" topLine="210" />
+		</Cursor>
+	</File>
+	<File name="src\RequestContacts.c" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2698" topLine="42" />
+		</Cursor>
+	</File>
+	<File name="MYSQL\include\mysql.h" open="1" top="0" tabpos="50" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="54" />
+		</Cursor>
+	</File>
+	<File name="src\PrintAllUserAndIotDevice.c" open="1" top="0" tabpos="23" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="375" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\UserRequestMessage.c" open="1" top="0" tabpos="32" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2660" topLine="47" />
+		</Cursor>
+	</File>
+	<File name="MYSQL\include\my_dir.h" open="1" top="0" tabpos="35" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2382" topLine="48" />
+		</Cursor>
+	</File>
+	<File name="src\NewUserIot.c" open="1" top="0" tabpos="26" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="538" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\AcceptClient.c" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2633" topLine="33" />
+		</Cursor>
+	</File>
+	<File name="src\UdpPackResolve.c" open="1" top="0" tabpos="25" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="27" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\CreateDailyMsgdb.c" open="1" top="0" tabpos="43" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="342" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\NewOnlineUserOrIotDev.c" open="1" top="0" tabpos="28" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="673" topLine="3" />
+		</Cursor>
+	</File>
+	<File name="MYSQL\include\my_config.h" open="1" top="0" tabpos="34" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="18048" topLine="633" />
+		</Cursor>
+	</File>
+	<File name="src\GenerateRandStr.c" open="1" top="0" tabpos="22" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="217" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\hash.c" open="1" top="0" tabpos="48" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="78" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\CheckID_PWD.c" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4569" topLine="100" />
+		</Cursor>
+	</File>
+	<File name="src\RSAUtils.c" open="1" top="0" tabpos="53" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="6658" topLine="248" />
+		</Cursor>
+	</File>
+	<File name="src\FindOnlineUserOrIot.c" open="1" top="0" tabpos="29" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2517" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\UserRename.c" open="1" top="0" tabpos="27" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1130" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="libstpool\stpool.h" open="1" top="0" tabpos="51" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="385" topLine="18" />
+		</Cursor>
+	</File>
+	<File name="MYSQL\include\errmsg.h" open="1" top="0" tabpos="20" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="794" topLine="16" />
+		</Cursor>
+	</File>
+</CodeBlocks_layout_file>

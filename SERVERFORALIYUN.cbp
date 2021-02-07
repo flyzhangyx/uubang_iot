@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="SERVERFORALIYUN" />
+		<Option pch_mode="2" />
+		<Option default_target="Release" />
+		<Option compiler="gcc" />
+		<Build>
+			<Script file="lib_finder.script" />
+			<Target title="Debug">
+				<Option output="bin/Debug/SERVERFORALIYUN" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-m64" />
+					<Add option="-g" />
+					<Add option="-D_WIN64" />
+					<Add option="-DNDEBUG" />
+					<Add option="-DSTPOOL" />
+					<Add directory="MYSQL/include" />
+					<Add directory="MYSQL/include/mysql" />
+					<Add directory="libstpool" />
+				</Compiler>
+				<Linker>
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add option="-static" />
+					<Add option="-m64" />
+					<Add option="-lws2_32" />
+					<Add library="MYSQL/lib/libmysql.lib" />
+					<Add library="wsock2Lib/WS2_32.LIB" />
+					<Add library="libstpool/libstpool.a" />
+					<Add directory="MYSQL/lib" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/SERVERFORALIYUN" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option parameters="3566" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-m64" />
+					<Add option="-D_WIN64" />
+					<Add option="-DNDEBUG" />
+					<Add option="-DSTPOOL" />
+					<Add directory="MYSQL/include" />
+					<Add directory="MYSQL/include/mysql" />
+					<Add directory="libstpool" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add option="-static" />
+					<Add option="-m64" />
+					<Add option="-lws2_32" />
+					<Add library="MYSQL/lib/libmysql.lib" />
+					<Add library="wsock2Lib/WS2_32.LIB" />
+					<Add library="libstpool/libstpool.a" />
+					<Add directory="MYSQL/lib" />
+					<Add directory="libstpool/stpool_win_proj/Release" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Linker>
+			<Add library="wsock2Lib/WS2_32.LIB" />
+			<Add library="libstpool/libstpool.a" />
+		</Linker>
+		<Unit filename="MYSQL/include/big_endian.h" />
+		<Unit filename="MYSQL/include/byte_order_generic.h" />
+		<Unit filename="MYSQL/include/byte_order_generic_x86.h" />
+		<Unit filename="MYSQL/include/decimal.h" />
+		<Unit filename="MYSQL/include/errmsg.h" />
+		<Unit filename="MYSQL/include/keycache.h" />
+		<Unit filename="MYSQL/include/little_endian.h" />
+		<Unit filename="MYSQL/include/m_ctype.h" />
+		<Unit filename="MYSQL/include/m_string.h" />
+		<Unit filename="MYSQL/include/my_alloc.h" />
+		<Unit filename="MYSQL/include/my_byteorder.h" />
+		<Unit filename="MYSQL/include/my_compiler.h" />
+		<Unit filename="MYSQL/include/my_config.h" />
+		<Unit filename="MYSQL/include/my_dbug.h" />
+		<Unit filename="MYSQL/include/my_dir.h" />
+		<Unit filename="MYSQL/include/my_getopt.h" />
+		<Unit filename="MYSQL/include/my_global.h" />
+		<Unit filename="MYSQL/include/my_list.h" />
+		<Unit filename="MYSQL/include/my_net.h" />
+		<Unit filename="MYSQL/include/my_pthread.h" />
+		<Unit filename="MYSQL/include/my_sys.h" />
+		<Unit filename="MYSQL/include/my_xml.h" />
+		<Unit filename="MYSQL/include/mysql.h">
+			<Option weight="0" />
+		</Unit>
+		<Unit filename="MYSQL/include/mysql/client_authentication.h" />
+		<Unit filename="MYSQL/include/mysql/client_plugin.h" />
+		<Unit filename="MYSQL/include/mysql/get_password.h" />
+		<Unit filename="MYSQL/include/mysql/plugin_auth_common.h" />
+		<Unit filename="MYSQL/include/mysql/plugin_trace.h" />
+		<Unit filename="MYSQL/include/mysql/service_mysql_alloc.h" />
+		<Unit filename="MYSQL/include/mysql_com.h" />
+		<Unit filename="MYSQL/include/mysql_com_server.h" />
+		<Unit filename="MYSQL/include/mysql_embed.h" />
+		<Unit filename="MYSQL/include/mysql_time.h" />
+		<Unit filename="MYSQL/include/mysql_version.h" />
+		<Unit filename="MYSQL/include/mysqld_ername.h" />
+		<Unit filename="MYSQL/include/mysqld_error.h" />
+		<Unit filename="MYSQL/include/sql_common.h" />
+		<Unit filename="MYSQL/include/sql_state.h" />
+		<Unit filename="MYSQL/include/sslopt-case.h" />
+		<Unit filename="MYSQL/include/sslopt-longopts.h" />
+		<Unit filename="MYSQL/include/sslopt-vars.h" />
+		<Unit filename="MYSQL/include/typelib.h" />
+		<Unit filename="head/SERVER.h" />
+		<Unit filename="head/libThreadPool.h" />
+		<Unit filename="libstpool/stpool.h" />
+		<Unit filename="libstpool/stpool_caps.h" />
+		<Unit filename="libstpool/stpool_group.h" />
+		<Unit filename="libstpool/stpool_internal.h" />
+		<Unit filename="src/AcceptClient.c">
+			<Option compilerVar="CC" />
+			<Option weight="3" />
+		</Unit>
+		<Unit filename="src/AddtoLcoal.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/CheckID_PWD.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/CheckStillOnline.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/CopyCln2Sendbag.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/CreateDailyMsgdb.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/DateCmp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Delete_outlineUser.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/FindOnlineUserOrIot.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/FindUserOrIotNode.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GenerateRandStr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/InitServer.c">
+			<Option compilerVar="CC" />
+			<Option weight="1" />
+		</Unit>
+		<Unit filename="src/IoT_Talk.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/IotDevRegister.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/IotUpdateData.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/MySqlConnInit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/NewOnlineUserOrIotDev.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/NewUserFriend.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/NewUserIot.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/NewUserMsgStorge.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/NewUserMsgTalbleInSQL.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/PrintAllUserAndIotDevice.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/RSAUtils.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Register.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/RequestContacts.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/RequestMessages.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/SIGN_IN.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/ServerWorkThread.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/StartThread.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/String.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Talk.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Talk_to.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/UdpInit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/UdpPackResolve.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/UserGetIotData.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/UserRegister.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/UserRename.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/UserReqFriendRelation.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/UserReqIotRel.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/UserRequestMessage.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/fun_send.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/hash.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libThreadPool.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/log.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/main.c">
+			<Option compilerVar="CC" />
+			<Option weight="0" />
+		</Unit>
+		<Extensions>
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

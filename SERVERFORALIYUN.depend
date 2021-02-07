@@ -1,0 +1,520 @@
+# depslib dependency file v1.0
+1564506623 source:h:\2017210415\serverforaliyun\src\main.c
+	"../head/SERVER.h"
+
+1576870168 h:\2017210415\serverforaliyun\head\server.h
+	<stdio.h>
+	<WinSock2.h>
+	<windows.h>
+	<conio.h>
+	<stdlib.h>
+	<string.h>
+	<pthread.h>
+	<direct.h>
+	<time.h>
+
+1576870783 source:h:\2017210415\serverforaliyun\src\initserver.c
+	"../head/SERVER.h"
+
+1564387709 source:h:\2017210415\serverforaliyun\src\acceptclient.c
+	"../head/SERVER.h"
+
+1566462991 source:h:\2017210415\serverforaliyun\src\fun_send.c
+	"../head/SERVER.h"
+
+1541054637 source:h:\2017210415\serverforaliyun\src\startthread.c
+	"../head/SERVER.h"
+
+1576869927 source:h:\2017210415\serverforaliyun\src\talk.c
+	"../head/SERVER.h"
+
+1540999434 source:h:\2017210415\serverforaliyun\src\scan_is_online.c
+	"../head/SERVER.h"
+
+1564506399 source:h:\2017210415\serverforaliyun\src\newonlineuser.c
+	"../head/SERVER.h"
+
+1543066039 source:h:\2017210415\serverforaliyun\src\delete_outlineuser.c
+	"../head/SERVER.h"
+
+1564506430 source:h:\2017210415\serverforaliyun\src\printonlineuser.c
+	"../head/SERVER.h"
+
+1564506580 source:h:\2017210415\serverforaliyun\src\sign_in.c
+	"../head/SERVER.h"
+
+1564506382 source:h:\2017210415\serverforaliyun\src\addtolcoal.c
+	"../head/SERVER.h"
+
+1543304478 source:h:\2017210415\serverforaliyun\src\checkid_pwd.c
+	"../head/SERVER.h"
+
+1564506604 source:h:\2017210415\serverforaliyun\src\updateregisteduser.c
+	"../head/SERVER.h"
+
+1566464251 source:h:\2017210415\serverforaliyun\src\regiter.c
+	"../head/SERVER.h"
+
+1541149902 source:h:\2017210415\serverforaliyun\src\talk_to.c
+
+1541382683 source:h:\2017210415\serverforaliyun\src\buftostruct.c
+	"../head/SERVER.h"
+
+1542524846 source:h:\2017210415\serverforaliyun\src\deletfileuser.c
+	"../head/SERVER.h"
+
+1564464966 source:h:\2017210415\serverforaliyun\src\requestcontacts.c
+	"../head/SERVER.h"
+
+1564463836 source:h:\2017210415\serverforaliyun\src\requestmessages.c
+	"../head/SERVER.h"
+
+1566463609 source:h:\2017210415\serverforaliyun\src\log.c
+	"../head/SERVER.h"
+
+1564388499 source:h:\2017210415\serverforaliyun\src\iot_talk.c
+	"../head/SERVER.h"
+
+1552725258 source:h:\2017210415\serverforaliyun\src\string.c
+	"../head/SERVER.h"
+
+1564464042 source:h:\2017210415\serverforaliyun\src\checkstillonline.c
+	"../head/SERVER.h"
+
+1564471382 source:h:\2017210415\serverforaliyun\src\bitmapsize.c
+	"../head/SERVER.h"
+
+1566546705 source:h:\2017210415\serverforaliyun\src\bitmapfigure.c
+	"../head/SERVER.h"
+
+1564505953 source:h:\2017210415\serverforaliyun\src\udpinit.c
+	"../head/SERVER.h"
+
+1564564737 source:h:\2017210415\serverforaliyun\src\udppackresolve.c
+	"../head/SERVER.h"
+
+1566548085 source:h:\2017210415\serverforaliyun\src\file_tcp_send.c
+	"../head/SERVER.h"
+
+1566549639 source:h:\2017210415\serverforaliyun\src\file_send_tcp_thread.c
+	"../head/SERVER.h"
+
+1610790484 source:c:\users\bescd\desktop\test\uubang_server-master\src\main.c
+	"../head/SERVER.h"
+
+1610790751 c:\users\bescd\desktop\test\uubang_server-master\head\server.h
+	<stdio.h>
+	<WinSock2.h>
+	<windows.h>
+	<conio.h>
+	<stdlib.h>
+	<string.h>
+	<pthread.h>
+	<direct.h>
+	<time.h>
+	"mysql.h"
+	"stpool.h"
+	"../head/libThreadPool.h"
+
+1610768561 source:c:\users\bescd\desktop\test\uubang_server-master\src\initserver.c
+	"../head/SERVER.h"
+
+1610788615 source:c:\users\bescd\desktop\test\uubang_server-master\src\acceptclient.c
+	"../head/SERVER.h"
+
+1610608090 source:c:\users\bescd\desktop\test\uubang_server-master\src\addtolcoal.c
+	"../head/SERVER.h"
+
+1610433519 source:c:\users\bescd\desktop\test\uubang_server-master\src\bitmapfigure.c
+	"../head/SERVER.h"
+
+1584859379 source:c:\users\bescd\desktop\test\uubang_server-master\src\bitmapsize.c
+	"../head/SERVER.h"
+
+1610608090 source:c:\users\bescd\desktop\test\uubang_server-master\src\checkid_pwd.c
+	"../head/SERVER.h"
+
+1610608090 source:c:\users\bescd\desktop\test\uubang_server-master\src\checkstillonline.c
+	"../head/SERVER.h"
+
+1610608090 source:c:\users\bescd\desktop\test\uubang_server-master\src\delete_outlineuser.c
+	"../head/SERVER.h"
+
+1610180584 source:c:\users\bescd\desktop\test\uubang_server-master\src\deletfileuser.c
+	"../head/SERVER.h"
+
+1584859379 source:c:\users\bescd\desktop\test\uubang_server-master\src\file_send_tcp_thread.c
+	"../head/SERVER.h"
+
+1610433519 source:c:\users\bescd\desktop\test\uubang_server-master\src\file_tcp_send.c
+	"../head/SERVER.h"
+
+1610616315 source:c:\users\bescd\desktop\test\uubang_server-master\src\fun_send.c
+	"../head/SERVER.h"
+
+1610616315 source:c:\users\bescd\desktop\test\uubang_server-master\src\iot_talk.c
+	"../head/SERVER.h"
+
+1584859379 source:c:\users\bescd\desktop\test\uubang_server-master\src\log.c
+	"../head/SERVER.h"
+
+1610434141 source:c:\users\bescd\desktop\test\uubang_server-master\src\newonlineuser.c
+	"../head/SERVER.h"
+
+1610434442 source:c:\users\bescd\desktop\test\uubang_server-master\src\printonlineuser.c
+	"../head/SERVER.h"
+
+1610160745 source:c:\users\bescd\desktop\test\uubang_server-master\src\regiter.c
+	"../head/SERVER.h"
+
+1610616315 source:c:\users\bescd\desktop\test\uubang_server-master\src\requestcontacts.c
+	"../head/SERVER.h"
+
+1610616315 source:c:\users\bescd\desktop\test\uubang_server-master\src\requestmessages.c
+	"../head/SERVER.h"
+
+1610608090 source:c:\users\bescd\desktop\test\uubang_server-master\src\sign_in.c
+	"../head/SERVER.h"
+
+1610608090 source:c:\users\bescd\desktop\test\uubang_server-master\src\startthread.c
+	"../head/SERVER.h"
+
+1584859379 source:c:\users\bescd\desktop\test\uubang_server-master\src\string.c
+	"../head/SERVER.h"
+
+1610791460 source:c:\users\bescd\desktop\test\uubang_server-master\src\talk.c
+	"../head/SERVER.h"
+
+1584859379 source:c:\users\bescd\desktop\test\uubang_server-master\src\udpinit.c
+	"../head/SERVER.h"
+
+1610433605 source:c:\users\bescd\desktop\test\uubang_server-master\src\udppackresolve.c
+	"../head/SERVER.h"
+
+1610159659 source:c:\users\bescd\desktop\test\uubang_server-master\src\updateregisteduser.c
+	"../head/SERVER.h"
+
+1416523192 c:\users\bescd\desktop\test\uubang_server-master\mysql\include\mysql.h
+	<standards.h>
+	<sys/types.h>
+	<winsock2.h>
+	"mysql_version.h"
+	"mysql_com.h"
+	"mysql_time.h"
+	"my_list.h"
+	"typelib.h"
+	"my_alloc.h"
+
+1416526016 c:\users\bescd\desktop\test\uubang_server-master\mysql\include\mysql_version.h
+	<custom_conf.h>
+
+1416523192 c:\users\bescd\desktop\test\uubang_server-master\mysql\include\mysql_com.h
+
+1416523192 c:\users\bescd\desktop\test\uubang_server-master\mysql\include\mysql_time.h
+
+1416523192 c:\users\bescd\desktop\test\uubang_server-master\mysql\include\my_list.h
+
+1402434644 c:\users\bescd\desktop\test\uubang_server-master\mysql\include\mysql\client_plugin.h
+	<stdarg.h>
+	<stdlib.h>
+	<mysql/plugin_auth_common.h>
+
+1402434644 c:\users\bescd\desktop\test\uubang_server-master\mysql\include\mysql\plugin_auth_common.h
+	<windows.h>
+
+1416523192 c:\users\bescd\desktop\test\uubang_server-master\mysql\include\typelib.h
+	"my_alloc.h"
+
+1416523192 c:\users\bescd\desktop\test\uubang_server-master\mysql\include\my_alloc.h
+
+1402434644 c:\users\bescd\desktop\test\uubang_server-master\mysql\include\mysql\psi\psi_memory.h
+	"psi_base.h"
+
+1402434644 c:\users\bescd\desktop\test\uubang_server-master\mysql\include\mysql\psi\psi_base.h
+
+1610439506 source:c:\users\bescd\desktop\test\uubang_server-master\src\mysqlconninit.c
+	"../head/SERVER.h"
+
+1610531641 source:c:\users\bescd\desktop\test\uubang_server-master\src\finduseroriotnode.c
+	"../head/SERVER.h"
+
+1610166995 source:c:\users\bescd\desktop\test\uubang_server-master\src\generaterandstr.c
+	"../head/SERVER.h"
+
+1610160986 source:c:\users\bescd\desktop\test\uubang_server-master\src\updateregistediotdevices.c
+	"../head/SERVER.h"
+
+1610164223 source:c:\users\bescd\desktop\test\uubang_server-master\src\printalluserandiotdevice.c
+	"../head/SERVER.h"
+
+1610608090 source:c:\users\bescd\desktop\test\uubang_server-master\src\newuserfriend.c
+	"../head/SERVER.h"
+
+1610608090 source:c:\users\bescd\desktop\test\uubang_server-master\src\newuseriot.c
+	"../head/SERVER.h"
+
+1610437721 source:c:\users\bescd\desktop\test\uubang_server-master\src\datecmp.c
+	"../head/SERVER.h"
+
+1610503699 source:c:\users\bescd\desktop\test\uubang_server-master\src\findonlineuseroriot.c
+	"../head/SERVER.h"
+
+1610608090 source:c:\users\bescd\desktop\test\uubang_server-master\src\iotdevregister.c
+	"../head/SERVER.h"
+
+1610608090 source:c:\users\bescd\desktop\test\uubang_server-master\src\newonlineuseroriotdev.c
+	"../head/SERVER.h"
+
+1610608090 source:c:\users\bescd\desktop\test\uubang_server-master\src\register.c
+	"../head/SERVER.h"
+
+1584859379 source:c:\users\bescd\desktop\test\uubang_server-master\src\talk_to.c
+
+1610608090 source:c:\users\bescd\desktop\test\uubang_server-master\src\userregister.c
+	"../head/SERVER.h"
+
+1610608090 source:c:\users\bescd\desktop\test\uubang_server-master\src\userrename.c
+	"../head/SERVER.h"
+
+1610627879 source:c:\users\bescd\desktop\test\uubang_server-master\src\userrequestmessage.c
+	"../head/SERVER.h"
+
+1610442138 source:c:\users\bescd\desktop\test\uubang_server-master\src\newusermsgtalbleinsql.c
+	"../head/SERVER.h"
+
+1610624464 source:c:\users\bescd\desktop\test\uubang_server-master\src\userreqfriendrelation.c
+	"../head/SERVER.h"
+
+1610608090 source:c:\users\bescd\desktop\test\uubang_server-master\src\newusermsgstorge.c
+	"../head/SERVER.h"
+
+1610608090 source:c:\users\bescd\desktop\test\uubang_server-master\src\iotupdatedata.c
+	"../head/SERVER.h"
+
+1610616315 source:c:\users\bescd\desktop\test\uubang_server-master\src\usergetiotdata.c
+	"../head/SERVER.h"
+
+1610624451 source:c:\users\bescd\desktop\test\uubang_server-master\src\userreqiotrel.c
+	"../head/SERVER.h"
+
+1610676986 source:c:\users\bescd\desktop\test\uubang_server-master\src\createdailymsgdb.c
+	"../head/SERVER.h"
+
+1610790317 source:c:\users\bescd\desktop\test\uubang_server-master\src\serverworkthread.c
+	"../head/SERVER.h"
+
+1610693966 c:\users\bescd\desktop\test\uubang_server-master\head\libthreadpool.h
+	<stdio.h>
+	<unistd.h>
+	<stdlib.h>
+	<string.h>
+	<pthread.h>
+	<signal.h>
+
+1610789828 source:c:\users\bescd\desktop\test\uubang_server-master\src\copycln2sendbag.c
+	"../head/SERVER.h"
+
+1610768465 source:c:\users\bescd\desktop\test\uubang_server-master\src\libthreadpool.c
+	"../head/libThreadPool.h"
+	"../head/SERVER.h"
+
+1610611386 source:c:\users\bescd\desktop\test\uubang_server-master\src\threadpool.c
+
+1610681690 source:c:\users\bescd\desktop\test\uubang_server-master\src\hash.c
+	"../head/SERVER.h"
+
+1610769467 c:\users\bescd\desktop\test\uubang_server-master\head\stpool.h
+	<time.h>
+	"stpool_caps.h"
+
+1542418649 c:\users\bescd\desktop\test\uubang_server-master\head\stpool_caps.h
+
+1611422162 source:g:\2017210415\uubang_server-master\src\main.c
+	"../head/SERVER.h"
+
+1612615831 g:\2017210415\uubang_server-master\head\server.h
+	<stdio.h>
+	<WinSock2.h>
+	<windows.h>
+	<conio.h>
+	<stdlib.h>
+	<string.h>
+	<pthread.h>
+	<direct.h>
+	<time.h>
+	"mysql.h"
+	<malloc.h>
+	"stpool.h"
+	"../head/libThreadPool.h"
+
+1416523192 g:\2017210415\uubang_server-master\mysql\include\mysql.h
+	<standards.h>
+	<sys/types.h>
+	<winsock2.h>
+	"mysql_version.h"
+	"mysql_com.h"
+	"mysql_time.h"
+	"my_list.h"
+	"typelib.h"
+	"my_alloc.h"
+
+1416526016 g:\2017210415\uubang_server-master\mysql\include\mysql_version.h
+	<custom_conf.h>
+
+1416523192 g:\2017210415\uubang_server-master\mysql\include\mysql_com.h
+
+1416523192 g:\2017210415\uubang_server-master\mysql\include\mysql_time.h
+
+1416523192 g:\2017210415\uubang_server-master\mysql\include\my_list.h
+
+1416523192 g:\2017210415\uubang_server-master\mysql\include\typelib.h
+	"my_alloc.h"
+
+1416523192 g:\2017210415\uubang_server-master\mysql\include\my_alloc.h
+
+1610769467 g:\2017210415\uubang_server-master\head\stpool.h
+	<time.h>
+	"stpool_caps.h"
+
+1542418649 g:\2017210415\uubang_server-master\head\stpool_caps.h
+
+1610693966 g:\2017210415\uubang_server-master\head\libthreadpool.h
+	<stdio.h>
+	<unistd.h>
+	<stdlib.h>
+	<string.h>
+	<pthread.h>
+	<signal.h>
+
+1612615777 source:g:\2017210415\uubang_server-master\src\initserver.c
+	"../head/SERVER.h"
+
+1612612935 source:g:\2017210415\uubang_server-master\src\acceptclient.c
+	"../head/SERVER.h"
+
+1610827467 source:g:\2017210415\uubang_server-master\src\addtolcoal.c
+	"../head/SERVER.h"
+
+1610827502 source:g:\2017210415\uubang_server-master\src\checkid_pwd.c
+	"../head/SERVER.h"
+
+1610827893 source:g:\2017210415\uubang_server-master\src\checkstillonline.c
+	"../head/SERVER.h"
+
+1611420857 source:g:\2017210415\uubang_server-master\src\copycln2sendbag.c
+	"../head/SERVER.h"
+
+1610676986 source:g:\2017210415\uubang_server-master\src\createdailymsgdb.c
+	"../head/SERVER.h"
+
+1610437721 source:g:\2017210415\uubang_server-master\src\datecmp.c
+	"../head/SERVER.h"
+
+1610827402 source:g:\2017210415\uubang_server-master\src\delete_outlineuser.c
+	"../head/SERVER.h"
+
+1610503699 source:g:\2017210415\uubang_server-master\src\findonlineuseroriot.c
+	"../head/SERVER.h"
+
+1610531641 source:g:\2017210415\uubang_server-master\src\finduseroriotnode.c
+	"../head/SERVER.h"
+
+1610616315 source:g:\2017210415\uubang_server-master\src\fun_send.c
+	"../head/SERVER.h"
+
+1610166995 source:g:\2017210415\uubang_server-master\src\generaterandstr.c
+	"../head/SERVER.h"
+
+1612612362 source:g:\2017210415\uubang_server-master\src\hash.c
+	"../head/SERVER.h"
+
+1610827965 source:g:\2017210415\uubang_server-master\src\iot_talk.c
+	"../head/SERVER.h"
+
+1610827994 source:g:\2017210415\uubang_server-master\src\iotdevregister.c
+	"../head/SERVER.h"
+
+1611422220 source:g:\2017210415\uubang_server-master\src\iotupdatedata.c
+	"../head/SERVER.h"
+
+1610872834 source:g:\2017210415\uubang_server-master\src\libthreadpool.c
+	"../head/libThreadPool.h"
+	"../head/SERVER.h"
+
+1584859379 source:g:\2017210415\uubang_server-master\src\log.c
+	"../head/SERVER.h"
+
+1610439506 source:g:\2017210415\uubang_server-master\src\mysqlconninit.c
+	"../head/SERVER.h"
+
+1610827590 source:g:\2017210415\uubang_server-master\src\newonlineuseroriotdev.c
+	"../head/SERVER.h"
+
+1610827605 source:g:\2017210415\uubang_server-master\src\newuserfriend.c
+	"../head/SERVER.h"
+
+1610827622 source:g:\2017210415\uubang_server-master\src\newuseriot.c
+	"../head/SERVER.h"
+
+1610827637 source:g:\2017210415\uubang_server-master\src\newusermsgstorge.c
+	"../head/SERVER.h"
+
+1610442138 source:g:\2017210415\uubang_server-master\src\newusermsgtalbleinsql.c
+	"../head/SERVER.h"
+
+1610164223 source:g:\2017210415\uubang_server-master\src\printalluserandiotdevice.c
+	"../head/SERVER.h"
+
+1610828047 source:g:\2017210415\uubang_server-master\src\register.c
+	"../head/SERVER.h"
+
+1610828047 source:g:\2017210415\uubang_server-master\src\requestcontacts.c
+	"../head/SERVER.h"
+
+1610828116 source:g:\2017210415\uubang_server-master\src\requestmessages.c
+	"../head/SERVER.h"
+
+1611422145 source:g:\2017210415\uubang_server-master\src\serverworkthread.c
+	"../head/SERVER.h"
+
+1610828116 source:g:\2017210415\uubang_server-master\src\sign_in.c
+	"../head/SERVER.h"
+
+1610608090 source:g:\2017210415\uubang_server-master\src\startthread.c
+	"../head/SERVER.h"
+
+1584859379 source:g:\2017210415\uubang_server-master\src\string.c
+	"../head/SERVER.h"
+
+1584859379 source:g:\2017210415\uubang_server-master\src\talk_to.c
+
+1584859379 source:g:\2017210415\uubang_server-master\src\udpinit.c
+	"../head/SERVER.h"
+
+1610433605 source:g:\2017210415\uubang_server-master\src\udppackresolve.c
+	"../head/SERVER.h"
+
+1610827352 source:g:\2017210415\uubang_server-master\src\usergetiotdata.c
+	"../head/SERVER.h"
+
+1610828351 source:g:\2017210415\uubang_server-master\src\userregister.c
+	"../head/SERVER.h"
+
+1610827685 source:g:\2017210415\uubang_server-master\src\userrename.c
+	"../head/SERVER.h"
+
+1611422350 source:g:\2017210415\uubang_server-master\src\userreqfriendrelation.c
+	"../head/SERVER.h"
+
+1610900104 source:g:\2017210415\uubang_server-master\src\userreqiotrel.c
+	"../head/SERVER.h"
+
+1610828402 source:g:\2017210415\uubang_server-master\src\userrequestmessage.c
+	"../head/SERVER.h"
+
+1612614834 source:g:\2017210415\uubang_server-master\src\talk.c
+	"../head/SERVER.h"
+
+1612612983 source:g:\2017210415\uubang_server-master\src\rsautils.c
+	"../head/SERVER.h"
+
