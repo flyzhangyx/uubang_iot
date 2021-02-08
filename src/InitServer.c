@@ -93,9 +93,11 @@ int initServer(int port)
     strcpy(onlineUserHead->DATE,"\0");
     onlineUserHead->OnlineUserNum=0;
     onlineUserHead->next=NULL;
+    pthread_mutex_init(&(onlineUserHead->mute),NULL);
     strcpy(onlineIotHead->DATE,"\0");
     onlineIotHead->OnlineUserNum=0;
     onlineIotHead->next=NULL;
+    pthread_mutex_init(&(onlineIotHead->mute),NULL);
     ///LogFile
     loginfo=fopen("Loginfo.info","a+");
       //获取终端当前默认颜色，用于后续所有打印的默认颜色配置
@@ -113,9 +115,11 @@ int initServer(int port)
     strcpy(RegistedUserHead->DATE,"\0");
     RegistedUserHead->OnlineUserNum=0;
     RegistedUserHead->next=NULL;
+    pthread_mutex_init(&(RegistedUserHead->mute),NULL);
     strcpy(RegistedIotHead->DATE,"\0");
     RegistedIotHead->OnlineUserNum=0;
     RegistedIotHead->next=NULL;
+    pthread_mutex_init(&(RegistedIotHead->mute),NULL);
     CLN a;
     memset(&a,0,sizeof(CLN));
     char *head = "SELECT * FROM user";

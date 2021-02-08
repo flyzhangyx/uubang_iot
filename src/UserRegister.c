@@ -25,11 +25,8 @@ int UserRegiter(CLN* a)
     strcpy(b.USERPASSWORD,a->USERPASSWORD);
     USER Tag = RegistedUserHead->next;
     b.USERKEY_ID = 1;
-    while(Tag!=NULL)
-    {
-        b.USERKEY_ID=Tag->USERKEY_ID+1;
-        Tag=Tag->next;
-    }
+    if(Tag!=NULL)
+    b.USERKEY_ID=Tag->USERKEY_ID+1;
     AddtoLocal(&b);
     return 1;
 }

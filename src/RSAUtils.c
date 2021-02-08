@@ -242,10 +242,7 @@ void InitRSA(RSAKey *key)
         p = randPrime(SINGLE_MAX);
         q = randPrime(SINGLE_MAX);
         n = p * q;
-        if(n < 128)
-        {
-            printf("Modulus is less than 128, cannot encode single bytes. Trying again ... ");
-        }
+        if(n < 128);
         else break;
     }
     if(n >> 21) bytes = 3;
@@ -259,25 +256,4 @@ void InitRSA(RSAKey *key)
     key->commonKey = n;
     key->publicKey = e;
 }
-/**
- * Main method to demostrate the system. Sets up primes p, q, and proceeds to encode and
- * decode the message given in "text.txt"
- */
-//
-//int main(void)
-//{
-//
-//    RSAKey key;
-//    char buffer[200] ;
-//    scanf("%s",buffer);
-//    srand(time(NULL));
-//    InitRSA(&key);
-//    int len = strlen(buffer)*key.encryptBlockBytes;/* len will be a multiple of bytes, to send whole chunks */
-//    int encoded[512*3];
-//    char decoded[512];
-//    printf("Public Key (%d,%d)\nPrivate Key (%d,%d)\n",key.publicKey,key.commonKey,key.privateKey,key.commonKey);
-//    encodeMessage(len, key.encryptBlockBytes, buffer,encoded, key.publicKey, key.commonKey);
-//    decodeMessage(len/key.encryptBlockBytes, key.encryptBlockBytes, encoded,decoded ,key.privateKey, key.commonKey);
-//    printf("%s\n",decoded);
-//    return EXIT_SUCCESS;
-//}
+

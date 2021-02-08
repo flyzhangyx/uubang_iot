@@ -14,7 +14,6 @@ int newOnlineUserOrIotDev(CLN *a)
         printf("can't add newuser");
         return -1;
     }
-    ///******根据接口给节点初始化********
     strcpy(newuser->USERID,a->USERID);
     strcpy(newuser->USERPASSWORD,a->USERPASSWORD);
     newuser->USER_socket_udp=a->ADDR;
@@ -22,17 +21,21 @@ int newOnlineUserOrIotDev(CLN *a)
     newuser->USERKEY_ID=a->USERKEY_ID;
     if(strlen(a->USERID)<11)
     {
+        pthread_mutex_lock(&(onlineIotHead->mute));
         newuser->next=onlineIotHead->next;
-        strcpy(newuser->info,a->checkcode);
+        strcpy(newuser->info,a->info);
         onlineIotHead->next=newuser;
+        pthread_mutex_unlock(&(onlineIotHead->mute));
         onlineIotHead->OnlineUserNum++;
     }
     else
     {
+        pthread_mutex_lock(&(onlineUserHead->mute));
         newuser->next=onlineUserHead->next;
+        strcpy(newuser->info,a->info);
         onlineUserHead->next=newuser;
+         pthread_mutex_unlock(&(onlineUserHead->mute));
         onlineUserHead->OnlineUserNum++;
     }
-    ///***********************************
     return 1;
 }

@@ -6,8 +6,6 @@ int main(int argc,char**argv)
     CreateDailyMsgdb();//New Daily DB Thread
     UdpInit(atoi(argv[1]));
     srand((unsigned int)time(NULL));
-    bb = (char*)malloc(sizeof(char)*400);
-    generateRandString(bb,200);
     ///**********Init Thread Pool************///
     #ifdef STPOOL
    long eCAPs = eCAP_F_DYNAMIC|eCAP_F_ROUTINE|eCAP_F_TASK_WAIT_ALL;
@@ -24,6 +22,10 @@ int main(int argc,char**argv)
     ThreadPool = libThreadPool_Init(10,30,60);
     #endif
     AcceptClient();
+    pthread_mutex_destroy(&(RegistedIotHead->mute));
+    pthread_mutex_destroy(&(RegistedUserHead->mute));
+    pthread_mutex_destroy(&(onlineIotHead->mute));
+    pthread_mutex_destroy(&(onlineUserHead->mute));
     mysql_close(sock);
      #ifdef STPOOL
     stpool_release(ThreadPool);

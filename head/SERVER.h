@@ -32,11 +32,9 @@ struct user
 {
     SOCKET USER_socket;
     SOCKADDR_IN USER_socket_udp;
-    //SOCKADDR_IN USER_ADDR;
     char USERID[12];
     int USERKEY_ID;
     char USERPASSWORD[33];
-    //char DATE[513];
     char info[100];
     struct user *next;
 };
@@ -64,6 +62,7 @@ struct OnlineUserHead
     char DATE[100];
     char TIME[18];
     char info[100];
+    pthread_mutex_t mute;
     int OnlineUserNum;
     USER  next;
 };
@@ -220,6 +219,5 @@ threadPool_t *ThreadPool;
 #endif // STPOOL
 int g_default_color ;
 char app_version[4];
-char *bb ;
 ///**********************************
 #endif // SERVER_H_INCLUDED
