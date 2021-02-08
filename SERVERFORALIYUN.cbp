@@ -230,10 +230,10 @@
 		<Unit filename="src/UserGetIotData.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/UserRegister.c">
+		<Unit filename="src/UserRePwd.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/UserRename.c">
+		<Unit filename="src/UserRegister.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/UserReqFriendRelation.c">
