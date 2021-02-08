@@ -40,11 +40,6 @@ int AcceptClient()
             system("pause");
             continue;
         }
-        else
-        {
-            CLN_num++;
-            //printf("\naccept num %d client %s:%u\n",CLN_num,inet_ntoa(CONNHANDLE->ADDR.sin_addr),CONNHANDLE->ADDR.sin_port);
-        }
         CreateIoCompletionPort((HANDLE)(CONNHANDLE ->remote_socket), completionPort, (ULONG_PTR)CONNHANDLE, 0);//Create relation between CONNHANDLE and COmpletionPort
         LPPER_IO_OPERATION_DATA PerIoData = (LPPER_IO_OPERATION_DATA)malloc(sizeof(PER_IO_OPERATEION_DATA));//Per IO operation exchange data use this struct,put it in the WSARecv func to Rec something
         if(PerIoData==NULL)
@@ -61,8 +56,6 @@ int AcceptClient()
         PerIoData->OpCode= 0;	// read
         DWORD RecvBytes;
         DWORD Flags = 0;
-        InitRSA(&(CONNHANDLE->key));//Create RSAKey, need srand(time(NULL)) first
-        printf("Public Key (%d,%d)\nPrivate Key (%d,%d)\n",CONNHANDLE->key.publicKey,CONNHANDLE->key.commonKey,CONNHANDLE->key.privateKey,CONNHANDLE->key.commonKey);
         WSARecv(CONNHANDLE->remote_socket, &(PerIoData->WSADATABUF), 1, &RecvBytes, &Flags, &(PerIoData->overlapped), NULL);
     }
 }

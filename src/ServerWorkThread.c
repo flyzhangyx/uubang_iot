@@ -19,13 +19,10 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
         CONNHANDLE = NULL;
         if(!GetQueuedCompletionStatus(CompletionPort, &BytesTransferred, (PULONG_PTR)&CONNHANDLE, (LPOVERLAPPED*)&lpOverlapped, INFINITE))
         {
-            if(NULL==lpOverlapped)
-            {
-                continue;
-            }
             DWORD dwErr = GetLastError();
-            if(CONNHANDLE == NULL)
+            if(CONNHANDLE == NULL||NULL==lpOverlapped)
             {
+
                 continue;
             }
             else
@@ -34,7 +31,18 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                 {
                     printf("\nGETIOCPQUEUE TIMEOUT\n");
                 }
-                continue;
+                else
+                {
+                    //Client close (MITM)
+                    closesocket(CONNHANDLE->remote_socket);
+                    if(CONNHANDLE!=NULL)free(CONNHANDLE);
+                    if(lpOverlapped!=NULL)
+                    {
+                        PerIoData = (LPPER_IO_DATA)CONTAINING_RECORD(lpOverlapped, PER_IO_DATA, overlapped);
+                        free(PerIoData);//free source
+                    }
+                    continue;
+                }
             }
         }
         else
@@ -42,6 +50,17 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
             PerIoData = (LPPER_IO_DATA)CONTAINING_RECORD(lpOverlapped, PER_IO_DATA, overlapped);
             if(0 == BytesTransferred||BytesTransferred>721)
             {
+                printf("%d Byte Received\n",(int)BytesTransferred);
+                if(CONNHANDLE!=NULL)//Continue to receiving data
+                {
+                    memset(&(PerIoData->overlapped), 0,sizeof(OVERLAPPED)); // 清空内存
+                    PerIoData->WSADATABUF.len = sizeof(sendbag);
+                    PerIoData->WSADATABUF.buf = PerIoData->RECBUFFER;
+                    PerIoData->OpCode= 0;	// read
+                    DWORD RecvBytes;
+                    DWORD Flags = 0;
+                    WSARecv(CONNHANDLE->remote_socket, &(PerIoData->WSADATABUF), 1, &RecvBytes, &Flags, &(PerIoData->overlapped), NULL);
+                }
                 continue;
             }
             else if(CONNHANDLE!=NULL&&PerIoData!=NULL)
@@ -49,44 +68,42 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                 memset(&RecBuff,0,sizeof(sendbag));
                 memcpy(&RecBuff,PerIoData->RECBUFFER,BytesTransferred);
                 CopySendbag2Cln(RecBuff,CONNHANDLE);
-                ///*********************
-                // 为下一个重叠调用建立单I/O操作数据
-                memset(&(PerIoData->overlapped), 0,sizeof(OVERLAPPED)); // 清空内存
-                PerIoData->WSADATABUF.len = sizeof(sendbag);
-                PerIoData->WSADATABUF.buf = PerIoData->RECBUFFER;
-                PerIoData->OpCode= 0;	// read
-                DWORD RecvBytes;
-                DWORD Flags = 0;
                 if(strstr(CONNHANDLE->checkcode,"ZYX")!=NULL&&CONNHANDLE->info[1]!='Y')
                 {
                     if(strstr(CONNHANDLE->checkcode,"ZYXX1226")!=NULL)
                     {
                         CONNHANDLE->info[1]='Y';
+                        InitRSA(&(CONNHANDLE->key));//Create RSAKey, need srand(time(NULL)) first
+                        printf("\nPublic Key (%d,%d) | Private Key (%d,%d)\n",CONNHANDLE->key.publicKey,CONNHANDLE->key.commonKey,CONNHANDLE->key.privateKey,CONNHANDLE->key.commonKey);
                     }
                     else
-                    {
-//                        printf("\nOLD VERSION CLIENT:|%s\n",inet_ntoa(CONNHANDLE->ADDR.sin_addr));
-//                        memset(&RecDataStruct,0,sizeof(sendbag));
-//                        memset(sendbuf,0,sizeof(sendbag));
-//                        strcpy(RecDataStruct.checkcode,"UPD");
-//                        strcpy(RecDataStruct.DATA,app_version);
-//                        RecDataStruct.save[99]='\n';
-//                        memcpy(sendbuf,&RecDataStruct,sizeof(RecDataStruct));
-//                        len=send(c,sendbuf,sizeof(sendbag),0);
-                        continue;
+                    {   //OLD VERSION
+                        char tempBuf[721]="UPD";
+                        send(CONNHANDLE->remote_socket,tempBuf,721,0);
                     }
                 }
                 if(CONNHANDLE->info[1]!='Y')
                 {
                     closesocket(CONNHANDLE->remote_socket);
                     free(CONNHANDLE);
+                    if(lpOverlapped!=NULL)
+                    {
+                        PerIoData = (LPPER_IO_DATA)CONTAINING_RECORD(lpOverlapped, PER_IO_DATA, overlapped);
+                        free(PerIoData);//free source
+                    }
                     continue;
                 }
 #ifdef STPOOL
-                stpool_add_routine(ThreadPool,"IN",talk,task_err_handler,CONNHANDLE,NULL);
+                stpool_add_routine(ThreadPool,"IN",(void*)(struct sttask*)talk,task_err_handler,CONNHANDLE,NULL);
 #else
                 libThreadPool_TaskAdd(ThreadPool, talk, (void*)CONNHANDLE);//put into task queue
 #endif
+                memset(&(PerIoData->overlapped), 0,sizeof(OVERLAPPED)); // 清空内存
+                PerIoData->WSADATABUF.len = sizeof(sendbag);
+                PerIoData->WSADATABUF.buf = PerIoData->RECBUFFER;
+                PerIoData->OpCode= 0;// read
+                DWORD RecvBytes;
+                DWORD Flags = 0;
                 WSARecv(CONNHANDLE->remote_socket, &(PerIoData->WSADATABUF), 1, &RecvBytes, &Flags, &(PerIoData->overlapped), NULL);
             }
         }

@@ -16,7 +16,7 @@ int delete_out_user(CLN *a)
                 onlineUserHead->next=Tag->next;
                 free(Tag);
                 printf("\n已从在线列表中删除该用户%s\n",a->USERID);
-                //CLN_num--;
+                onlineUserHead->OnlineUserNum--;
                 return 1;
             }
             else
@@ -28,7 +28,7 @@ int delete_out_user(CLN *a)
                         Tag->next=Tag->next->next;
                         free(Tag->next);
                         printf("\n已从在线列表中删除该用户%s\n",a->USERID);
-                        //CLN_num--;
+                        onlineUserHead->OnlineUserNum--;
                         return 1;
                     }
                     else
@@ -56,7 +56,7 @@ int delete_out_user(CLN *a)
                 onlineIotHead->next=Tag->next;
                 free(Tag);
                 printf("\n已从在线列表中删除该设备%s\n",a->USERID);
-                //CLN_num--;
+                onlineIotHead->OnlineUserNum--;
                 return 1;
             }
             else
@@ -68,7 +68,7 @@ int delete_out_user(CLN *a)
                         Tag->next=Tag->next->next;
                         free(Tag->next);
                         printf("\n已从在线列表中删除该设备%s\n",a->USERID);
-                        //CLN_num--;
+                        onlineIotHead->OnlineUserNum--;
                         return 1;
                     }
                     else

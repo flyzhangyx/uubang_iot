@@ -72,8 +72,8 @@ int talk(LPVOID b)
             delete_out_user(a);
             return 0;
         }
-        break;
     }
+    break;
     case 69858: //SIA
     {
         printf("\n%s/%s/\n", a->USERID, a->USERPASSWORD);
