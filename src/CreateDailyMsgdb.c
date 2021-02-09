@@ -31,7 +31,7 @@ DWORD WINAPI CreateDailyMsgdbThread()
                 exit(-12);
             }
         }
-        Sleep(1000*60*30);
+        Sleep(1000*60*10);
     }
 }
 void CreateDailyMsgdb()

@@ -2,7 +2,7 @@
 int main(int argc,char**argv)
 {
     initServer(atoi(argv[1]));
-    printf("服务器初始化成功,端口:%d",atoi(argv[1]));
+    printf("服务器初始化成功,端口:%d\n",atoi(argv[1]));
     CreateDailyMsgdb();//New Daily DB Thread
     UdpInit(atoi(argv[1]));
     srand((unsigned int)time(NULL));
@@ -21,13 +21,19 @@ int main(int argc,char**argv)
     #else
     ThreadPool = libThreadPool_Init(10,30,60);
     #endif
+
+    time_t now_time;
+    time(&now_time);
+    char time_now[50];
+    strftime(time_now,80,"%Y-%m-%d %X",localtime(&now_time));
+    printf("%s|%s\n",GetUpdateTimeStamp(0,3),time_now);
     AcceptClient();
     pthread_mutex_destroy(&(RegistedIotHead->mute));
     pthread_mutex_destroy(&(RegistedUserHead->mute));
     pthread_mutex_destroy(&(onlineIotHead->mute));
     pthread_mutex_destroy(&(onlineUserHead->mute));
     mysql_close(sock);
-     #ifdef STPOOL
+    #ifdef STPOOL
     stpool_release(ThreadPool);
     #else
     libThreadPool_destroy(ThreadPool);

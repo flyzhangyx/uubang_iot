@@ -1,14 +1,16 @@
 #include"../head/SERVER.h"
 int UserRegiter(CLN* a)
 {
-    char insert[200] = "";
-    sprintf(insert,"%s%s%s%s%s%s%s%s",
-            "INSERT INTO user (id, userId, nickName, passWord, registDate) VALUES (NULL, '",
+    char insert[800] = "";
+    sprintf(insert,"%s%s%s%s%s%s%s%s%s%s",
+            "INSERT INTO user (id, userId, nickName, passWord, email, registDate) VALUES (NULL, '",
             a->USERID,
             "', '",
-            a->USERID,
+            a->info,
             "', '",
             a->USERPASSWORD,
+            "', '",
+            a->data,
             "', ",
             "CURRENT_TIMESTAMP)");
     //printf("\n%s",insert);
@@ -17,16 +19,16 @@ int UserRegiter(CLN* a)
         printf("\nMySQL ERR :%s",mysql_error(&mysql));
         return -1;
     }
-    CLN b;
-    strcpy(b.info,a->info);
-    b.ADDR=a->ADDR;
-    b.remote_socket=a->remote_socket;
-    strcpy(b.USERID,a->USERID);
-    strcpy(b.USERPASSWORD,a->USERPASSWORD);
-    USER Tag = RegistedUserHead->next;
-    b.USERKEY_ID = 1;
-    if(Tag!=NULL)
-    b.USERKEY_ID=Tag->USERKEY_ID+1;
-    AddtoLocal(&b);
+//    CLN b;
+//    strcpy(b.info,a->info);
+//    b.ADDR=a->ADDR;
+//    b.remote_socket=a->remote_socket;
+//    strcpy(b.USERID,a->USERID);
+//    strcpy(b.USERPASSWORD,a->USERPASSWORD);
+//    USER Tag = RegistedUserHead->next;
+//    b.USERKEY_ID = 1;
+//    if(Tag!=NULL)
+//    b.USERKEY_ID=Tag->USERKEY_ID+1;
+//    AddtoLocal(&b);
     return 1;
 }

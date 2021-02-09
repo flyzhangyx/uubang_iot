@@ -177,6 +177,9 @@ void CopyCln2Sendbag(CLN a,sendbag *Sendbag);
 void CopySendbag2Cln(sendbag Sendbag,CLN *a);
 unsigned int DJBHash(char* str, unsigned int len);
 void InitRSA(RSAKey*);
+char* GetUpdateTimeStamp(int UserId,int index);
+int UpdateSqlInfoTimestamp(int UserId,int index,int flag);
+int UpdateLocalRegUserAndIotlist();
 ///*****************************
 ///***************各类标志码**********************
 char CHECK[3];///应用进入时登陆检测是否已经注册
