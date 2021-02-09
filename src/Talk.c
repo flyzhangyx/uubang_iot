@@ -57,7 +57,8 @@ int talk(LPVOID b)
             return 0;
         }
     }
-    case 69099:    {
+    case 69099:
+    {
         memset(&SendDataStruct,0,sizeof(sendbag));
         memset(sendbuf,0,sizeof(sendbag));
         strcpy(SendDataStruct.checkcode,"RSA");
@@ -77,6 +78,13 @@ int talk(LPVOID b)
     case 69858: //SIA
     {
         printf("\n%s/%s/\n", a->USERID, a->USERPASSWORD);
+        strcpy(a->USERPASSWORD,"12345678901234567890123456789012");
+        int encodedCrypto[96];
+        encodeMessage(96,3,a->USERPASSWORD,encodedCrypto,a->key.publicKey,a->key.commonKey);
+        //memcpy(encodedCrypto,a->data,sizeof(int)*96);
+        decodeMessage(32, 3, encodedCrypto,a->USERPASSWORD,a->key.privateKey, a->key.commonKey);
+        a->USERPASSWORD[32]=0;
+        printf("\n%s",a->USERPASSWORD);
         if (SIGNIN(a) == 1)
         {
             signIN = 1;

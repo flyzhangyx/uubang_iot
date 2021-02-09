@@ -177,6 +177,8 @@ void CopyCln2Sendbag(CLN a,sendbag *Sendbag);
 void CopySendbag2Cln(sendbag Sendbag,CLN *a);
 unsigned int DJBHash(char* str, unsigned int len);
 void InitRSA(RSAKey*);
+void encodeMessage(int len, int bytes, char* message,int* outCrypto, int exponent, int modulus);
+void decodeMessage(int len, int bytes, int* cryptogram,char *outSource, int exponent, int modulus);
 char* GetUpdateTimeStamp(int UserId,int index);
 int UpdateSqlInfoTimestamp(int UserId,int index,int flag);
 int UpdateLocalRegUserAndIotlist();

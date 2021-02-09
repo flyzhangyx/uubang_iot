@@ -518,10 +518,10 @@
 1612612983 source:g:\2017210415\uubang_server-master\src\rsautils.c
 	"../head/SERVER.h"
 
-1612858219 source:c:\users\bescd\desktop\test\uubang_iot\src\main.c
+1612859371 source:c:\users\bescd\desktop\test\uubang_iot\src\main.c
 	"../head/SERVER.h"
 
-1612856821 c:\users\bescd\desktop\test\uubang_iot\head\server.h
+1612860021 c:\users\bescd\desktop\test\uubang_iot\head\server.h
 	<stdio.h>
 	<WinSock2.h>
 	<windows.h>
@@ -654,7 +654,7 @@
 1612758695 source:c:\users\bescd\desktop\test\uubang_iot\src\printalluserandiotdevice.c
 	"../head/SERVER.h"
 
-1612758695 source:c:\users\bescd\desktop\test\uubang_iot\src\register.c
+1612859690 source:c:\users\bescd\desktop\test\uubang_iot\src\register.c
 	"../head/SERVER.h"
 
 1612758695 source:c:\users\bescd\desktop\test\uubang_iot\src\requestcontacts.c
@@ -675,7 +675,7 @@
 1612758695 source:c:\users\bescd\desktop\test\uubang_iot\src\string.c
 	"../head/SERVER.h"
 
-1612771094 source:c:\users\bescd\desktop\test\uubang_iot\src\talk.c
+1612863052 source:c:\users\bescd\desktop\test\uubang_iot\src\talk.c
 	"../head/SERVER.h"
 
 1612758695 source:c:\users\bescd\desktop\test\uubang_iot\src\talk_to.c
@@ -704,7 +704,7 @@
 1612758695 source:c:\users\bescd\desktop\test\uubang_iot\src\userrequestmessage.c
 	"../head/SERVER.h"
 
-1612774874 source:c:\users\bescd\desktop\test\uubang_iot\src\serverworkthread.c
+1612860523 source:c:\users\bescd\desktop\test\uubang_iot\src\serverworkthread.c
 	"../head/SERVER.h"
 
 1612758695 source:c:\users\bescd\desktop\test\uubang_iot\src\userrepwd.c

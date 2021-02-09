@@ -157,6 +157,9 @@
 		<Unit filename="src/GenerateRandStr.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="src/GetSqlUpdateTime.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="src/InitServer.c">
 			<Option compilerVar="CC" />
 			<Option weight="1" />
@@ -225,6 +228,12 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/UdpPackResolve.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/UpdateRegiterIotAndUser.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/UpdateSqlInfoTimestamp.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/UserGetIotData.c">

@@ -26,6 +26,7 @@ int Register(CLN *a,int method)
         }
         //mkdir(a->USERID);
         printf("\nUSER/IOTDEV:%s Registed Success !\n",a->USERID);
+        UpdateLocalRegUserAndIotlist();
         return 1;
     }
 }
