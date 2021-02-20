@@ -53,7 +53,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                 printf("%d Byte Received\n",(int)BytesTransferred);
                 if(CONNHANDLE!=NULL)//Continue to receiving data
                 {
-                    memset(&(PerIoData->overlapped), 0,sizeof(OVERLAPPED)); // Çå¿ÕÄÚ´æ
+                    memset(&(PerIoData->overlapped), 0,sizeof(OVERLAPPED));
                     PerIoData->WSADATABUF.len = sizeof(sendbag);
                     PerIoData->WSADATABUF.buf = PerIoData->RECBUFFER;
                     PerIoData->OpCode= 0;	// read
@@ -73,8 +73,6 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                     if(strstr(CONNHANDLE->checkcode,"ZYXX1226")!=NULL)
                     {
                         CONNHANDLE->info[1]='Y';
-                        InitRSA(&(CONNHANDLE->key));//Create RSAKey, need srand(time(NULL)) first
-                        printf("\nPublic Key (%d,%d) | Private Key (%d,%d)\n",CONNHANDLE->key.publicKey,CONNHANDLE->key.commonKey,CONNHANDLE->key.privateKey,CONNHANDLE->key.commonKey);
                     }
                     else
                     {   //OLD VERSION

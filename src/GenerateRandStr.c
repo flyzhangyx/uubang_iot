@@ -11,3 +11,15 @@ void generateRandString(char *dest,unsigned int len)
     }
     *dest='\0';
 }
+void generateRandIntStr(char *dest,unsigned int len)
+{
+    const unsigned char allChar[11]="0123456789";
+    unsigned int cnt,randNo;
+    for(cnt=0; cnt<len; cnt++)
+    {
+        randNo=rand()%10;
+        *dest=allChar[randNo];
+        dest++;
+    }
+    *dest='\0';
+}

@@ -1,8 +1,8 @@
 #include "../head/SERVER.h"
 
-#define ACCURACY 5
+#define ACCURACY 10
 #define SINGLE_MAX 10000
-#define EXPONENT_MAX 1000
+#define EXPONENT_MAX 10000
 #define BUF_SIZE 1024
 
 

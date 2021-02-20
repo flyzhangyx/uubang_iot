@@ -104,6 +104,7 @@ typedef struct
     char REUSERPASSWORD[33];
     char data[513];
     char info[100];//[0]是否注销登录,N_Y;
+    char Pin[7];
     RSAKey key;
 } CLN;
 typedef struct
@@ -160,6 +161,7 @@ int file_tcp_send(CLN*,FILE*,char*,char*);
 int MySqlInit();
 USER FindRegisterUserOrIotNode(int,char*,int);
 void generateRandString(char*dest,unsigned int len);
+void generateRandIntStr(char *dest,unsigned int len);
 int IotRegister(CLN* ,int);
 void PrintAllUserAndIotDevice();
 int NewUserFriend(CLN*,int);
@@ -182,6 +184,8 @@ void decodeMessage(int len, int bytes, int* cryptogram,char *outSource, int expo
 char* GetUpdateTimeStamp(int UserId,int index);
 int UpdateSqlInfoTimestamp(int UserId,int index,int flag);
 int UpdateLocalRegUserAndIotlist();
+void Decrypt(char *source_in ,int len,char *PinCode,char *source_out);
+void Encrypt(char *source_in ,int len,char *PinCode,char *source_out);
 ///*****************************
 ///***************各类标志码**********************
 char CHECK[3];///应用进入时登陆检测是否已经注册
@@ -206,6 +210,7 @@ unsigned int ADSUSER_HASH;///添加用户
 unsigned int READDU_HASH;///回复添加用户
 unsigned int HEARTBEAT_HASH;//HEART
 unsigned int RSAREQ_HASH;//HEART
+unsigned int PINREQ_HASH;//PINCODE
 ///************************************************
 ///**********全局变量****************
 SOCKET server_sockfd;//TCP服务器端套接字

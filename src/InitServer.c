@@ -36,8 +36,8 @@ int initServer(int port)
     printf("ADS%d\n",READDU_HASH);
     HEARTBEAT_HASH = DJBHash("HBA",3);
     printf("HBA%d\n",HEARTBEAT_HASH);
-    RSAREQ_HASH = DJBHash("RSA",3);
-    printf("RSA%d\n",RSAREQ_HASH);
+    PINREQ_HASH = DJBHash("PIN",3);
+    printf("PIN%d\n",PINREQ_HASH);
 
     ///***********socket≥ı ºªØ***********************
     WSADATA wsaData;
