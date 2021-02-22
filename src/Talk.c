@@ -87,11 +87,20 @@ int talk(LPVOID b)
          ///Send Email to inform User
         if(signIN==1)
         {
-            sprintf(SendDataStruct.DATA,"%s",a->Pin);
+            int encodedCrypto[100]={0};
+            memcpy(encodedCrypto,a->data,sizeof(int)*6*a->key.encryptBlockBytes);
+            decodeMessage(6, a->key.encryptBlockBytes, encodedCrypto,a->Pin,a->key.privateKey, a->key.commonKey);
+            a->Pin[5]=0;
+            char MD5Temp[33]="";
+            Compute_string_md5(MD5Temp,32,a->Pin);
+            sprintf(SendDataStruct.DATA,"%s",MD5Temp);
         }
         else
         {
-
+            char cmd[100]="";
+            sprintf(cmd,"%s %s %s","cmd.exe /c \"PINSend.bat\"",a->info,a->Pin);
+            printf("\n%s\n",cmd);
+            system(cmd);
         }
         SendDataStruct.save[99]='\n';
         memcpy(sendbuf,&SendDataStruct,sizeof(SendDataStruct));
@@ -108,13 +117,10 @@ int talk(LPVOID b)
     case 69858: //SIA
     {
         printf("\n%s/%s/\n", a->USERID, a->USERPASSWORD);
-        strcpy(a->USERPASSWORD,"12345678901234567890123456789012");
-        int encodedCrypto[96];
-        encodeMessage(96,3,a->USERPASSWORD,encodedCrypto,a->key.publicKey,a->key.commonKey);
-        //memcpy(encodedCrypto,a->data,sizeof(int)*96);
-        decodeMessage(32, 3, encodedCrypto,a->USERPASSWORD,a->key.privateKey, a->key.commonKey);
+        int encodedCrypto[100]={0};
+        memcpy(encodedCrypto,a->data,sizeof(int)*32*a->key.encryptBlockBytes);
+        decodeMessage(32, a->key.encryptBlockBytes, encodedCrypto,a->USERPASSWORD,a->key.privateKey, a->key.commonKey);
         a->USERPASSWORD[32]=0;
-        printf("\n%s",a->USERPASSWORD);
         if (SIGNIN(a) == 1)
         {
             signIN = 1;
