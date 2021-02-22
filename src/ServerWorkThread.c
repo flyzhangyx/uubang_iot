@@ -67,10 +67,22 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
             {
                 memset(&RecBuff,0,sizeof(sendbag));
                 memcpy(&RecBuff,PerIoData->RECBUFFER,BytesTransferred);
-                CopySendbag2Cln(RecBuff,CONNHANDLE);
+                if(BytesTransferred>0&&BytesTransferred<721)
+                {
+                    printf("\nIOT\n");
+                    CopySendbag2Cln(RecBuff,CONNHANDLE);
+                }
+                else
+                {
+                    CopySendbag2Cln(RecBuff,CONNHANDLE);
+                }
                 if(strstr(CONNHANDLE->checkcode,"ZYX")!=NULL&&CONNHANDLE->info[1]!='Y')
                 {
                     if(strstr(CONNHANDLE->checkcode,"ZYXX1226")!=NULL)
+                    {
+                        CONNHANDLE->info[1]='Y';
+                    }
+                    else if(strstr(CONNHANDLE->checkcode,"ZYXX1227")!=NULL)
                     {
                         CONNHANDLE->info[1]='Y';
                     }
@@ -96,13 +108,17 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
 #else
                 libThreadPool_TaskAdd(ThreadPool, talk, (void*)CONNHANDLE);//put into task queue
 #endif
-                memset(&(PerIoData->overlapped), 0,sizeof(OVERLAPPED)); // Çå¿ÕÄÚ´æ
+                memset(&(PerIoData->overlapped), 0,sizeof(OVERLAPPED)); //
                 PerIoData->WSADATABUF.len = sizeof(sendbag);
                 PerIoData->WSADATABUF.buf = PerIoData->RECBUFFER;
                 PerIoData->OpCode= 0;// read
                 DWORD RecvBytes;
                 DWORD Flags = 0;
                 WSARecv(CONNHANDLE->remote_socket, &(PerIoData->WSADATABUF), 1, &RecvBytes, &Flags, &(PerIoData->overlapped), NULL);
+            }
+            else
+            {
+                ;
             }
         }
     }

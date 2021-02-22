@@ -20,7 +20,7 @@ int UserGetIotData(CLN *a)
     while ((row = mysql_fetch_row(res)))
     {
         memset(sendbuf,0,sizeof(sendbag));
-        strcpy(RecDataStruct.save,row[4]);//RelationCreateDate
+        strcpy(RecDataStruct.save,row[4]);//UpdateDate
         RecDataStruct.save[99]='\n';
         sprintf(RecDataStruct.DATA,"%d+%d+%s",atoi(row[1]),atoi(row[2]),row[3]);
         memcpy(sendbuf,&RecDataStruct,sizeof(RecDataStruct));

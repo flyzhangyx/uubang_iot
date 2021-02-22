@@ -24,5 +24,6 @@ int NewUserFriend(CLN *a,int friendId)
         printf("\nMySQL ERR (USER FRIEND):%s",mysql_error(&mysql));
         return 0;
     }
+    UpdateSqlInfoTimestamp(a->USERKEY_ID,1,0);
     return 1;
 }

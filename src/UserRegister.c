@@ -13,22 +13,26 @@ int UserRegiter(CLN* a)
             a->data,
             "', ",
             "CURRENT_TIMESTAMP)");
-    //printf("\n%s",insert);
     if(mysql_real_query(&mysql,insert,strlen(insert)))
     {
         printf("\nMySQL ERR :%s",mysql_error(&mysql));
         return -1;
     }
-//    CLN b;
-//    strcpy(b.info,a->info);
-//    b.ADDR=a->ADDR;
-//    b.remote_socket=a->remote_socket;
-//    strcpy(b.USERID,a->USERID);
-//    strcpy(b.USERPASSWORD,a->USERPASSWORD);
-//    USER Tag = RegistedUserHead->next;
-//    b.USERKEY_ID = 1;
-//    if(Tag!=NULL)
-//    b.USERKEY_ID=Tag->USERKEY_ID+1;
-//    AddtoLocal(&b);
+    char insert1[800] = "";
+    sprintf(insert1,"%s%s%s%s%s%s%s%d%s",
+            "INSERT INTO `iotserverinfo` (`userId`, `FriendRelUpdateTime`, `IotRelUpdateTime`, `MsgRecUpdateTime`, `IsRegisterRecord`) VALUES ('",
+            a->USERID,
+            "', '",
+            "CURRENT_TIMESTAMP",
+            "', '",
+            "CURRENT_TIMESTAMP",
+            "', '",
+            0,
+            "')");
+    if(mysql_real_query(&mysql,insert1,strlen(insert1)))
+    {
+        printf("\nMySQL ERR :%s",mysql_error(&mysql));
+        return -1;
+    }
     return 1;
 }

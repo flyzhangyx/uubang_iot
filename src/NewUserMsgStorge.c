@@ -22,5 +22,6 @@ int NewUserMsgStorage(CLN *a,int ToId)
         printf("\nSQL ERR (INSERT MSG):%s\n",mysql_error(&mysql));
         return 0;
     }
+    UpdateSqlInfoTimestamp(a->USERKEY_ID,3,0);
     return 1;
 }

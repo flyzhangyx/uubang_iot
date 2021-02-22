@@ -27,5 +27,6 @@ int NewUserIot(CLN *a,int iotId)
         printf("\nMySQL ERR (USER IOT):%s",mysql_error(&mysql));
         return 0;
     }
+    UpdateSqlInfoTimestamp(a->USERKEY_ID,2,0);
     return 1;
 }

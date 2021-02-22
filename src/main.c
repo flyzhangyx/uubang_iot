@@ -20,12 +20,20 @@ int main(int argc,char**argv)
 #else
     ThreadPool = libThreadPool_Init(10,30,60);
 #endif
-
     time_t now_time;
     time(&now_time);
     char time_now[50];
     strftime(time_now,80,"%Y-%m-%d %X",localtime(&now_time));
     printf("%s|%s\n",GetUpdateTimeStamp(0,3),time_now);
+
+    CLN a;
+    a.USERKEY_ID = 22947;
+    strcpy(a.TalktoID,"ZZzoidFy");
+    char cmd[100]="123";
+    UserNewIotCmd(&a,cmd,1,1);
+    IotReadCmd(&a,1,1);
+    printf("\n%s\n",a.data);
+
     AcceptClient();
     pthread_mutex_destroy(&(RegistedIotHead->mute));
     pthread_mutex_destroy(&(RegistedUserHead->mute));
