@@ -69,7 +69,6 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                 memcpy(&RecBuff,PerIoData->RECBUFFER,BytesTransferred);
                 if(BytesTransferred>0&&BytesTransferred<721)
                 {
-                    printf("\nIOT\n");
                     CopySendbag2Cln(RecBuff,CONNHANDLE);
                 }
                 else

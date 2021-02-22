@@ -312,6 +312,16 @@ int talk(LPVOID b)
         }
     }
     break;
+    case 59168://IOC
+    {
+        sprintf(a->TalktoID,"%s","12345678901");
+        sprintf(a->USERID,"%s","r1qIAVlK");
+        CLN temp;
+        temp.USERKEY_ID=FindRegisterUserOrIotNode(0,a->TalktoID,0)->USERKEY_ID;
+        sprintf(temp.TalktoID,"%s",a->USERID);
+        NewUserIot(&temp,0);
+    }
+    break;
     case 68585: //RCO
     {
         UserReqFriendRel(a);
@@ -351,7 +361,6 @@ int talk(LPVOID b)
             if (len == SOCKET_ERROR || len == 0)
             {
                 closesocket(c);
-
                 return 0;
             }
         }

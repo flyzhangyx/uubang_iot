@@ -213,6 +213,7 @@ unsigned int READDU_HASH;///回复添加用户
 unsigned int HEARTBEAT_HASH;//HEART
 unsigned int RSAREQ_HASH;//HEART
 unsigned int PINREQ_HASH;//PINCODE
+unsigned int IOTCFM_HASH;//IOT ADD CONFIRM
 ///************************************************
 ///**********全局变量****************
 SOCKET server_sockfd;//TCP服务器端套接字

@@ -38,7 +38,8 @@ int initServer(int port)
     printf("HBA%d\n",HEARTBEAT_HASH);
     PINREQ_HASH = DJBHash("PIN",3);
     printf("PIN%d\n",PINREQ_HASH);
-
+    IOTCFM_HASH = DJBHash("IOC",3);
+    printf("IOC%d\n",IOTCFM_HASH);
     ///***********socket≥ı ºªØ***********************
     WSADATA wsaData;
     while(1)
