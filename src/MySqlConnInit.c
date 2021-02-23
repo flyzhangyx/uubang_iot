@@ -17,11 +17,12 @@ int MySqlInit()
     }
     else
     {
-        fprintf(stderr, "Connect to MySQL SUCCESS! \n");
+        //fprintf(stderr, "Connect to MySQL SUCCESS! \n");
         return 1;
     }
 }
 
+int
 /*CREATE TABLE `iotserver`.`MessgaeDate(Recommed using date to establish table)` ( `userId` INT UNSIGNED NOT NULL , `friendId` INT UNSIGNED NOT NULL , `Content` TEXT NOT NULL , `SendDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ) ENGINE = InnoDB;
 INSERT INTO `usermessagecache` (`userId`, `friendId`, `Content`, `SendDate`) VALUES ('3', '4', '1232の21呃13の呃3非非法违法', CURRENT_TIMESTAMP);
 */

@@ -225,6 +225,7 @@ int logflag;
 FILE* REGISTERlocal;
 FILE* loginfo;
 MYSQL mysql, *sock;
+pthread_mutex_t mysql_mutex;
 #ifdef STPOOL
 stpool_t * ThreadPool;
 #else

@@ -12,17 +12,19 @@ DWORD WINAPI CreateDailyMsgdbThread()
         p->tm_min=0;
         p->tm_sec=0;
         t1=mktime(p);
-        if((t1-t)/60>0&&(t1-t)/60<=1)
+        if((t1-t)/60>0&&(t1-t)/60<=5*60)
         {
             int i=0;
             while(i++<100)
             {
                 if(!NewUserMsgTableInSQL())
                 {
+                    sleep(10);
                     continue;
                 }
                 else
                 {
+                    printf("\nNew Daily MSGDB Create SUCCESS!\n");
                     break;
                 }
             }
@@ -31,7 +33,8 @@ DWORD WINAPI CreateDailyMsgdbThread()
                 exit(-12);
             }
         }
-        Sleep(1000*60*10);
+        //Sleep(1000*60*10);
+        Sleep(1000*60);
     }
 }
 void CreateDailyMsgdb()

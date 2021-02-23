@@ -3,7 +3,6 @@ int UserReqFriendRel(CLN *a)
 {
     sendbag RecDataStruct;
     int len=0;
-    USER talktouser=NULL;
     char sendbuf[sizeof(sendbag)]= {0};
     printf("\nContact OK:");
     char find[100] = "";
@@ -26,15 +25,6 @@ int UserReqFriendRel(CLN *a)
             mysql_free_result(res);
             return 0;
         }
-        talktouser=FindOnlineUserOrIot(0,NULL,atoi(row[1]));
-        if(talktouser==NULL)
-        {
-            //strcpy(RecDataStruct.checkcode,"ROT");//OUTLINE
-        }
-        else
-        {
-            //strcpy(RecDataStruct.checkcode,"ROO");//ONLINE
-        }
         strcpy(RecDataStruct.checkcode,"RCO");
         strcpy(RecDataStruct.TalktoID,Temp->USERID);
         strcpy(RecDataStruct.USERID,a->USERID);
@@ -49,7 +39,6 @@ int UserReqFriendRel(CLN *a)
             mysql_free_result(res);
             return 0;
         }
-        //Sleep(100);
     }
     mysql_free_result(res);
     return 1;

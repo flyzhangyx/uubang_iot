@@ -39,6 +39,7 @@ int main(int argc,char**argv)
     pthread_mutex_destroy(&(RegistedUserHead->mute));
     pthread_mutex_destroy(&(onlineIotHead->mute));
     pthread_mutex_destroy(&(onlineUserHead->mute));
+    pthread_mutex_destroy(&mysql_mutex);
     mysql_close(sock);
 #ifdef STPOOL
     stpool_release(ThreadPool);
