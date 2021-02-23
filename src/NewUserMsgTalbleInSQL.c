@@ -10,11 +10,20 @@ int NewUserMsgTableInSQL()
             "CREATE TABLE `iotserver`.`",
             time_now,
             "` ( `userId` INT UNSIGNED NOT NULL , `friendId` INT UNSIGNED NOT NULL , `Content` TEXT NOT NULL , `SendDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ) ENGINE = InnoDB"
-            );
+           );
+    mysql_master_connect_ping();
     if(mysql_real_query(&mysql,create,strlen(create)))
     {
-        printf("SQL ERR (CREATE TABLE):%s",mysql_error(&mysql));
-        return 0;
+        const char *err = mysql_error(&mysql);
+        if(strstr(err,"already"))
+        {
+            return -1;
+        }
+        else
+        {
+            printf("SQL ERR (CREATE TABLE):%s",err);
+            return 0;
+        }
     }
     return 1;
 }

@@ -19,6 +19,7 @@ int NewUserFriend(CLN *a,int friendId)
             friendId,
             "', ",
             "CURRENT_TIMESTAMP)");
+    mysql_master_connect_ping();
     if(mysql_real_query(&mysql,insert,strlen(insert)))
     {
         printf("\nMySQL ERR (USER FRIEND):%s",mysql_error(&mysql));

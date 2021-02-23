@@ -14,6 +14,7 @@ int UserNewIotCmd(CLN *a,char *cmd,int Devclass,int status)
             "', '",
             a->USERKEY_ID,
             "', CURRENT_TIMESTAMP, '0')");
+    mysql_master_connect_ping();
     if(mysql_real_query(&mysql,insert,strlen(insert)))
     {
         printf("\nMySQL ERR :%s",mysql_error(&mysql));

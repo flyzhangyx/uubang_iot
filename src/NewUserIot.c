@@ -22,6 +22,7 @@ int NewUserIot(CLN *a,int iotId)
             iotId,
             "', ",
             "CURRENT_TIMESTAMP)");
+    mysql_master_connect_ping();
     if(mysql_real_query(&mysql,insert,strlen(insert)))
     {
         printf("\nMySQL ERR (USER IOT):%s",mysql_error(&mysql));

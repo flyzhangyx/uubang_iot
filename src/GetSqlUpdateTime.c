@@ -6,9 +6,10 @@ char* GetUpdateTimeStamp(int UserId,int index)
     MYSQL_RES *res;
     MYSQL_ROW row;
     sprintf(find, "%s%d", "SELECT * FROM `iotserverinfo` WHERE `userId` = ", UserId);
+    mysql_master_connect_ping();
     if (mysql_real_query(&mysql, find, strlen(find)))
     {
-        printf("\n SQL ERR (REQIOTSERVERINFO):%s",mysql_error(&mysql));
+        printf("\nSQL ERR (REQ IOTSERVER INFO):%s",mysql_error(&mysql));
         return 0;
     }
     res = mysql_store_result(&mysql);

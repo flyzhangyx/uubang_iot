@@ -24,6 +24,7 @@ int UserRePwd(CLN *a)
                     {
                         char update[200] = "";
                         sprintf(update,"%s%s%s%d","UPDATE `user` SET `passWord` = '",a->REUSERPASSWORD,"' WHERE `user`.`id` = ",a->USERKEY_ID);
+                        mysql_master_connect_ping();
                         if(mysql_real_query(&mysql, update,strlen(update)))
                         {
                             printf("\nMySQL ERR :%s",mysql_error(&mysql));

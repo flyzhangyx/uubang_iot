@@ -188,6 +188,7 @@ void Decrypt(char *source_in ,int len,char *PinCode,char *source_out);
 void Encrypt(char *source_in ,int len,char *PinCode,char *source_out);
 int UserNewIotCmd(CLN *a,char *cmd,int Devclass,int status);
 int IotReadCmd(CLN *a,int Devclass,int del);
+int mysql_master_connect_ping();
 ///*****************************
 ///***************各类标志码**********************
 char CHECK[3];///应用进入时登陆检测是否已经注册

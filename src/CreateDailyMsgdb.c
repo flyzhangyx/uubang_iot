@@ -1,6 +1,7 @@
 #include"../head/SERVER.h"
 DWORD WINAPI CreateDailyMsgdbThread()
 {
+    int flag = 0;
     while(1)
     {
         struct tm *p;
@@ -12,19 +13,26 @@ DWORD WINAPI CreateDailyMsgdbThread()
         p->tm_min=0;
         p->tm_sec=0;
         t1=mktime(p);
-        if((t1-t)/60>0&&(t1-t)/60<=5*60)
+        if((t1-t)/60>0&&(t1-t)/60<=14*60)
         {
             int i=0;
-            while(i++<100)
+            while(i++<100&&!flag)
             {
-                if(!NewUserMsgTableInSQL())
+                int ret = NewUserMsgTableInSQL();
+                if(ret==0)
                 {
-                    sleep(10);
+                    sleep(1);
                     continue;
+                }
+                else if(ret==-1)
+                {
+                    flag = 1;
+                    break;
                 }
                 else
                 {
                     printf("\nNew Daily MSGDB Create SUCCESS!\n");
+                    flag = 1;
                     break;
                 }
             }
@@ -33,7 +41,10 @@ DWORD WINAPI CreateDailyMsgdbThread()
                 exit(-12);
             }
         }
-        //Sleep(1000*60*10);
+        else
+        {
+             flag = 0;
+        }
         Sleep(1000*60);
     }
 }

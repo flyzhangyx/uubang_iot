@@ -24,7 +24,7 @@ int main(int argc,char**argv)
     time(&now_time);
     char time_now[50];
     strftime(time_now,80,"%Y-%m-%d %X",localtime(&now_time));
-    printf("%s|%s\n",GetUpdateTimeStamp(0,3),time_now);
+    printf("\n%s|%s\n",GetUpdateTimeStamp(0,3),time_now);
 
     CLN a;
     a.USERKEY_ID = 22947;

@@ -62,6 +62,7 @@ int UserRequestMessage(CLN *a,int Direction,char *DateFirst,char *DateLast,struc
         strcpy(RecDataStruct.TalktoID,a->USERID);
         strcpy(RecDataStruct.USERID,a->TalktoID);
     }
+    mysql_master_connect_ping();
     if (mysql_real_query(&mysql, find, strlen(find)))
     {
         printf("\nSQL ERR (REQUEST MSG):%s\n",mysql_error(&mysql));

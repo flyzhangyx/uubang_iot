@@ -7,6 +7,7 @@ int UserGetIotData(CLN *a)
     char sendbuf[sizeof(sendbag)]= {0};
     char find[100]="";
     sprintf(find,"%s%d","SELECT * FROM `iotevtcache` WHERE `iotId` =",FindRegisterUserOrIotNode(10,a->TalktoID,0)->USERKEY_ID);
+    mysql_master_connect_ping();
     if(mysql_real_query(&mysql,find,strlen(find)))
     {
         printf("\n SQL ERR (USERGETIOTDATA):%s",mysql_error(&mysql));

@@ -30,6 +30,7 @@ int IotUpdateStatus(CLN *a,int EvtClass,int status)
             a->USERKEY_ID,
             " AND `iotevtcache`.`evtClass` =  ",
             EvtClass);
+    mysql_master_connect_ping();
     if(mysql_real_query(&mysql,insert,strlen(insert)))
     {
         if(strstr(mysql_error(&mysql),"Duplicate")==NULL)
@@ -39,6 +40,7 @@ int IotUpdateStatus(CLN *a,int EvtClass,int status)
         }
         else
         {
+            mysql_master_connect_ping();
             mysql_real_query(&mysql,update,strlen(update));
             if(mysql_affected_rows(&mysql)==0)
             {

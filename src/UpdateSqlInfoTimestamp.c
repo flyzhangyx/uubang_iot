@@ -33,6 +33,7 @@ int UpdateSqlInfoTimestamp(int UserId,int index,int flag)
                 ,UserId);
         break;
     }
+    mysql_master_connect_ping();
     if(mysql_real_query(&mysql, update,strlen(update)))
     {
         printf("\nMySQL ERR :%s",mysql_error(&mysql));

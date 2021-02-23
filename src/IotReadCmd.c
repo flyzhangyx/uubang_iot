@@ -10,6 +10,7 @@ int IotReadCmd(CLN *a,int Devclass,int del)
                 "'AND `class` = '",
                 Devclass,
                 "'");
+        mysql_master_connect_ping();
         if(mysql_real_query(&mysql,read,strlen(read)))
         {
             printf("\nMySQL ERR(IOT READ CMD) :%s",mysql_error(&mysql));
@@ -29,6 +30,7 @@ int IotReadCmd(CLN *a,int Devclass,int del)
                 "'AND `iotcmd`.`class` = '",
                  Devclass,
                 "'");
+        mysql_master_connect_ping();
         if(mysql_real_query(&mysql,del,strlen(del)))
         {
             printf("\nMySQL ERR(IOT DEL CMD) :%s",mysql_error(&mysql));

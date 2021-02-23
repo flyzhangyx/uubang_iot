@@ -11,7 +11,7 @@ int IotRegister(CLN* a,int DevClass)
             a->USERPASSWORD,
             "', ",
             "CURRENT_TIMESTAMP)");
-    //printf("\n%s",insert);
+    mysql_master_connect_ping();
     if(mysql_real_query(&mysql,insert,strlen(insert)))
     {
         printf("\nMySQL ERR :%s",mysql_error(&mysql));

@@ -13,6 +13,7 @@ int UserRegiter(CLN* a)
             a->data,
             "', ",
             "CURRENT_TIMESTAMP)");
+    mysql_master_connect_ping();
     if(mysql_real_query(&mysql,insert,strlen(insert)))
     {
         printf("\nMySQL ERR :%s",mysql_error(&mysql));
@@ -29,6 +30,7 @@ int UserRegiter(CLN* a)
             "', '",
             0,
             "')");
+    mysql_master_connect_ping();
     if(mysql_real_query(&mysql,insert1,strlen(insert1)))
     {
         printf("\nMySQL ERR :%s",mysql_error(&mysql));

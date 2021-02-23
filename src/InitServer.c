@@ -129,6 +129,7 @@ int initServer(int port)
     MYSQL_RES *res;
     MYSQL_ROW row;
     sprintf(query, "%s", head);
+    mysql_master_connect_ping();
     if (mysql_real_query(&mysql, query, strlen(query)))
     {
         printf("\nFailed to Get UserInfo: %s\n", mysql_error(&mysql));
@@ -149,6 +150,7 @@ int initServer(int port)
     sprintf(query, "%s", head_iot);
     MYSQL_RES *res_iot;
     MYSQL_ROW row_iot;
+    mysql_master_connect_ping();
     if (mysql_real_query(&mysql, query, strlen(query)))
     {
         printf("\nFailed to Get IotInfo: %s\n", mysql_error(&mysql));
