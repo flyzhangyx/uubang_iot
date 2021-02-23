@@ -13,7 +13,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
     LPOVERLAPPED lpOverlapped;
     CLN* CONNHANDLE = NULL;//Relation with PerConn is store in this struct
     LPPER_IO_DATA PerIoData = NULL;
-    sendbag RecBuff;
+    UserPacketInterface RecBuff;
     while(1)
     {
         CONNHANDLE = NULL;
@@ -54,7 +54,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                 if(CONNHANDLE!=NULL)//Continue to receiving data
                 {
                     memset(&(PerIoData->overlapped), 0,sizeof(OVERLAPPED));
-                    PerIoData->WSADATABUF.len = sizeof(sendbag);
+                    PerIoData->WSADATABUF.len = sizeof(UserPacketInterface);
                     PerIoData->WSADATABUF.buf = PerIoData->RECBUFFER;
                     PerIoData->OpCode= 0;	// read
                     DWORD RecvBytes;
@@ -65,15 +65,16 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
             }
             else if(CONNHANDLE!=NULL&&PerIoData!=NULL)
             {
-                memset(&RecBuff,0,sizeof(sendbag));
-                memcpy(&RecBuff,PerIoData->RECBUFFER,BytesTransferred);
                 if(BytesTransferred>0&&BytesTransferred<721)
                 {
-                    CopySendbag2Cln(RecBuff,CONNHANDLE);
+                    printf("\n%ld\n",BytesTransferred);
+                    CopyRecIotData2Cln(PerIoData->RECBUFFER,CONNHANDLE,BytesTransferred);
                 }
                 else
                 {
-                    CopySendbag2Cln(RecBuff,CONNHANDLE);
+                    memset(&RecBuff,0,sizeof(UserPacketInterface));
+                    memcpy(&RecBuff,PerIoData->RECBUFFER,BytesTransferred);
+                    CopyUserPacketInterface2Cln(RecBuff,CONNHANDLE);
                 }
                 if(strstr(CONNHANDLE->checkcode,"ZYX")!=NULL&&CONNHANDLE->info[1]!='Y')
                 {
@@ -108,7 +109,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                 libThreadPool_TaskAdd(ThreadPool, talk, (void*)CONNHANDLE);//put into task queue
 #endif
                 memset(&(PerIoData->overlapped), 0,sizeof(OVERLAPPED)); //
-                PerIoData->WSADATABUF.len = sizeof(sendbag);
+                PerIoData->WSADATABUF.len = sizeof(UserPacketInterface);
                 PerIoData->WSADATABUF.buf = PerIoData->RECBUFFER;
                 PerIoData->OpCode= 0;// read
                 DWORD RecvBytes;

@@ -27,6 +27,7 @@ int AcceptClient()
         CLN* CONNHANDLE = (CLN*)malloc(sizeof(CLN));
         if(CONNHANDLE==NULL)
         {
+            sleep(1);
             continue;
         }
         memset(CONNHANDLE,0,sizeof(CLN));
@@ -51,7 +52,7 @@ int AcceptClient()
         }
         memset(PerIoData,0, sizeof(PER_IO_OPERATEION_DATA));
         memset(&(PerIoData -> overlapped),0, sizeof(OVERLAPPED));
-        PerIoData->WSADATABUF.len = sizeof(sendbag);
+        PerIoData->WSADATABUF.len = sizeof(UserPacketInterface);
         PerIoData->WSADATABUF.buf = PerIoData->RECBUFFER;
         PerIoData->OpCode= 0;	// read
         DWORD RecvBytes;

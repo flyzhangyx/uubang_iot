@@ -39,24 +39,7 @@ struct user
     struct user *next;
 };
 typedef struct user * USER;
- struct contact
-{
-    char checkcode[18];
-    char USERID[12];
-    char USERPASSWORD[33];
-    char TalktoID[12];
-    char info[10];
-}contact ;
-typedef struct contact * Contact;
- struct message
-{
-    char checkcode[18];
-    char USERID[12];
-    char USERPASSWORD[33];
-    char TalktoID[12];
-    char data[513];
-} ;
-typedef struct message * Message;
+
 struct OnlineUserHead
 {
     char DATE[100];
@@ -81,7 +64,7 @@ typedef struct
     char REUSERPASSWORD[33];
     char DATA[513];
     char save[100];
-} sendbag;
+} UserPacketInterface;
 
 
 typedef struct{
@@ -111,19 +94,16 @@ typedef struct
 {
 	OVERLAPPED overlapped;
 	WSABUF WSADATABUF;
-	char RECBUFFER[sizeof(sendbag) ];
+	char RECBUFFER[sizeof(UserPacketInterface) ];
 	int BufferLen;
 	int OpCode;
 }PER_IO_OPERATEION_DATA, *LPPER_IO_OPERATION_DATA, *LPPER_IO_DATA, PER_IO_DATA;
 
-typedef struct
-{
-    CLN a;
-    char filename[32];
-    char file_lx[8];
-    char file_path[32];
-} tcp_send_interface;
-
+typedef struct{
+    char opCode[3];
+    char SeqNum[2];
+    char payLoad[100];//Max
+}IotPacketInterface;
 ///*****************************
 ///*******函数声明**************
 #ifdef STPOOL
@@ -152,7 +132,7 @@ int UserRePwd(CLN*);
 void RequestIotDevices(CLN*);
 void RequestIotEvent(CLN*);
 void logwrite(char*);
-int IoTtalk(char*,char*,CLN*);
+int IoTtalk(CLN*);
 int Stringcut(char* str,int m,int n,char *des);
 int BitmapSize(FILE*);
 int bitmapfigure(CLN*,FILE*,char*);
@@ -175,8 +155,7 @@ int IotUpdateStatus(CLN*,int ,int );
 int UserGetIotData(CLN*);
 int UserReqIotRel(CLN*);
 void CreateDailyMsgdb();
-void CopyCln2Sendbag(CLN a,sendbag *Sendbag);
-void CopySendbag2Cln(sendbag Sendbag,CLN *a);
+void CopyUserPacketInterface2Cln(UserPacketInterface UserPacketInterface,CLN *a);
 unsigned int DJBHash(char* str, unsigned int len);
 void InitRSA(RSAKey*);
 void encodeMessage(int len, int bytes, char* message,int* outCrypto, int exponent, int modulus);
@@ -189,6 +168,7 @@ void Encrypt(char *source_in ,int len,char *PinCode,char *source_out);
 int UserNewIotCmd(CLN *a,char *cmd,int Devclass,int status);
 int IotReadCmd(CLN *a,int Devclass,int del);
 int mysql_master_connect_ping();
+void CopyRecIotData2Cln(char *recBuff,CLN* CONN,int len);
 ///*****************************
 ///***************各类标志码**********************
 char CHECK[3];///应用进入时登陆检测是否已经注册

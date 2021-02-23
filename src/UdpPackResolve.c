@@ -1,8 +1,8 @@
 #include"../head/SERVER.h"
 DWORD WINAPI UdpPackResolve(LPVOID qn)
 {
-    sendbag *rec=(sendbag*)qn;
-    char sendbuf[sizeof(sendbag)]= {0};
+    UserPacketInterface *rec=(UserPacketInterface*)qn;
+    char sendbuf[sizeof(UserPacketInterface)]= {0};
     char tag[4];
     ///开始讨论UDP包类型，处理正常方需要发送回包“UDP”
     strncpy(tag,rec->checkcode,4);
@@ -13,7 +13,7 @@ DWORD WINAPI UdpPackResolve(LPVOID qn)
 
         ///一切完成后回包告知进行下一步
         strcpy(rec->checkcode,"UDP");
-        memset(sendbuf,0,sizeof(sendbag));
+        memset(sendbuf,0,sizeof(UserPacketInterface));
         rec->save[99]='\n';
         memcpy(sendbuf,rec,sizeof(*rec));
         USER talkuser=FindOnlineUserOrIot(0,rec->USERID,0);

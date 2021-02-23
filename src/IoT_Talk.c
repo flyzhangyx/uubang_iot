@@ -1,7 +1,10 @@
 #include"../head/SERVER.h"
-int IoTtalk(char* Contacta,char* Messagea,CLN* b)
+int IoTtalk(CLN* b)
 {
-    char *timenow;
+
+}
+/*
+char *timenow;
     time_t t;//定义一个时间变量
    // USER user=NULL;
     char IoTdata[30]="";
@@ -29,12 +32,6 @@ int IoTtalk(char* Contacta,char* Messagea,CLN* b)
             return 0;
         }
         strncpy(tag,IoTdata,3);///************************2
-        /*if(!strcmp(tag,"RCO"))
-        {
-
-            RequestIotDevices(a);
-
-        }*/
         if(!strcmp(tag,"RMI"))///******请求任务///*****暂时废弃
         {
 
@@ -43,7 +40,6 @@ int IoTtalk(char* Contacta,char* Messagea,CLN* b)
         }
         else if(!strcmp(tag,"TAI"))///****请求通知知任务情况
         {
-            //printf("TA");
 
             Stringcut(IoTdata,3,13,RecDataStruct.TalktoID);
             Stringcut(IoTdata,14,29,RecDataStruct.DATA);
@@ -55,7 +51,6 @@ int IoTtalk(char* Contacta,char* Messagea,CLN* b)
             if(Check_Id_Pwd(0,a)!=-1)
             {
                 USER talktouser=FindOnlineUserOrIot(10,RecDataStruct.TalktoID,0);
-                //user=FindOnlineUserOrIot(0,a->USERID);
                 if(talktouser==NULL)
                 {
                     Message mes=(Message)malloc(sizeof(struct message));
@@ -77,7 +72,6 @@ int IoTtalk(char* Contacta,char* Messagea,CLN* b)
                     strcpy(IoTdata,"TAN");
                     strcat(IoTdata,RecDataStruct.TalktoID);
                     len=send(c,IoTdata,30*sizeof(char),0);
-                    // free(sendbuf);
                     if(len==SOCKET_ERROR||len==0)
                     {
                         printf("\n连接%I64d退出\n",c);
@@ -88,7 +82,6 @@ int IoTtalk(char* Contacta,char* Messagea,CLN* b)
                 }
                 else
                 {
-                    //memset(RecDataStruct.checkcode,0,sizeof(contact));
                     memset(sendbuf,0,sizeof(sendbag));
                     strcpy(RecDataStruct.checkcode,"TAI");
                     RecDataStruct.save[99]='\n';
@@ -97,14 +90,12 @@ int IoTtalk(char* Contacta,char* Messagea,CLN* b)
                     printf("%s",temp);
                     strcpy(RecDataStruct.USERID,RecDataStruct.TalktoID);
                     strcpy(RecDataStruct.TalktoID,a->USERID);
-                    //strcpy(mes->data,RecDataStruct.DATA);
                     memcpy(sendbuf,&RecDataStruct,sizeof(RecDataStruct));
                     len=send(talktouser->USER_socket,sendbuf,sizeof(sendbag),0);
                     if(len==SOCKET_ERROR||len==0)
                     {
                         printf("\n连接%I64d退出\n",c);
                         closesocket(talktouser->USER_socket);
-                        //delete_out_user(a);
                         return 0;
                     }
                     strcpy(IoTdata,"TAS");
@@ -125,7 +116,6 @@ int IoTtalk(char* Contacta,char* Messagea,CLN* b)
                 strcpy(IoTdata,"Taa");
                 strcat(IoTdata,RecDataStruct.TalktoID);
                 len=send(c,IoTdata,30*sizeof(char),0);
-                // free(sendbuf);
                 if(len==SOCKET_ERROR||len==0)
                 {
                     printf("\n连接%I64d退出\n",c);
@@ -137,10 +127,8 @@ int IoTtalk(char* Contacta,char* Messagea,CLN* b)
         }
         else if(!strcmp(tag,"ADS"))///****only reply****
         {
-             //char rep[18]="";
             Stringcut(IoTdata,3,13,a->TalktoID);
             a->TalktoID[11]='\0';
-            //strcpy(a->TalktoID,rep);
 
             Contact mes=(Contact)malloc(sizeof(struct contact));
             memset(mes,0,sizeof(contact));
@@ -179,16 +167,9 @@ int IoTtalk(char* Contacta,char* Messagea,CLN* b)
         {
             t=time(NULL);
             timenow=ctime(&t);
-            /*memset(&RecDataStruct,0,sizeof(sendbag));
-            memset(sendbuf,0,sizeof(sendbag));
-            strcpy(RecDataStruct.checkcode,"HBI");
-            strcpy(RecDataStruct.DATA,timenow);
-            RecDataStruct.save[99]='\n';*/
             strcpy(IoTdata,"HBI");
             strncat(IoTdata,timenow,24);
-            /*memcpy(sendbuf,&RecDataStruct,sizeof(RecDataStruct));*/
             len=send(c,IoTdata,30*sizeof(char),0);
-            // free(sendbuf);
             printf("\nHBI\n");
             if(len==SOCKET_ERROR||len==0)
             {
@@ -208,4 +189,4 @@ int IoTtalk(char* Contacta,char* Messagea,CLN* b)
             printf("%s",IoTdata);
         }
     }
-}
+    */

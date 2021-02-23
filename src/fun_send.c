@@ -1,9 +1,9 @@
 #include"../head/SERVER.h"
 DWORD WINAPI fun(LPVOID qn)
 {
-    char sendbuf[sizeof(sendbag)]= {0};
+    char sendbuf[sizeof(UserPacketInterface)]= {0};
     SOCKADDR_IN remoteAddr;
-    sendbag RecDataStruct_udp,rec;
+    UserPacketInterface RecDataStruct_udp,rec;
     int nAddrLen = sizeof(remoteAddr);
     while(1)
     {
@@ -24,7 +24,7 @@ DWORD WINAPI fun(LPVOID qn)
                     printf("%s:%d",inet_ntoa(remoteAddr.sin_addr),remoteAddr.sin_port);
                     talktouser->USER_socket_udp=remoteAddr;///存入相应链表
                     strcpy(RecDataStruct_udp.checkcode,"UDP");///
-                    memset(sendbuf,0,sizeof(sendbag));
+                    memset(sendbuf,0,sizeof(UserPacketInterface));
                     RecDataStruct_udp.save[99]='\n';
                     memcpy(sendbuf,&RecDataStruct_udp,sizeof(RecDataStruct_udp));
                     //printf("qwqw");
@@ -33,7 +33,7 @@ DWORD WINAPI fun(LPVOID qn)
                 else
                 {
                     strcpy(RecDataStruct_udp.checkcode,"udp");///小写表示连接失败
-                    memset(sendbuf,0,sizeof(sendbag));
+                    memset(sendbuf,0,sizeof(UserPacketInterface));
                     RecDataStruct_udp.save[99]='\n';
                     memcpy(sendbuf,&RecDataStruct_udp,sizeof(RecDataStruct_udp));
                     sendto(server_sockfd_udp, sendbuf, sizeof(RecDataStruct_udp), 0, (SOCKADDR *)&remoteAddr, nAddrLen);

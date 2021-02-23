@@ -1,9 +1,9 @@
 #include"../head/SERVER.h"
 DWORD WINAPI Check_alive(LPVOID qn)
 {
-    sendbag sendCLN;
+    UserPacketInterface sendCLN;
     int len=0;
-    char sendbuf1[sizeof(sendbag)]= {0};
+    char sendbuf1[sizeof(UserPacketInterface)]= {0};
     CLN* check_a=(CLN*)qn;
     Sleep(10*1000);
     while(check_a->info[0]!='N')
