@@ -1,9 +1,9 @@
 #include"../head/SERVER.h"
 int UserReqFriendRel(CLN *a)
 {
-    sendbag RecDataStruct;
+    UserPacketInterface RecDataStruct;
     int len=0;
-    char sendbuf[sizeof(sendbag)]= {0};
+    char sendbuf[sizeof(UserPacketInterface)]= {0};
     printf("\nContact OK:");
     char find[100] = "";
     MYSQL_RES *res;
@@ -18,8 +18,8 @@ int UserReqFriendRel(CLN *a)
     res = mysql_store_result(&mysql);
     while ((row = mysql_fetch_row(res)))
     {
-        memset(&RecDataStruct,0,sizeof(sendbag));
-        memset(sendbuf,0,sizeof(sendbag));
+        memset(&RecDataStruct,0,sizeof(UserPacketInterface));
+        memset(sendbuf,0,sizeof(UserPacketInterface));
         USER Temp = FindRegisterUserOrIotNode(0,NULL,atoi(row[1]));
         if(Temp==NULL)
         {
@@ -32,7 +32,7 @@ int UserReqFriendRel(CLN *a)
         strcpy(RecDataStruct.save,row[2]);//RelationCreateDate
         RecDataStruct.save[99]='\n';
         memcpy(sendbuf,&RecDataStruct,sizeof(RecDataStruct));
-        len=send(a->remote_socket,sendbuf,sizeof(sendbag),0);
+        len=send(a->remote_socket,sendbuf,sizeof(UserPacketInterface),0);
         if(len==SOCKET_ERROR||len==0)
         {
             closesocket(a->remote_socket);

@@ -1,9 +1,9 @@
 #include"../head/SERVER.h"
 int UserReqIotRel(CLN *a)
 {
-    sendbag RecDataStruct;
+    UserPacketInterface RecDataStruct;
     int len=0;
-    char sendbuf[sizeof(sendbag)]= {0};
+    char sendbuf[sizeof(UserPacketInterface)]= {0};
     printf("\nContact Iot OK:");
     char find[100] = "";
     MYSQL_RES *res;
@@ -16,12 +16,12 @@ int UserReqIotRel(CLN *a)
         return 0;
     }
     res = mysql_store_result(&mysql);
-    memset(&RecDataStruct,0,sizeof(sendbag));
+    memset(&RecDataStruct,0,sizeof(UserPacketInterface));
     strcpy(RecDataStruct.checkcode,"RCI");
     strcpy(RecDataStruct.USERID,a->USERID);
     while ((row = mysql_fetch_row(res)))
     {
-        memset(sendbuf,0,sizeof(sendbag));
+        memset(sendbuf,0,sizeof(UserPacketInterface));
         USER Temp = FindRegisterUserOrIotNode(10,NULL,atoi(row[1]));
         if(Temp==NULL)
         {
@@ -32,7 +32,7 @@ int UserReqIotRel(CLN *a)
         strcpy(RecDataStruct.save,row[2]);//RelationCreateDate
         RecDataStruct.save[99]='\n';
         memcpy(sendbuf,&RecDataStruct,sizeof(RecDataStruct));
-        len=send(a->remote_socket,sendbuf,sizeof(sendbag),0);
+        len=send(a->remote_socket,sendbuf,sizeof(UserPacketInterface),0);
         if(len==SOCKET_ERROR||len==0)
         {
             closesocket(a->remote_socket);

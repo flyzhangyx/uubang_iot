@@ -24,14 +24,14 @@ int SIGNIN(CLN *a)
         {
             printf("%s|%s",a->checkcode,a->USERID);
             perror("online");
-            sendbag as;
-            char sendbuf[sizeof(sendbag)]= {0};
-            memset(&as,0,sizeof(sendbag));
-            memset(sendbuf,0,sizeof(sendbag));
+            UserPacketInterface as;
+            char sendbuf[sizeof(UserPacketInterface)]= {0};
+            memset(&as,0,sizeof(UserPacketInterface));
+            memset(sendbuf,0,sizeof(UserPacketInterface));
             strcpy(as.checkcode,"STO");
             as.save[99]='\n';
-            memcpy(sendbuf,&as,sizeof(sendbag));
-            send(checkuser->USER_socket,sendbuf,sizeof(sendbag),0);
+            memcpy(sendbuf,&as,sizeof(UserPacketInterface));
+            send(checkuser->USER_socket,sendbuf,sizeof(UserPacketInterface),0);
             closesocket(checkuser->USER_socket);
             checkuser->USER_socket=asocket;
             checkuser->USER_socket_udp=a->ADDR;
@@ -86,14 +86,14 @@ int SIGNIN(CLN *a)
         {
             printf("%s|%s",a->checkcode,a->USERID);
             perror("online");
-            sendbag as;
-            char sendbuf[sizeof(sendbag)]= {0};
-            memset(&as,0,sizeof(sendbag));
-            memset(sendbuf,0,sizeof(sendbag));
+            UserPacketInterface as;
+            char sendbuf[sizeof(UserPacketInterface)]= {0};
+            memset(&as,0,sizeof(UserPacketInterface));
+            memset(sendbuf,0,sizeof(UserPacketInterface));
             strcpy(as.checkcode,"STO");
             as.save[99]='\n';
-            memcpy(sendbuf,&as,sizeof(sendbag));
-            send(checkuser->USER_socket,sendbuf,sizeof(sendbag),0);
+            memcpy(sendbuf,&as,sizeof(UserPacketInterface));
+            send(checkuser->USER_socket,sendbuf,sizeof(UserPacketInterface),0);
             closesocket(checkuser->USER_socket);
             checkuser->USER_socket=asocket;
             checkuser->USER_socket_udp=a->ADDR;
