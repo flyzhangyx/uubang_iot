@@ -59,7 +59,6 @@ int ReadOrDeleteUserScene(CLN *a,char* UserId,int CmdGroupId,int del)
                 mysql_free_result(res);
                 return 0;
             }
-            printf("%s %s\n",Temp->USERID,RecDataStruct.DATA);
         }
         mysql_free_result(res);
         return 1;
