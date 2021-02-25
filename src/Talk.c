@@ -77,7 +77,6 @@ int talk(LPVOID b)
         {
             printf("\n连接%I64d退出\n",c);
             closesocket(c);
-            delete_out_user(a);
             return 0;
         }
     }
@@ -113,7 +112,6 @@ int talk(LPVOID b)
         {
             printf("\n连接%I64d退出\n",c);
             closesocket(c);
-            delete_out_user(a);
             return 0;
         }
     }
@@ -138,7 +136,6 @@ int talk(LPVOID b)
             if (len == SOCKET_ERROR || len == 0)
             {
                 closesocket(c);
-                delete_out_user(a);
                 return 0;
             }
         }
@@ -234,7 +231,6 @@ int talk(LPVOID b)
         if (len == SOCKET_ERROR || len == 0)
         {
             closesocket(c);
-            delete_out_user(a);
             return 0;
         }
     }
@@ -250,7 +246,6 @@ int talk(LPVOID b)
         if (len == SOCKET_ERROR || len == 0)
         {
             closesocket(c);
-            delete_out_user(a);
             return 0;
         }
         delete_out_user(a);
@@ -286,7 +281,6 @@ int talk(LPVOID b)
         if (len == SOCKET_ERROR || len == 0)
         {
             closesocket(c);
-            delete_out_user(a);
             return 0;
         }
     }
@@ -311,7 +305,6 @@ int talk(LPVOID b)
         if (len == SOCKET_ERROR || len == 0)
         {
             closesocket(c);
-            delete_out_user(a);
             return 0;
         }
     }

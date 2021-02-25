@@ -35,6 +35,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                 {
                     //Client close (MITM)
                     closesocket(CONNHANDLE->remote_socket);
+                    delete_out_user(CONNHANDLE);
                     if(CONNHANDLE!=NULL)free(CONNHANDLE);
                     if(lpOverlapped!=NULL)
                     {

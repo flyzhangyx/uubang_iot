@@ -79,7 +79,6 @@ int UserRequestMessage(CLN *a,int Direction,char *DateFirst,char *DateLast,struc
         if(len==SOCKET_ERROR||len==0)
         {
             closesocket(a->remote_socket);
-            delete_out_user(a);
             mysql_free_result(res);
             return 0;
         }
