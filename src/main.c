@@ -30,10 +30,11 @@ int main(int argc,char**argv)
     a.USERKEY_ID = 22947;
     strcpy(a.TalktoID,"ZZzoidFy");
     char cmd[100]="123";
-    UserNewIotCmd(&a,cmd,1,1,"2021-2-25 16:38:25");
+    NewIotCmdToBeExecute(&a,cmd,1,0,time_now);
     IotReadCmd(&a,1,0);
     printf("\n%s\n",a.data);
-
+    NewUserSceneCmdStore(&a,"",0,0,2,"23:00:00","1111111");
+    ReadOrDeleteUserScene(&a,"tvVmreNKu8R",1,0);
     AcceptClient();
     pthread_mutex_destroy(&(RegistedIotHead->mute));
     pthread_mutex_destroy(&(RegistedUserHead->mute));

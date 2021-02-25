@@ -135,7 +135,7 @@
 		<Unit filename="src/CheckID_PWD.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/CheckStillOnline.c">
+		<Unit filename="src/CheckUserSceneCmd.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/CopyCln2Sendbag.c">
@@ -185,6 +185,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/MysqlConnCheck.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/NewIotCmdToBeExecute.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/NewOnlineUserOrIotDev.c">
@@ -239,9 +242,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/UserGetIotData.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/UserNewIotCmd.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/UserRePwd.c">

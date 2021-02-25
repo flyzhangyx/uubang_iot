@@ -1,5 +1,5 @@
 #include "../head/SERVER.h"
-int UserNewIotCmd(CLN *a,char *cmd,int Devclass,int status,char *CmdTimeStamp)
+int NewIotCmdToBeExecute(CLN *a,char *cmd,int Devclass,int status,char * TimeToBeExe)
 {
     char insert[200]="";
     sprintf(insert,"%s%d%s%d%s%d%s%s%s%d%s%s%s",
@@ -13,9 +13,9 @@ int UserNewIotCmd(CLN *a,char *cmd,int Devclass,int status,char *CmdTimeStamp)
             cmd,
             "', '",
             a->USERKEY_ID,
-            "', '",
-            CmdTimeStamp,
-            "', '0')");
+            "','",
+             TimeToBeExe,
+             "', '0')");
     mysql_master_connect_ping();
     if(mysql_real_query(&mysql,insert,strlen(insert)))
     {

@@ -1,5 +1,5 @@
 #include"../head/SERVER.h"
-DWORD WINAPI CreateDailyMsgdbThread()
+DWORD WINAPI CheckUserSceneCmd()
 {
     int flag = 0;
     while(1)
@@ -21,7 +21,7 @@ DWORD WINAPI CreateDailyMsgdbThread()
                 int ret = NewUserMsgTableInSQL();
                 if(ret==0)
                 {
-                    Sleep(1000);
+                    sleep(1);
                     continue;
                 }
                 else if(ret==-1)
@@ -48,7 +48,7 @@ DWORD WINAPI CreateDailyMsgdbThread()
         Sleep(1000*60);
     }
 }
-void CreateDailyMsgdb()
+void StartCheckUserScene()
 {
-    CreateThread(NULL,0,(LPTHREAD_START_ROUTINE)CreateDailyMsgdbThread,NULL,0,NULL);
+    CreateThread(NULL,0,(LPTHREAD_START_ROUTINE)CheckUserSceneCmd,NULL,0,NULL);
 }

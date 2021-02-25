@@ -164,10 +164,12 @@ int UpdateSqlInfoTimestamp(int UserId,int index,int flag);
 int UpdateLocalRegUserAndIotlist();
 void Decrypt(char *source_in ,int len,char *PinCode,char *source_out);
 void Encrypt(char *source_in ,int len,char *PinCode,char *source_out);
-int UserNewIotCmd(CLN *a,char *cmd,int Devclass,int status,char *CmdTimeStamp);
+int NewIotCmdToBeExecute(CLN *a,char *cmd,int Devclass,int status,char *CmdTimeStamp);
 int IotReadCmd(CLN *a,int Devclass,int del);
 int mysql_master_connect_ping();
 void CopyRecIotData2Cln(char *recBuff,CLN* CONN,int len);
+void StartCheckUserScene();
+int NewUserSceneCmdStore(CLN*,char*,int,int,int,char*,char*);
 ///*****************************
 ///***************各类标志码**********************
 char CHECK[3];///应用进入时登陆检测是否已经注册
