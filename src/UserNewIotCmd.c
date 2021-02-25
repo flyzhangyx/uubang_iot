@@ -1,8 +1,8 @@
 #include "../head/SERVER.h"
-int UserNewIotCmd(CLN *a,char *cmd,int Devclass,int status)
+int UserNewIotCmd(CLN *a,char *cmd,int Devclass,int status,char *CmdTimeStamp)
 {
     char insert[200]="";
-    sprintf(insert,"%s%d%s%d%s%d%s%s%s%d%s",
+    sprintf(insert,"%s%d%s%d%s%d%s%s%s%d%s%s%s",
             "INSERT INTO `iotcmd` (`iotid`, `class`, `status`, `cmd`, `fromid`, `cmdDate`, `cmdStatus`) VALUES ('",
             FindRegisterUserOrIotNode(10,a->TalktoID,0)->USERKEY_ID,
             "', '",
@@ -13,7 +13,9 @@ int UserNewIotCmd(CLN *a,char *cmd,int Devclass,int status)
             cmd,
             "', '",
             a->USERKEY_ID,
-            "', CURRENT_TIMESTAMP, '0')");
+            "', '",
+            CmdTimeStamp,
+            "', '0')");
     mysql_master_connect_ping();
     if(mysql_real_query(&mysql,insert,strlen(insert)))
     {

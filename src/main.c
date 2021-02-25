@@ -30,8 +30,8 @@ int main(int argc,char**argv)
     a.USERKEY_ID = 22947;
     strcpy(a.TalktoID,"ZZzoidFy");
     char cmd[100]="123";
-    UserNewIotCmd(&a,cmd,1,1);
-    IotReadCmd(&a,1,1);
+    UserNewIotCmd(&a,cmd,1,1,"2021-2-25 16:38:25");
+    IotReadCmd(&a,1,0);
     printf("\n%s\n",a.data);
 
     AcceptClient();

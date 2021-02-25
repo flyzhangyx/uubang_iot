@@ -112,7 +112,6 @@ int talk(struct sttask*);
 int talk(LPVOID);
 #endif // STPOOL
 DWORD WINAPI fun(LPVOID);
-DWORD WINAPI Check_alive(LPVOID);
 DWORD WINAPI UdpPackResolve(LPVOID);
 DWORD WINAPI file_tcp_thread(LPVOID);
 DWORD WINAPI CreateDailyMsgdbThread();
@@ -165,7 +164,7 @@ int UpdateSqlInfoTimestamp(int UserId,int index,int flag);
 int UpdateLocalRegUserAndIotlist();
 void Decrypt(char *source_in ,int len,char *PinCode,char *source_out);
 void Encrypt(char *source_in ,int len,char *PinCode,char *source_out);
-int UserNewIotCmd(CLN *a,char *cmd,int Devclass,int status);
+int UserNewIotCmd(CLN *a,char *cmd,int Devclass,int status,char *CmdTimeStamp);
 int IotReadCmd(CLN *a,int Devclass,int del);
 int mysql_master_connect_ping();
 void CopyRecIotData2Cln(char *recBuff,CLN* CONN,int len);
