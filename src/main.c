@@ -21,15 +21,17 @@ int main(int argc,char**argv)
 #else
     ThreadPool = libThreadPool_Init(10,30,60);
 #endif
+
+///9999999999999999999999999999999999999999999999999999999
     time_t now_time;
     time(&now_time);
     char time_now[50];
     strftime(time_now,80,"%Y-%m-%d %X",localtime(&now_time));
     printf("\n%s|%s\n",GetUpdateTimeStamp(0,3),time_now);
-
     CLN a;
     a.USERKEY_ID = 22947;
     strcpy(a.TalktoID,"ZZzoidFy");
+    strcpy(a.checkcode,"123");
     sprintf(a.data,"%s","12345678901");
     Send2OnlineUserViaTopServer(a);
     char cmd[100]="123";
@@ -37,7 +39,8 @@ int main(int argc,char**argv)
     IotReadCmd(&a,1,0);
     printf("\n%s\n",a.data);
     NewUserSceneCmdStore(&a,"",0,0,2,"23:00:00","1111111");
-    ReadOrDeleteUserScene(&a,"tvVmreNKu8R",1,0);
+    ReadOrDeleteUserScene(&a,"tvVmreNKu8R",2,1);
+    ///88888888888888888888888888888888888888888888888888
     AcceptClient();
     pthread_mutex_destroy(&(RegistedIotHead->mute));
     pthread_mutex_destroy(&(RegistedUserHead->mute));

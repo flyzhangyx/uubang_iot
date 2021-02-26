@@ -45,7 +45,6 @@ int ReadOrDeleteUserScene(CLN *a,char* UserId,int CmdGroupId,int del)
                 mysql_free_result(res);
                 return 0;
             }
-            printf("111");
             strcpy(RecDataStruct.checkcode,"SCENE DATA");
             strcpy(RecDataStruct.TalktoID,Temp->USERID);
             strcpy(RecDataStruct.USERID,a->USERID);
