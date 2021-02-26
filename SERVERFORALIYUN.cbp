@@ -205,16 +205,25 @@
 		<Unit filename="src/NewUserMsgTalbleInSQL.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="src/NewUserSceneCmd.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="src/PrintAllUserAndIotDevice.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/RSAUtils.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="src/ReadOrDeleteUserSceneCmd.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="src/Register.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/SIGN_IN.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Send2OnlineUserViaAllServer.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/ServerWorkThread.c">

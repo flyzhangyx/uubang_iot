@@ -3,6 +3,7 @@ int main(int argc,char**argv)
 {
     srand((unsigned int)time(NULL));
     initServer(atoi(argv[1]));
+    ConnectToTopServer();
     printf("服务器初始化成功,端口:%d\n",atoi(argv[1]));
     CreateDailyMsgdb();//New Daily DB Thread
     ///**********Init Thread Pool************///
@@ -29,6 +30,8 @@ int main(int argc,char**argv)
     CLN a;
     a.USERKEY_ID = 22947;
     strcpy(a.TalktoID,"ZZzoidFy");
+    sprintf(a.data,"%s","12345678901");
+    Send2OnlineUserViaTopServer(a);
     char cmd[100]="123";
     NewIotCmdToBeExecute(&a,cmd,1,0,time_now);
     IotReadCmd(&a,1,0);

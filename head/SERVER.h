@@ -170,6 +170,9 @@ int mysql_master_connect_ping();
 void CopyRecIotData2Cln(char *recBuff,CLN* CONN,int len);
 void StartCheckUserScene();
 int NewUserSceneCmdStore(CLN*,char*,int,int,int,char*,char*);
+int ReadOrDeleteUserScene(CLN*,char*,int,int);
+int Send2OnlineUserViaTopServer(CLN a);
+void ConnectToTopServer();
 ///*****************************
 ///***************各类标志码**********************
 char CHECK[3];///应用进入时登陆检测是否已经注册
