@@ -26,7 +26,7 @@ int bitmapfigure(cln *a,FILE *file,char* lx)
     fseek(file,0L,SEEK_SET); /* 定位到文件开头 */
     fread(p,filesize,1,file);
     USER talkuser=FindOnlineUserOrIot(0,a->TalktoID,0);
-    printf("%d",filesize);
+    log_info("%d",filesize);
     Sleep(5*1000);
     for(i=1; i<=flag; i++)
     {
@@ -44,7 +44,7 @@ int bitmapfigure(cln *a,FILE *file,char* lx)
         {
             sendto(server_sockfd_udp, sendbuf, sizeof(sendbag),0, (SOCKADDR*)&(talkuser->USER_socket_udp), sizeof(talkuser->USER_socket_udp));
             Sleep(100);
-            printf("%d_",sendto(server_sockfd_udp, sendbuf, sizeof(sendbag),0, (SOCKADDR*)&(talkuser->USER_socket_udp), sizeof(talkuser->USER_socket_udp)));
+            log_info("%d_",sendto(server_sockfd_udp, sendbuf, sizeof(sendbag),0, (SOCKADDR*)&(talkuser->USER_socket_udp), sizeof(talkuser->USER_socket_udp)));
         }
         else
         {
@@ -52,6 +52,6 @@ int bitmapfigure(cln *a,FILE *file,char* lx)
         }
     }
     free(p);
-    printf("\n");
+    log_info("");
     return 0;
 }

@@ -32,15 +32,15 @@ void Decrypt(char *source_in ,int len,char *PinCode,char *source_out)
 //    int i=0;
 //    while(i<strlen(in))
 //    {
-//        printf("%x\n",out[i]);
+//        log_info("%x",out[i]);
 //        i++;
 //    }
 //    Decrypt(out,strlen(out),"735483",in);
-//    printf("\n");
+//    log_info("");
 //    i=0;
 //    while(i<strlen(in))
 //    {
-//        printf("%c\n",in[i]);
+//        log_info("%c",in[i]);
 //        i++;
 //    }
 //    return 1;

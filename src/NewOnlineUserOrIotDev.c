@@ -11,7 +11,7 @@ int newOnlineUserOrIotDev(CLN *a)
     while(newuser==NULL&&n<100);
     if(n>99)
     {
-        printf("can't add newuser");
+        log_error("can't add newuser");
         return -1;
     }
     strcpy(newuser->USERID,a->USERID);

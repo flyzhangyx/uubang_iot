@@ -11,13 +11,13 @@ int MySqlInit()
     mysql_init(&mysql);
     if ( ( sock = mysql_real_connect(&mysql, host, user, passwd, db, port, unix_socket, client_flag)) == NULL ) //Á¬½ÓMySQL
     {
-        printf("Connect to MySQL FAILED , Reason : \n");
-        fprintf(stderr, " %s\n", mysql_error(&mysql));
+        log_error("Connect to MySQL FAILED , Reason : ");
+        fprintf(stderr, " %s", mysql_error(&mysql));
         return -1;
     }
     else
     {
-        fprintf(stderr, "Connect to MySQL SUCCESS! \n");
+        log_info("Connect to MySQL SUCCESS! ");
         return 1;
     }
 }

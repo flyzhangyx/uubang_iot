@@ -7,7 +7,7 @@ USER FindOnlineUserOrIot(int n,char *USERID,int id)///n为检查方法，0为查找USERID
     {
         if(Tag_iot==NULL)
         {
-            //printf("\n1.Printonlineuser:在线用户列表中无此用户%s\n",USERID);
+            //log_info("1.Printonlineuser:在线用户列表中无此用户%s",USERID);
             return NULL;
         }
         if(USERID!=NULL)
@@ -29,7 +29,7 @@ USER FindOnlineUserOrIot(int n,char *USERID,int id)///n为检查方法，0为查找USERID
                         Tag=Tag_iot->next;
                     }
                 }
-                // printf("\n2.Printonlineuser:在线用户列表中无此用户%s\n",USERID);
+                // log_info("2.Printonlineuser:在线用户列表中无此用户%s",USERID);
                 return NULL;
             }
         }
@@ -52,7 +52,7 @@ USER FindOnlineUserOrIot(int n,char *USERID,int id)///n为检查方法，0为查找USERID
                         Tag=Tag_iot->next;
                     }
                 }
-                // printf("\n2.Printonlineuser:在线用户列表中无此用户%s\n",USERID);
+                // log_info("2.Printonlineuser:在线用户列表中无此用户%s",USERID);
                 return NULL;
             }
         }
@@ -61,7 +61,7 @@ USER FindOnlineUserOrIot(int n,char *USERID,int id)///n为检查方法，0为查找USERID
     {
         if(Tag==NULL)
         {
-            //printf("\n1.Printonlineuser:在线用户列表中无此用户%s\n",USERID);
+            //log_info("1.Printonlineuser:在线用户列表中无此用户%s",USERID);
             return NULL;
         }
         if(USERID!=NULL)
@@ -122,7 +122,7 @@ USER FindOnlineUserOrIot(int n,char *USERID,int id)///n为检查方法，0为查找USERID
             int paixu=1;
             while(Tag!=NULL)
             {
-                printf("\n%d_Online_USERID:%s | Id-Key:%d\n",paixu,Tag->USERID,Tag->USERKEY_ID);
+                log_info("%d_Online_USERID:%s | Id-Key:%d",paixu,Tag->USERID,Tag->USERKEY_ID);
                 Tag=Tag->next;
                 paixu++;
             }
@@ -130,11 +130,11 @@ USER FindOnlineUserOrIot(int n,char *USERID,int id)///n为检查方法，0为查找USERID
             paixu = 1;
             while(Tag_iot!=NULL)
             {
-                printf("\n%d_Online_IOTDeviceID:%s | Id-Key:%d | Class:%d\n",paixu,Tag_iot->USERID,Tag_iot->USERKEY_ID,atoi(Tag_iot->info));
+                log_info("%d_Online_IOTDeviceID:%s | Id-Key:%d | Class:%d",paixu,Tag_iot->USERID,Tag_iot->USERKEY_ID,atoi(Tag_iot->info));
                 Tag_iot=Tag_iot->next;
                 paixu++;
             }
-            printf("\nPrint User And IotDeviceOK!\n");
+            log_info("Print User And IotDeviceOK!");
         }
     }
     return NULL;

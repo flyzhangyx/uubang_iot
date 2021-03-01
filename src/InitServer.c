@@ -13,45 +13,45 @@ int initServer(int port)
     strcpy(REPWD,"RP");
     ///FIll the Three CHAR full With A ：TA + A = TAA
     CHECK_HASH = DJBHash("ZYX",3);///应用进入时登陆检测是否已经注册
-    printf("ZYX%d\n",CHECK_HASH);
+    log_info("ZYX%d",CHECK_HASH);
     SIGN_IN_HASH = DJBHash("SIA",3);///登陆码
-    printf("SIA%d\n",SIGN_IN_HASH);
+    log_info("SIA%d",SIGN_IN_HASH);
     REGISTER_HASH = DJBHash("REA",3);///注册码
-    printf("REA%d\n",REGISTER_HASH);
+    log_info("REA%d",REGISTER_HASH);
     MESSAGE_HASH = DJBHash("RME",3);///信息发送码
-    printf("RME%d\n",MESSAGE_HASH);
+    log_info("RME%d",MESSAGE_HASH);
     TALK_TO_HASH = DJBHash("TAA",3);///通信目标地址码
-    printf("TAA%d\n",TALK_TO_HASH);
+    log_info("TAA%d",TALK_TO_HASH);
     SIGN_OUT_HASH = DJBHash("STO",3);///注销
-    printf("STO%d\n",SIGN_OUT_HASH);
+    log_info("STO%d",SIGN_OUT_HASH);
     CONTACT_HASH = DJBHash("RCO",3);///联系人码
-    printf("RCO%d\n",CONTACT_HASH);
+    log_info("RCO%d",CONTACT_HASH);
     REPWD_HASH = DJBHash("RPA",3);
-    printf("RPA%d\n",REPWD_HASH);
+    log_info("RPA%d",REPWD_HASH);
     VERUPD_HASH = DJBHash("UPD",3);
-    printf("UPD%d\n",VERUPD_HASH);
+    log_info("UPD%d",VERUPD_HASH);
     ADDUSER_HASH = DJBHash("ADD",3);
-    printf("ADD%d\n",ADDUSER_HASH);
+    log_info("ADD%d",ADDUSER_HASH);
     READDU_HASH = DJBHash("ADS",3);
-    printf("ADS%d\n",READDU_HASH);
+    log_info("ADS%d",READDU_HASH);
     HEARTBEAT_HASH = DJBHash("HBA",3);
-    printf("HBA%d\n",HEARTBEAT_HASH);
+    log_info("HBA%d",HEARTBEAT_HASH);
     PINREQ_HASH = DJBHash("PIN",3);
-    printf("PIN%d\n",PINREQ_HASH);
+    log_info("PIN%d",PINREQ_HASH);
     IOTCFM_HASH = DJBHash("IOC",3);
-    printf("IOC%d\n",IOTCFM_HASH);
+    log_info("IOC%d",IOTCFM_HASH);
     ///***********socket初始化***********************
     WSADATA wsaData;
     while(1)
     {
         if(!WSAStartup(MAKEWORD(2,2),&wsaData) )
         {
-            printf("SOCKET ESTABLISHED SUCCESS!\n");
+            log_info("SOCKET ESTABLISHED SUCCESS!");
             break;
         }
         else
         {
-            printf("socket not established! If continue to establish? Yes press 1;No press 0");
+            log_info("socket not established! If continue to establish? Yes press 1;No press 0");
             scanf("%d",&scan);
             if(scan==0)
                 exit(0);
@@ -59,7 +59,7 @@ int initServer(int port)
                 continue;
             else
             {
-                printf("Input err! Late exit!");
+                log_error("Input err! Late exit!");
                 exit(0);
             }
         }
@@ -132,7 +132,7 @@ int initServer(int port)
     mysql_master_connect_ping();
     if (mysql_real_query(&mysql, query, strlen(query)))
     {
-        printf("\nFailed to Get UserInfo: %s\n", mysql_error(&mysql));
+        log_error("Failed to Get UserInfo: %s", mysql_error(&mysql));
         return -1;
     }
     res = mysql_store_result(&mysql);
@@ -153,7 +153,7 @@ int initServer(int port)
     mysql_master_connect_ping();
     if (mysql_real_query(&mysql, query, strlen(query)))
     {
-        printf("\nFailed to Get IotInfo: %s\n", mysql_error(&mysql));
+        log_error("Failed to Get IotInfo: %s", mysql_error(&mysql));
         return -1;
     }
     res_iot = mysql_store_result(&mysql);
@@ -167,21 +167,24 @@ int initServer(int port)
         AddtoLocal(&a);
     }
     mysql_free_result(res_iot);
-    printf("\nLocal Database IotDevices Get %d\n",RegistedIotHead->OnlineUserNum);
-    printf("\nLocal Database Users Get %d\n",RegistedUserHead->OnlineUserNum);
+    log_info("Local Database IotDevices Get %d",RegistedIotHead->OnlineUserNum);
+    log_info("Local Database Users Get %d",RegistedUserHead->OnlineUserNum);
     FILE* updversion=fopen("update","r");
     if(updversion)
     {
         fgets(app_version,4,updversion);
         fclose(updversion);
         app_version[3]='\0';
-        printf("APP版本-%s\n",app_version);
+        log_info("APP版本-%s",app_version);
     }
     else
     {
-        printf("更新文件读取失败!");
+        log_error("更新文件读取失败!");
         return -1;
     }
+    memset(NetIP,0,20);
+    getNetIp(NetIP);
+    Initialize();//init CPU Load
     ///*************************************
     return 1;
 }

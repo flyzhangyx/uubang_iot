@@ -19,7 +19,7 @@ int NewIotCmdToBeExecute(CLN *a,char *cmd,int Devclass,int status,char * TimeToB
     mysql_master_connect_ping();
     if(mysql_real_query(&mysql,insert,strlen(insert)))
     {
-        printf("\nMySQL ERR :%s",mysql_error(&mysql));
+        log_error("MySQL ERR :%s",mysql_error(&mysql));
         return 0;
     }
     return 1;

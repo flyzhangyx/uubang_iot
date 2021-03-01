@@ -22,11 +22,11 @@ char *timenow;
         len=recv(c,IoTdata,30*sizeof(char),0);///*****************************1
         if(len==SOCKET_ERROR||len==0)
         {
-            printf("\n连接%I64d退出\n",c);
+            log_info("连接%I64d退出",c);
             closesocket(c);
             if(signIN)
             {
-                printf("SIGNIN?2TIMES?");
+                log_info("SIGNIN?2TIMES?");
                 delete_out_user(a);
             }
             return 0;
@@ -60,7 +60,7 @@ char *timenow;
                     strcpy(mes->TalktoID,a->USERID);
                     strcpy(mes->USERID,RecDataStruct.TalktoID);
                     strcpy(mes->data,RecDataStruct.DATA);
-                    printf("用户%s不在线TAN",RecDataStruct.TalktoID);
+                    log_info("用户%s不在线TAN",RecDataStruct.TalktoID);
                     char talkto[15]= {'0'};
                     strcpy(talkto,RecDataStruct.TalktoID);
                     strcat(talkto,"ME");
@@ -74,7 +74,7 @@ char *timenow;
                     len=send(c,IoTdata,30*sizeof(char),0);
                     if(len==SOCKET_ERROR||len==0)
                     {
-                        printf("\n连接%I64d退出\n",c);
+                        log_info("连接%I64d退出",c);
                         closesocket(c);
                         delete_out_user(a);
                         return 0;
@@ -87,14 +87,14 @@ char *timenow;
                     RecDataStruct.save[99]='\n';
                     char temp[12]= {0};
                     strcpy(temp,RecDataStruct.USERID);
-                    printf("%s",temp);
+                    log_info("%s",temp);
                     strcpy(RecDataStruct.USERID,RecDataStruct.TalktoID);
                     strcpy(RecDataStruct.TalktoID,a->USERID);
                     memcpy(sendbuf,&RecDataStruct,sizeof(RecDataStruct));
                     len=send(talktouser->USER_socket,sendbuf,sizeof(sendbag),0);
                     if(len==SOCKET_ERROR||len==0)
                     {
-                        printf("\n连接%I64d退出\n",c);
+                        log_info("连接%I64d退出",c);
                         closesocket(talktouser->USER_socket);
                         return 0;
                     }
@@ -103,7 +103,7 @@ char *timenow;
                     len=send(c,IoTdata,30*sizeof(char),0);
                     if(len==SOCKET_ERROR||len==0)
                     {
-                        printf("\n连接%I64d退出\n",c);
+                        log_info("连接%I64d退出",c);
                         closesocket(c);
                         delete_out_user(a);
                         return 0;
@@ -112,13 +112,13 @@ char *timenow;
             }
             else
             {
-                printf("用户%s不存在",RecDataStruct.TalktoID);
+                log_info("用户%s不存在",RecDataStruct.TalktoID);
                 strcpy(IoTdata,"Taa");
                 strcat(IoTdata,RecDataStruct.TalktoID);
                 len=send(c,IoTdata,30*sizeof(char),0);
                 if(len==SOCKET_ERROR||len==0)
                 {
-                    printf("\n连接%I64d退出\n",c);
+                    log_info("连接%I64d退出",c);
                     closesocket(c);
                     delete_out_user(a);
                     return 0;
@@ -157,7 +157,7 @@ char *timenow;
             len=send(c,IoTdata,30*sizeof(char),0);
             if(len==SOCKET_ERROR||len==0)
             {
-                printf("\n连接%I64d退出\n",c);
+                log_info("连接%I64d退出",c);
                 closesocket(c);
                 delete_out_user(a);
                 return 0;
@@ -170,10 +170,10 @@ char *timenow;
             strcpy(IoTdata,"HBI");
             strncat(IoTdata,timenow,24);
             len=send(c,IoTdata,30*sizeof(char),0);
-            printf("\nHBI\n");
+            log_info("HBI");
             if(len==SOCKET_ERROR||len==0)
             {
-                printf("\n连接%I64d退出\n",c);
+                log_info("连接%I64d退出",c);
                 closesocket(c);
                 delete_out_user(a);
                 return 0;
@@ -186,7 +186,7 @@ char *timenow;
         }
         else
         {
-            printf("%s",IoTdata);
+            log_info("%s",IoTdata);
         }
     }
     */

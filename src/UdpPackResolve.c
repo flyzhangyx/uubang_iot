@@ -9,7 +9,7 @@ DWORD WINAPI UdpPackResolve(LPVOID qn)
     tag[3]='\0';
     if(!strcmp(tag,"PNG"))
     {
-        printf("ddd");///
+        log_info("ddd");///
 
         ///一切完成后回包告知进行下一步
         strcpy(rec->checkcode,"UDP");
@@ -19,7 +19,7 @@ DWORD WINAPI UdpPackResolve(LPVOID qn)
         USER talkuser=FindOnlineUserOrIot(0,rec->USERID,0);
         if(talkuser!=NULL)
         {
-            printf("ssss:%s:%d",inet_ntoa(talkuser->USER_socket_udp.sin_addr),talkuser->USER_socket_udp.sin_port);
+            log_info("ssss:%s:%d",inet_ntoa(talkuser->USER_socket_udp.sin_addr),talkuser->USER_socket_udp.sin_port);
             sendto(server_sockfd_udp, sendbuf, sizeof(*rec),0, (SOCKADDR*)&(talkuser->USER_socket_udp), sizeof(talkuser->USER_socket_udp));
         }
         else

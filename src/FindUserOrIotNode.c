@@ -7,7 +7,7 @@ USER FindRegisterUserOrIotNode(int n,char* USERID,int id)///查找用户并返回该用户
     {
         if(Tag_iot==NULL)
         {
-            //printf("\n1.Printonlineuser:在线用户列表中无此用户%s\n",USERID);
+            //log_info("1.Printonlineuser:在线用户列表中无此用户%s",USERID);
             return NULL;
         }
         if(USERID!=NULL)
@@ -29,7 +29,7 @@ USER FindRegisterUserOrIotNode(int n,char* USERID,int id)///查找用户并返回该用户
                         Tag_iot=Tag_iot->next;
                     }
                 }
-                // printf("\n2.Printonlineuser:在线用户列表中无此用户%s\n",USERID);
+                // log_info("2.Printonlineuser:在线用户列表中无此用户%s",USERID);
                 return NULL;
             }
         }
@@ -52,7 +52,7 @@ USER FindRegisterUserOrIotNode(int n,char* USERID,int id)///查找用户并返回该用户
                         Tag_iot=Tag_iot->next;
                     }
                 }
-                // printf("\n2.Printonlineuser:在线用户列表中无此用户%s\n",USERID);
+                // log_info("2.Printonlineuser:在线用户列表中无此用户%s",USERID);
                 return NULL;
             }
         }
@@ -61,7 +61,7 @@ USER FindRegisterUserOrIotNode(int n,char* USERID,int id)///查找用户并返回该用户
     {
         if(Tag==NULL)
         {
-            //printf("\n1.Printonlineuser:在线用户列表中无此用户%s\n",USERID);
+            //log_info("1.Printonlineuser:在线用户列表中无此用户%s",USERID);
             return NULL;
         }
         if(USERID!=NULL)
@@ -83,7 +83,7 @@ USER FindRegisterUserOrIotNode(int n,char* USERID,int id)///查找用户并返回该用户
                         Tag=Tag->next;
                     }
                 }
-                // printf("\n2.Printonlineuser:在线用户列表中无此用户%s\n",USERID);
+                // log_info("2.Printonlineuser:在线用户列表中无此用户%s",USERID);
                 return NULL;
             }
         }
@@ -106,7 +106,7 @@ USER FindRegisterUserOrIotNode(int n,char* USERID,int id)///查找用户并返回该用户
                         Tag=Tag->next;
                     }
                 }
-                // printf("\n2.Printonlineuser:在线用户列表中无此用户%s\n",USERID);
+                // log_info("2.Printonlineuser:在线用户列表中无此用户%s",USERID);
                 return NULL;
             }
         }

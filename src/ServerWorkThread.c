@@ -2,7 +2,7 @@
 #ifdef STPOOL
 void task_err_handler(struct sttask *ptask, long reasons)
 {
-    fprintf(stderr, "**ERR: '%s' (%lx)\n",
+    fprintf(stderr, "**ERR: '%s' (%lx)",
             ptask->task_name, reasons);
 }
 #endif // STPOOL
@@ -29,7 +29,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
             {
                 if(dwErr==WAIT_TIMEOUT)
                 {
-                    printf("\nGETIOCPQUEUE TIMEOUT\n");
+                    log_info("GETIOCPQUEUE TIMEOUT");
                 }
                 else
                 {
@@ -51,7 +51,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
             PerIoData = (LPPER_IO_DATA)CONTAINING_RECORD(lpOverlapped, PER_IO_DATA, overlapped);
             if(0 == BytesTransferred||BytesTransferred>721)
             {
-                printf("%d Byte Received\n",(int)BytesTransferred);
+                log_info("%d Byte Received",(int)BytesTransferred);
                 if(CONNHANDLE!=NULL)//Continue to receiving data
                 {
                     memset(&(PerIoData->overlapped), 0,sizeof(OVERLAPPED));
@@ -68,7 +68,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
             {
                 if(BytesTransferred>0&&BytesTransferred<721)
                 {
-                    printf("\n%ld\n",BytesTransferred);
+                    log_info("%ld",BytesTransferred);
                     CopyRecIotData2Cln(PerIoData->RECBUFFER,CONNHANDLE,BytesTransferred);
                 }
                 else

@@ -20,7 +20,7 @@ int NewUserMsgStorage(CLN *a,int ToId)
     mysql_master_connect_ping();
     if (mysql_real_query(&mysql, insert, strlen(insert)))
     {
-        printf("\nSQL ERR (INSERT MSG):%s\n",mysql_error(&mysql));
+        log_error("SQL ERR (INSERT MSG):%s",mysql_error(&mysql));
         return 0;
     }
     UpdateSqlInfoTimestamp(a->USERKEY_ID,3,0);

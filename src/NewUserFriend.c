@@ -22,7 +22,7 @@ int NewUserFriend(CLN *a,int friendId)
     mysql_master_connect_ping();
     if(mysql_real_query(&mysql,insert,strlen(insert)))
     {
-        printf("\nMySQL ERR (USER FRIEND):%s",mysql_error(&mysql));
+        log_error("MySQL ERR (USER FRIEND):%s",mysql_error(&mysql));
         return 0;
     }
     UpdateSqlInfoTimestamp(a->USERKEY_ID,1,0);

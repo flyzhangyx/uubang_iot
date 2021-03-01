@@ -25,7 +25,7 @@ int NewUserIot(CLN *a,int iotId)
     mysql_master_connect_ping();
     if(mysql_real_query(&mysql,insert,strlen(insert)))
     {
-        printf("\nMySQL ERR (USER IOT):%s",mysql_error(&mysql));
+        log_error("MySQL ERR (USER IOT):%s",mysql_error(&mysql));
         return 0;
     }
     UpdateSqlInfoTimestamp(a->USERKEY_ID,2,0);

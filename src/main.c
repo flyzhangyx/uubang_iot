@@ -4,7 +4,7 @@ int main(int argc,char**argv)
     srand((unsigned int)time(NULL));
     initServer(atoi(argv[1]));
     ConnectToTopServer();
-    printf("服务器初始化成功,端口:%d\n",atoi(argv[1]));
+    log_info("服务器初始化成功,端口:%d",atoi(argv[1]));
     CreateDailyMsgdb();//New Daily DB Thread
     ///**********Init Thread Pool************///
 #ifdef STPOOL
@@ -21,13 +21,13 @@ int main(int argc,char**argv)
 #else
     ThreadPool = libThreadPool_Init(10,30,60);
 #endif
-
+    StartCheckUserScene();//
 ///9999999999999999999999999999999999999999999999999999999
     time_t now_time;
     time(&now_time);
     char time_now[50];
     strftime(time_now,80,"%Y-%m-%d %X",localtime(&now_time));
-    printf("\n%s|%s\n",GetUpdateTimeStamp(0,3),time_now);
+    log_info("%s|%s",GetUpdateTimeStamp(0,3),time_now);
     CLN a;
     a.USERKEY_ID = 22947;
     strcpy(a.TalktoID,"ZZzoidFy");
@@ -37,7 +37,7 @@ int main(int argc,char**argv)
     char cmd[100]="123";
     NewIotCmdToBeExecute(&a,cmd,1,0,time_now);
     IotReadCmd(&a,1,0);
-    printf("\n%s\n",a.data);
+    log_info("%s",a.data);
     NewUserSceneCmdStore(&a,"",0,0,2,"23:00:00","1111111");
     ReadOrDeleteUserScene(&a,"tvVmreNKu8R",2,1);
     ///88888888888888888888888888888888888888888888888888

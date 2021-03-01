@@ -26,7 +26,7 @@ int file_tcp_send(cln *a,FILE *file,char* lx,char *name)
     fseek(file,0L,SEEK_SET); /* 定位到文件开头 */
     fread(p,filesize,1,file);
     USER talkuser=FindOnlineUserOrIot(0,a->TalktoID,0);
-    printf("%d",filesize);
+    log_info("%d",filesize);
     Sleep(5*1000);
     for(i=1; i<=flag; i++)
     {
@@ -46,7 +46,7 @@ int file_tcp_send(cln *a,FILE *file,char* lx,char *name)
             len=send(talktouser->USER_socket,sendbuf,sizeof(sendbag),0);
             if(len==SOCKET_ERROR||len==0)
             {
-                printf("\n连接%I64d退出\n",talktouser->USER_socket);
+                log_info("连接%I64d退出",talktouser->USER_socket);
                 closesocket(talktouser->USER_socket);
                 cln b;
                 strcpy(b.USERID,a->TalktoID);
@@ -55,7 +55,7 @@ int file_tcp_send(cln *a,FILE *file,char* lx,char *name)
             }
             //sendto(server_sockfd_udp, sendbuf, sizeof(sendbag),0, (SOCKADDR*)&(talkuser->USER_socket_udp), sizeof(talkuser->USER_socket_udp));
             Sleep(100);
-            //printf("%d_",sendto(server_sockfd_udp, sendbuf, sizeof(sendbag),0, (SOCKADDR*)&(talkuser->USER_socket_udp), sizeof(talkuser->USER_socket_udp)));
+            //log_info("%d_",sendto(server_sockfd_udp, sendbuf, sizeof(sendbag),0, (SOCKADDR*)&(talkuser->USER_socket_udp), sizeof(talkuser->USER_socket_udp)));
         }
         else
         {
@@ -63,6 +63,6 @@ int file_tcp_send(cln *a,FILE *file,char* lx,char *name)
         }
     }
     free(p);
-    printf("\n");
+    log_info("");
     return 0;
 }

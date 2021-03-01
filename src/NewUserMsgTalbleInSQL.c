@@ -21,7 +21,7 @@ int NewUserMsgTableInSQL()
         }
         else
         {
-            printf("SQL ERR (CREATE TABLE):%s",err);
+            log_error("SQL ERR (CREATE TABLE):%s",err);
             return 0;
         }
     }

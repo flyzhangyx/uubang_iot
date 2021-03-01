@@ -35,7 +35,7 @@ int IotUpdateStatus(CLN *a,int EvtClass,int status)
     {
         if(strstr(mysql_error(&mysql),"Duplicate")==NULL)
         {
-            printf("\nSQL ERR(IOT UPDATE ERR1): %s\n",mysql_error(&mysql));
+            log_error("SQL ERR(IOT UPDATE ERR1): %s",mysql_error(&mysql));
             return 0;
         }
         else
@@ -44,7 +44,7 @@ int IotUpdateStatus(CLN *a,int EvtClass,int status)
             mysql_real_query(&mysql,update,strlen(update));
             if(mysql_affected_rows(&mysql)==0)
             {
-                printf("\nSQL ERR(IOT UPDATE ERR2): %s\n",mysql_error(&mysql));
+                log_error("SQL ERR(IOT UPDATE ERR2): %s",mysql_error(&mysql));
                 return 0;
             }
             else

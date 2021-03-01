@@ -14,11 +14,11 @@ DWORD WINAPI file_tcp_thread(LPVOID interface_send)
     flag=file_tcp_send(&(tcp_interface->a),file,tcp_interface->file_lx,tcp_interface->filename);
     if(flag==0)
     {
-        printf("Send success\n");
+        log_info("Send success");
     }
     else
     {
-        printf("Send fail\n");
+        log_info("Send fail");
     }
     return 0;
 }

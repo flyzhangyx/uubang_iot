@@ -19,14 +19,31 @@
 #define BUFSIZE 512
 //封装带颜色打印接口
 #define COLOR_YELLOW 14
+#define COLOR_RED 13
+#ifdef PRINT_LOG
+#if DEBUG_PRINT
 #define log_debug(format, args...)      SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), g_default_color);\
                                             printf("[DBG][%s:%d] " #format "\n", __func__,__LINE__,##args)
-
+#else
+#define log_debug(format, args...)
+#endif // DEBUG_PRINT
+#if INFO_PRINT
 #define log_info(format, args...)       SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), COLOR_YELLOW);\
-                                            printf("[INF][%s:%d] " #format "\n", __func__,__LINE__,##args)
-
+                                            printf("[INF][%s:%d] " #format "\n", __func__,__LINE__,##args);\
+                                            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), g_default_color);
+#else
+#define log_info(format, args...)
+#endif // INFO_PRINT
 #define log_error(format, args...)       SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), COLOR_RED);\
-                                            printf("[ERR][%s:%d] " #format "\n", __func__,__LINE__,##args)
+                                            printf("[ERR][%s:%d] " #format "\n", __func__,__LINE__,##args);\
+                                            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), g_default_color);
+#else
+#define log_debug(format, args...)
+
+#define log_info(format, args...)
+
+#define log_error(format, args...)
+#endif // PRINT_LOG
 ///**************在线用户节点****************
 struct user
 {
@@ -173,6 +190,11 @@ int NewUserSceneCmdStore(CLN*,char*,int,int,int,char*,char*);
 int ReadOrDeleteUserScene(CLN*,char*,int,int);
 int Send2OnlineUserViaTopServer(CLN a);
 void ConnectToTopServer();
+void getNetIp(char *ip);
+int Initialize();
+int GetCPUUseRate();
+void StartCheckUserScene();
+int GetRamUse();
 ///*****************************
 ///***************各类标志码**********************
 char CHECK[3];///应用进入时登陆检测是否已经注册
@@ -218,5 +240,6 @@ threadPool_t *ThreadPool;
 #endif // STPOOL
 int g_default_color ;
 char app_version[4];
+char NetIP[20];
 ///**********************************
 #endif // SERVER_H_INCLUDED

@@ -3,7 +3,7 @@ int Register(CLN *a,int method)
 {
     if(Check_Id_Pwd(1,a)==1)
     {
-        printf("\nUSER:%s has Registed\n",a->USERID);
+        log_info("USER:%s has Registed",a->USERID);
         return -1;
     }
     else
@@ -12,7 +12,7 @@ int Register(CLN *a,int method)
         {
             if(IotRegister(a,0)==-1)
             {
-                printf("\nIOTDEV:%s Registed Fail !\n",a->USERID);
+                log_info("IOTDEV:%s Registed Fail !",a->USERID);
                 return -1;
             }
         }
@@ -20,12 +20,12 @@ int Register(CLN *a,int method)
         {
             if(UserRegiter(a)==-1)
             {
-                printf("\nUSER:%s Registed Fail !\n",a->USERID);
+                log_info("USER:%s Registed Fail !",a->USERID);
                 return -1;
             }
         }
         //mkdir(a->USERID);
-        printf("\nUSER/IOTDEV:%s Registed Success !\n",a->USERID);
+        log_info("USER/IOTDEV:%s Registed Success !",a->USERID);
         UpdateLocalRegUserAndIotlist();
         return 1;
     }

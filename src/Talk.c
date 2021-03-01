@@ -1,5 +1,5 @@
 #include"../head/SERVER.h"
-#include"../head/md5.h"
+#include "../head/md5.h"
 #ifdef STPOOL
 int talk(struct sttask *ptask)
 #else
@@ -10,7 +10,7 @@ int talk(LPVOID b)
 #ifdef STPOOL
     if(ptask->task_arg==NULL)
     {
-        printf("ERR");
+        log_info("ERR");
         return 0;
     }
     CLN* a=(CLN*)ptask->task_arg;
@@ -65,7 +65,7 @@ int talk(LPVOID b)
     {
         InitRSA(&(a->key));//Create RSAKey, need srand(time(NULL)) first
         InitRSA(&(a->key));//twice ,it is a bug left to be fixed
-        printf("\nPublic Key (%d,%d) | Private Key (%d,%d)\n",a->key.publicKey,a->key.commonKey,a->key.privateKey,a->key.commonKey);
+        log_info("Public Key (%d,%d) | Private Key (%d,%d)",a->key.publicKey,a->key.commonKey,a->key.privateKey,a->key.commonKey);
         memset(&SendDataStruct,0,sizeof(UserPacketInterface));
         memset(sendbuf,0,sizeof(UserPacketInterface));
         strcpy(SendDataStruct.checkcode,"RSA");
@@ -75,7 +75,7 @@ int talk(LPVOID b)
         len=send(a->remote_socket,sendbuf,sizeof(UserPacketInterface),0);
         if(len==SOCKET_ERROR||len==0)
         {
-            printf("\n连接%I64d退出\n",c);
+            log_info("连接%I64d退出",c);
             closesocket(c);
             return 0;
         }
@@ -102,7 +102,7 @@ int talk(LPVOID b)
         {
             char cmd[200]="";
             sprintf(cmd,"%s %s %s","cmd.exe /c \"PINSend.bat\"",a->info,a->Pin);
-            printf("\n%s\n",cmd);
+            log_info("%s",cmd);
             system(cmd);
         }
         SendDataStruct.save[99]='\n';
@@ -110,7 +110,7 @@ int talk(LPVOID b)
         len=send(a->remote_socket,sendbuf,sizeof(UserPacketInterface),0);
         if(len==SOCKET_ERROR||len==0)
         {
-            printf("\n连接%I64d退出\n",c);
+            log_info("连接%I64d退出",c);
             closesocket(c);
             return 0;
         }
@@ -118,7 +118,7 @@ int talk(LPVOID b)
     break;
     case 69858: //SIA
     {
-        printf("\n%s/%s/\n", a->USERID, a->USERPASSWORD);
+        log_info("%s/%s/", a->USERID, a->USERPASSWORD);
         int encodedCrypto[100]= {0};
         memcpy(encodedCrypto,a->data,sizeof(int)*32*a->key.encryptBlockBytes);
         decodeMessage(32, a->key.encryptBlockBytes, encodedCrypto,a->USERPASSWORD,a->key.privateKey, a->key.commonKey);

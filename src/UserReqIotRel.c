@@ -4,7 +4,7 @@ int UserReqIotRel(CLN *a)
     UserPacketInterface RecDataStruct;
     int len=0;
     char sendbuf[sizeof(UserPacketInterface)]= {0};
-    printf("\nContact Iot OK:");
+    log_info("Contact Iot OK:");
     char find[100] = "";
     MYSQL_RES *res;
     MYSQL_ROW row;
@@ -12,7 +12,7 @@ int UserReqIotRel(CLN *a)
     mysql_master_connect_ping();
     if (mysql_real_query(&mysql, find, strlen(find)))//No devices bonded
     {
-        printf("\n SQL ERR (REQIOTREL):%s",mysql_error(&mysql));
+        log_error(" SQL ERR (REQIOTREL):%s",mysql_error(&mysql));
         return 0;
     }
     res = mysql_store_result(&mysql);

@@ -25,13 +25,13 @@ int Check_Id_Pwd(int n,CLN *a)
                             Tag=Tag->next;
                         }
                     }
-                    printf("\nCheckidpwd:已注册用户列表中用户%s账号或者密码错误,请检查服务\n",a->USERID);
+                    log_info("Checkidpwd:已注册用户列表中用户%s账号或者密码错误,请检查服务",a->USERID);
                     return -1;
                 }
             }
             else
             {
-                printf("\nCheckidpwd:已注册用户列表中用户%s账号或者密码错误,请检查服务\n",a->USERID);
+                log_info("Checkidpwd:已注册用户列表中用户%s账号或者密码错误,请检查服务",a->USERID);
                 return -1;
             }
         }
@@ -49,7 +49,7 @@ int Check_Id_Pwd(int n,CLN *a)
                     {
                         if(!strcmp(a->USERID,Tag->USERID))
                         {
-                            //printf("\ncheckidpwd:已注册用户列表中有此用户%s,禁止注册\n",a->USERID);
+                            //log_info("checkidpwd:已注册用户列表中有此用户%s,禁止注册",a->USERID);
                             return 1;
                         }
                         else
@@ -57,13 +57,13 @@ int Check_Id_Pwd(int n,CLN *a)
                             Tag=Tag->next;
                         }
                     }
-                    //printf("\ncheckidpwd:已注册用户列表中无此用户%s,准许注册\n",a->USERID);
+                    //log_info("checkidpwd:已注册用户列表中无此用户%s,准许注册",a->USERID);
                     return -1;
                 }
             }
             else
             {
-                printf("\ncheckidpwd:已注册用户列表中无此用户%s,准许注册\n",a->USERID);
+                log_info("checkidpwd:已注册用户列表中无此用户%s,准许注册",a->USERID);
                 return -1;
             }
         }
@@ -93,13 +93,13 @@ int Check_Id_Pwd(int n,CLN *a)
                             Tag=Tag->next;
                         }
                     }
-                    printf("\nCheckidpwd:已注册用户列表中用户%s账号或者密码错误,请检查服务\n",a->USERID);
+                    log_info("Checkidpwd:已注册用户列表中用户%s账号或者密码错误,请检查服务",a->USERID);
                     return -1;
                 }
             }
             else
             {
-                printf("\nCheckidpwd:已注册用户列表中用户%s账号或者密码错误,请检查服务\n",a->USERID);
+                log_info("Checkidpwd:已注册用户列表中用户%s账号或者密码错误,请检查服务",a->USERID);
                 return -1;
             }
         }
@@ -117,7 +117,7 @@ int Check_Id_Pwd(int n,CLN *a)
                     {
                         if(!strcmp(a->USERID,Tag->USERID))
                         {
-                            //printf("\ncheckidpwd:已注册用户列表中有此用户%s,禁止注册\n",a->USERID);
+                            //log_info("checkidpwd:已注册用户列表中有此用户%s,禁止注册",a->USERID);
                             return 1;
                         }
                         else
@@ -125,13 +125,13 @@ int Check_Id_Pwd(int n,CLN *a)
                             Tag=Tag->next;
                         }
                     }
-                    //printf("\ncheckidpwd:已注册用户列表中无此用户%s,准许注册\n",a->USERID);
+                    //log_info("checkidpwd:已注册用户列表中无此用户%s,准许注册",a->USERID);
                     return -1;
                 }
             }
             else
             {
-                printf("\ncheckidpwd:已注册用户列表中无此用户%s,准许注册\n",a->USERID);
+                log_info("checkidpwd:已注册用户列表中无此用户%s,准许注册",a->USERID);
                 return -1;
             }
         }

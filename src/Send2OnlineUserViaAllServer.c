@@ -3,7 +3,7 @@ SOCKET LocalSocket;
 #ifdef STPOOL
 void task_err_handler1(struct sttask *ptask, long reasons)
 {
-    fprintf(stderr, "**ERR: '%s' (%lx)\n",
+    fprintf(stderr, "**ERR: '%s' (%lx)",
             ptask->task_name, reasons);
 }
 
@@ -22,14 +22,14 @@ int talk(LPVOID b)
 #ifdef STPOOL
     if(ptask->task_arg==NULL)
     {
-        printf("ARGUE ERR");
+        log_error("ARGUE ERR");
         return ;
     }
     CLN* a=(CLN*)ptask->task_arg;
 #else
     CLN* a = (CLN*)b;
 #endif
-    printf("\n%s\n",a->data);
+    log_error("%s",a->data);
     if(strlen(a->TalktoID)<11)
     {
         USER Temp = FindOnlineUserOrIot(10,a->TalktoID,0);
@@ -77,7 +77,7 @@ DWORD WINAPI ReceiveMsgFromTopServer()
         len = recv(LocalSocket,buf,sizeof(UserPacketInterface),0);
         if(len<0)
         {
-            printf("\nReceive From TopServer Error!\n");
+            log_info("Receive From TopServer Error!");
             send(LocalSocket,"123",3,0);
             Sleep(1000);
             continue;
@@ -97,35 +97,11 @@ DWORD WINAPI ReceiveMsgFromTopServer()
 }
 void ConnectToTopServer()
 {
-//    int scan;
-//    WSADATA wsaData;
-//    while(1)
-//    {
-//        if(!WSAStartup(MAKEWORD(2,2),&wsaData) )
-//        {
-//            printf("SOCKET ESTABLISHED SUCCESS!\n");
-//            break;
-//        }
-//        else
-//        {
-//            printf("socket not established! If continue to establish? Yes press 1;No press 0");
-//            scanf("%d",&scan);
-//            if(scan==0)
-//                exit(0);
-//            else if(scan==1)
-//                continue;
-//            else
-//            {
-//                printf("Input err! Late exit!");
-//                exit(0);
-//            }
-//        }
-//    }
     struct sockaddr_in addr;
     LocalSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (ERROR == LocalSocket)
     {
-        printf("socket failed\n");
+        log_error("socket failed");
         return ;
     }
     memset(&addr, 0, sizeof(addr)); //初始化addr
@@ -136,7 +112,7 @@ void ConnectToTopServer()
     int ret = connect(LocalSocket, (struct sockaddr *)&addr, addrlen);//实现连接服务端
     if(ret<0)
     {
-        printf("\nConnect To TopServer Error!\n");
+        log_error("Connect To TopServer Error!");
         return;
     }
     CreateThread(NULL,0,(LPTHREAD_START_ROUTINE)ReceiveMsgFromTopServer,NULL,0,NULL);

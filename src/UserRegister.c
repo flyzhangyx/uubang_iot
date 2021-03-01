@@ -16,7 +16,7 @@ int UserRegiter(CLN* a)
     mysql_master_connect_ping();
     if(mysql_real_query(&mysql,insert,strlen(insert)))
     {
-        printf("\nMySQL ERR :%s",mysql_error(&mysql));
+        log_error("MySQL ERR :%s",mysql_error(&mysql));
         return -1;
     }
     char insert1[800] = "";
@@ -33,7 +33,7 @@ int UserRegiter(CLN* a)
     mysql_master_connect_ping();
     if(mysql_real_query(&mysql,insert1,strlen(insert1)))
     {
-        printf("\nMySQL ERR :%s",mysql_error(&mysql));
+        log_error("MySQL ERR :%s",mysql_error(&mysql));
         return -1;
     }
     return 1;

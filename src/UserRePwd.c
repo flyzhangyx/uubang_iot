@@ -6,7 +6,7 @@ int UserRePwd(CLN *a)
     {
         if(Tag==NULL)
         {
-            printf("\n注册用户列表%s不匹配,请检查服务器\n",a->USERID);
+            log_info("注册用户列表%s不匹配,请检查服务器",a->USERID);
             return -1;
         }
         else
@@ -27,7 +27,7 @@ int UserRePwd(CLN *a)
                         mysql_master_connect_ping();
                         if(mysql_real_query(&mysql, update,strlen(update)))
                         {
-                            printf("\nMySQL ERR :%s",mysql_error(&mysql));
+                            log_error("MySQL ERR :%s",mysql_error(&mysql));
                             return -1;
                         }
                         strcpy(Tag->next->USERPASSWORD,a->REUSERPASSWORD) ;

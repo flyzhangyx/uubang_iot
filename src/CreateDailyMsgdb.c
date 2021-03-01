@@ -31,7 +31,7 @@ DWORD WINAPI CreateDailyMsgdbThread()
                 }
                 else
                 {
-                    printf("\nNew Daily MSGDB Create SUCCESS!\n");
+                    log_info("New Daily MSGDB Create SUCCESS!");
                     flag = 1;
                     break;
                 }

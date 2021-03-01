@@ -10,7 +10,7 @@ void logwrite(char* log)
         Sleep(1000);
     }
     logflag=1;
-    fputs("\n",loginfo);
+    fputs("",loginfo);
     fputs(timenow,loginfo);
     fputs(log,loginfo);
     fflush(loginfo);

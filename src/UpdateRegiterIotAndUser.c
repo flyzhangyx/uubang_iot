@@ -14,7 +14,7 @@ int UpdateLocalRegUserAndIotlist()
     mysql_master_connect_ping();
     if (mysql_real_query(&mysql, query, strlen(query)))
     {
-        printf("\nFailed to Get NewlyUserInfo: %s\n", mysql_error(&mysql));
+        log_error("Failed to Get NewlyUserInfo: %s", mysql_error(&mysql));
         return -1;
     }
     res = mysql_store_result(&mysql);
@@ -41,7 +41,7 @@ int UpdateLocalRegUserAndIotlist()
     mysql_master_connect_ping();
     if (mysql_real_query(&mysql, query, strlen(query)))
     {
-        printf("\nFailed to Get NewlyIotInfo: %s\n", mysql_error(&mysql));
+        log_error("Failed to Get NewlyIotInfo: %s", mysql_error(&mysql));
         return -1;
     }
     res_iot = mysql_store_result(&mysql);

@@ -10,7 +10,7 @@ int delete_out_user(CLN *a)
         USER Tag= onlineUserHead->next;
         if(Tag==NULL)
         {
-            //printf("\n在线用户列表中无此用户%s,请检查服务器\n",a->USERID);
+            //log_info("在线用户列表中无此用户%s,请检查服务器",a->USERID);
             return 0;
         }
         else
@@ -19,7 +19,7 @@ int delete_out_user(CLN *a)
             {
                 onlineUserHead->next=Tag->next;
                 free(Tag);
-                //printf("\n已从在线列表中删除该用户%s\n",a->USERID);
+                //log_info("已从在线列表中删除该用户%s",a->USERID);
                 onlineUserHead->OnlineUserNum--;
                 return 1;
             }
@@ -31,7 +31,7 @@ int delete_out_user(CLN *a)
                     {
                         Tag->next=Tag->next->next;
                         free(Tag->next);
-                        //printf("\n已从在线列表中删除该用户%s\n",a->USERID);
+                        //log_info("已从在线列表中删除该用户%s",a->USERID);
                         onlineUserHead->OnlineUserNum--;
                         return 1;
                     }
@@ -42,7 +42,7 @@ int delete_out_user(CLN *a)
                 }
             }
         }
-        //printf("\n在线用户列表中无此用户%s,请检查服务器\n",a->USERID);
+        //log_info("在线用户列表中无此用户%s,请检查服务器",a->USERID);
         return 0;
     }
     else
@@ -50,7 +50,7 @@ int delete_out_user(CLN *a)
         USER Tag= onlineIotHead->next;
         if(Tag==NULL)
         {
-            //printf("\n在线用户列表中无此设备%s,请检查服务器\n",a->USERID);
+            //log_info("在线用户列表中无此设备%s,请检查服务器",a->USERID);
             return 0;
         }
         else
@@ -59,7 +59,7 @@ int delete_out_user(CLN *a)
             {
                 onlineIotHead->next=Tag->next;
                 free(Tag);
-                //printf("\n已从在线列表中删除该设备%s\n",a->USERID);
+                //log_info("已从在线列表中删除该设备%s",a->USERID);
                 onlineIotHead->OnlineUserNum--;
                 return 1;
             }
@@ -71,7 +71,7 @@ int delete_out_user(CLN *a)
                     {
                         Tag->next=Tag->next->next;
                         free(Tag->next);
-                        //printf("\n已从在线列表中删除该设备%s\n",a->USERID);
+                        //log_info("已从在线列表中删除该设备%s",a->USERID);
                         onlineIotHead->OnlineUserNum--;
                         return 1;
                     }
@@ -82,7 +82,7 @@ int delete_out_user(CLN *a)
                 }
             }
         }
-        //printf("\n在线用户列表中无此设备%s,请检查服务器\n",a->USERID);
+        //log_info("在线用户列表中无此设备%s,请检查服务器",a->USERID);
         return 0;
     }
 }

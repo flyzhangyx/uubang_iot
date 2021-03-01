@@ -10,7 +10,7 @@ int UserGetIotData(CLN *a)
     mysql_master_connect_ping();
     if(mysql_real_query(&mysql,find,strlen(find)))
     {
-        printf("\n SQL ERR (USERGETIOTDATA):%s",mysql_error(&mysql));
+        log_error(" SQL ERR (USERGETIOTDATA):%s",mysql_error(&mysql));
         return 0;
     }
     memset(&RecDataStruct,0,sizeof(UserPacketInterface));

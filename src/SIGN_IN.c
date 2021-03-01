@@ -22,7 +22,7 @@ int SIGNIN(CLN *a)
         }
         else if(check!=-1&&(checkuser!=NULL)&&strcmp("CH123457",a->checkcode))
         {
-            printf("%s|%s",a->checkcode,a->USERID);
+            log_info("%s|%s",a->checkcode,a->USERID);
             perror("online");
             UserPacketInterface as;
             char sendbuf[sizeof(UserPacketInterface)]= {0};
@@ -84,7 +84,7 @@ int SIGNIN(CLN *a)
         }
         else if(check!=-1&&(checkuser!=NULL)&&strcmp("CH123457",a->checkcode))
         {
-            printf("%s|%s",a->checkcode,a->USERID);
+            log_info("%s|%s",a->checkcode,a->USERID);
             perror("online");
             UserPacketInterface as;
             char sendbuf[sizeof(UserPacketInterface)]= {0};

@@ -5,7 +5,7 @@ int AcceptClient()
     HANDLE completionPort  = CreateIoCompletionPort( INVALID_HANDLE_VALUE, NULL, 0, 0);
     if (NULL == completionPort) 	// 创建IO内核对象失败
     {
-        printf("\nCompleteIO ERR");
+        log_error("CompleteIO ERR");
         return -1;
     }
     SYSTEM_INFO mySysInfo;
@@ -15,7 +15,7 @@ int AcceptClient()
         HANDLE ThreadHandle = CreateThread(NULL, 0, ServerWorkThread, completionPort, 0, NULL);
         if(NULL == ThreadHandle)
         {
-            printf("\nCreate Work Thread Err");
+            log_error("Create Work Thread Err");
             return -1;
         }
         CloseHandle(ThreadHandle);
@@ -36,7 +36,7 @@ int AcceptClient()
         CONNHANDLE->remote_socket = accept(server_sockfd, (struct sockaddr*)&(CONNHANDLE->ADDR), &RemoteLen);
         if(SOCKET_ERROR == CONNHANDLE->remote_socket) 	// 接收客户端失败
         {
-            printf("Accept Socket Error" );
+            log_error("Accept Socket Error" );
             free(CONNHANDLE);
             system("pause");
             continue;
@@ -47,7 +47,7 @@ int AcceptClient()
         {
             closesocket(CONNHANDLE ->remote_socket);
             free(CONNHANDLE);
-            printf("\nMalloc PerIOData Fail");
+            log_error("Malloc PerIOData Fail");
             continue;
         }
         memset(PerIoData,0, sizeof(PER_IO_OPERATEION_DATA));

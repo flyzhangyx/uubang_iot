@@ -23,7 +23,7 @@ int NewUserSceneCmdStore(CLN *a,char *Cmd,int status,int devclass,int cmdGropu,c
     mysql_master_connect_ping();
     if(mysql_real_query(&mysql,insert,strlen(insert)))
     {
-        printf("\nMySQL ERR (NEW USER SCENE):%s",mysql_error(&mysql));
+        log_error("MySQL ERR (NEW USER SCENE):%s",mysql_error(&mysql));
         return 0;
     }
     return 1;

@@ -65,7 +65,7 @@ int UserRequestMessage(CLN *a,int Direction,char *DateFirst,char *DateLast,struc
     mysql_master_connect_ping();
     if (mysql_real_query(&mysql, find, strlen(find)))
     {
-        printf("\nSQL ERR (REQUEST MSG):%s\n",mysql_error(&mysql));
+        log_error("SQL ERR (REQUEST MSG):%s",mysql_error(&mysql));
         return 0;
     }
     res = mysql_store_result(&mysql);

@@ -36,7 +36,7 @@ int UpdateSqlInfoTimestamp(int UserId,int index,int flag)
     mysql_master_connect_ping();
     if(mysql_real_query(&mysql, update,strlen(update)))
     {
-        printf("\nMySQL ERR :%s",mysql_error(&mysql));
+        log_error("MySQL ERR :%s",mysql_error(&mysql));
         return -1;
     }
     return 1;

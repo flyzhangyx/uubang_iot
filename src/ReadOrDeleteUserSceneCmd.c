@@ -14,7 +14,7 @@ int ReadOrDeleteUserScene(CLN *a,char* UserId,int CmdGroupId,int del)
         mysql_master_connect_ping();
         if(mysql_real_query(&mysql,dele,strlen(dele)))
         {
-            printf("\nMySQL ERR(DEL SCENE CMD) :%s",mysql_error(&mysql));
+            log_error("MySQL ERR(DEL SCENE CMD) :%s",mysql_error(&mysql));
             return 0;
         }
         return 1;
@@ -31,7 +31,7 @@ int ReadOrDeleteUserScene(CLN *a,char* UserId,int CmdGroupId,int del)
         mysql_master_connect_ping();
         if (mysql_real_query(&mysql, find, strlen(find)))//No
         {
-            printf("\n SQL ERR (REQ USER SCENE):%s",mysql_error(&mysql));
+            log_error(" SQL ERR (REQ USER SCENE):%s",mysql_error(&mysql));
             return 0;
         }
         res = mysql_store_result(&mysql);
