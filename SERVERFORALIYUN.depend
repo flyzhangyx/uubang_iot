@@ -521,7 +521,7 @@
 1614675852 source:c:\users\bescd\desktop\test\uubang_iot\src\main.c
 	"../head/SERVER.h"
 
-1614681866 c:\users\bescd\desktop\test\uubang_iot\head\server.h
+1614687036 c:\users\bescd\desktop\test\uubang_iot\head\server.h
 	<stdio.h>
 	<WinSock2.h>
 	<windows.h>
@@ -746,7 +746,7 @@
 1614674949 source:c:\users\bescd\desktop\test\uubang_iot\src\copyiotdata.c
 	"../head/SERVER.h"
 
-1614676859 source:c:\users\bescd\desktop\test\uubang_iot\src\checkuserscenecmd.c
+1614686992 source:c:\users\bescd\desktop\test\uubang_iot\src\checkuserscenecmd.c
 	"../head/SERVER.h"
 
 1614669303 source:c:\users\bescd\desktop\test\uubang_iot\src\newiotcmdtobeexecute.c

@@ -51,7 +51,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
             PerIoData = (LPPER_IO_DATA)CONTAINING_RECORD(lpOverlapped, PER_IO_DATA, overlapped);
             if(0 == BytesTransferred||BytesTransferred>721)
             {
-                log_debug("%d Byte Received",(int)BytesTransferred);
+                //log_debug("%d Byte Received",(int)BytesTransferred);
                 if(CONNHANDLE!=NULL)//Continue to receiving data
                 {
                     /*memset(&(PerIoData->overlapped), 0,sizeof(OVERLAPPED));
@@ -75,7 +75,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
             {
                 if(BytesTransferred>0&&BytesTransferred<721)
                 {
-                    log_debug("%ld",BytesTransferred);
+                    //log_debug("%ld",BytesTransferred);
                     CopyRecIotData2Cln(PerIoData->RECBUFFER,CONNHANDLE,BytesTransferred);
                     CONNHANDLE->info[1]='Y';
                 }
