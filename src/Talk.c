@@ -35,7 +35,7 @@ int talk(LPVOID b)
     strcpy(logcat,inet_ntoa(a->ADDR.sin_addr));
     strcat(logcat,"|");
     strcat(logcat,a->checkcode);
-    logwrite(logcat);
+    //logwrite(logcat);
     if(FindRegisterUserOrIotNode(0,a->USERID,0)!=NULL)
         a->USERKEY_ID = FindRegisterUserOrIotNode(0,a->USERID,0)->USERKEY_ID;
     ///**********************验证是否为合法用户***************************

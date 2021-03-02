@@ -22,7 +22,6 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
             DWORD dwErr = GetLastError();
             if(CONNHANDLE == NULL||NULL==lpOverlapped)
             {
-
                 continue;
             }
             else
@@ -48,6 +47,10 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
         }
         else
         {
+            if(lpOverlapped==NULL)
+            {
+                continue;
+            }
             PerIoData = (LPPER_IO_DATA)CONTAINING_RECORD(lpOverlapped, PER_IO_DATA, overlapped);
             if(0 == BytesTransferred||BytesTransferred>721)
             {

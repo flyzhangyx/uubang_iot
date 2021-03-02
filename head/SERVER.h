@@ -21,10 +21,14 @@
 #if defined(PRINT_LOG)
     #ifdef DEBUG_PRINT
         #define log_debug(format, args...)     do{ SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_GREEN);\
-                                            printf("[%s %s][DBG][%s:%d] " #format "\n", __DATE__,__TIME__,__func__,__LINE__,##args) ;\
+                                            time_t now_time;\
+                                            time(&now_time);\
+                                            char time_now[50];\
+                                            strftime(time_now,50,"%Y-%m-%d %X",localtime(&now_time));\
+                                            printf("[%s][DBG][%s:%d] " #format "\n",time_now,__func__,__LINE__,##args) ;\
                                             char log[1000];\
-                                            sprintf(log,"echo [%s %s][DBG][%s:%d] " #format ">>log.txt", __DATE__,__TIME__,__func__,__LINE__,##args);\
-                                            system(log);\
+                                            sprintf(log,"[%s][DBG][%s:%d] " #format "\n", time_now,__func__,__LINE__,##args);\
+                                            logwrite(log);\
                                             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), g_default_color);}while(0)
     #else
         #define log_debug(format, args...) //Nothing
@@ -32,20 +36,28 @@
 
     #ifdef INFO_PRINT
         #define log_info(format, args...)       do{ SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_BLUE|BACKGROUND_RED|BACKGROUND_GREEN);\
-                                            printf("[%s %s][INF][%s:%d] " #format "\n", __DATE__,__TIME__,__func__,__LINE__,##args);\
+                                            time_t now_time;\
+                                            time(&now_time);\
+                                            char time_now[50];\
+                                            strftime(time_now,50,"%Y-%m-%d %X",localtime(&now_time));\
+                                            printf("[%s][INF][%s:%d] " #format "\n", time_now,__func__,__LINE__,##args);\
                                             char log[1000];\
-                                            sprintf(log,"echo [%s %s][INF][%s:%d] " #format " >> log.txt", __DATE__,__TIME__,__func__,__LINE__,##args);\
-                                            system(log);\
+                                            sprintf(log,"[%s][INF][%s:%d] " #format "\n", time_now,__func__,__LINE__,##args);\
+                                            logwrite(log);\
                                             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), g_default_color); }while(0)
     #else
         #define log_info(format, args...)
     #endif // INFO_PRINT
 
     #define log_error(format, args...)       do{ SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_RED);\
-                                            printf("[%s %s][ERR][%s:%d] " #format "\n", __DATE__,__TIME__,__func__,__LINE__,##args);\
+                                            time_t now_time;\
+                                            time(&now_time);\
+                                            char time_now[50];\
+                                            strftime(time_now,50,"%Y-%m-%d %X",localtime(&now_time));\
+                                            printf("[%s][ERR][%s:%d] " #format "\n", time_now,__func__,__LINE__,##args);\
                                             char log[1000];\
-                                            sprintf(log,"echo [%s %s][ERR][%s:%d] " #format ">>log.txt", __DATE__,__TIME__,__func__,__LINE__,##args);\
-                                            system(log);\
+                                            sprintf(log,"[%s][ERR][%s:%d] " #format "\n", time_now,__func__,__LINE__,##args);\
+                                            logwrite(log);\
                                             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), g_default_color); }while(0)
 #else
 #define log_debug(format, args...)
