@@ -51,16 +51,23 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
             PerIoData = (LPPER_IO_DATA)CONTAINING_RECORD(lpOverlapped, PER_IO_DATA, overlapped);
             if(0 == BytesTransferred||BytesTransferred>721)
             {
-                log_info("%d Byte Received",(int)BytesTransferred);
+                log_debug("%d Byte Received",(int)BytesTransferred);
                 if(CONNHANDLE!=NULL)//Continue to receiving data
                 {
-                    memset(&(PerIoData->overlapped), 0,sizeof(OVERLAPPED));
+                    /*memset(&(PerIoData->overlapped), 0,sizeof(OVERLAPPED));
                     PerIoData->WSADATABUF.len = sizeof(UserPacketInterface);
                     PerIoData->WSADATABUF.buf = PerIoData->RECBUFFER;
                     PerIoData->OpCode= 0;	// read
                     DWORD RecvBytes;
                     DWORD Flags = 0;
-                    WSARecv(CONNHANDLE->remote_socket, &(PerIoData->WSADATABUF), 1, &RecvBytes, &Flags, &(PerIoData->overlapped), NULL);
+                    WSARecv(CONNHANDLE->remote_socket, &(PerIoData->WSADATABUF), 1, &RecvBytes, &Flags, &(PerIoData->overlapped), NULL);*/
+                    closesocket(CONNHANDLE->remote_socket);
+                    free(CONNHANDLE);
+                    if(lpOverlapped!=NULL)
+                    {
+                        PerIoData = (LPPER_IO_DATA)CONTAINING_RECORD(lpOverlapped, PER_IO_DATA, overlapped);
+                        free(PerIoData);//free source
+                    }
                 }
                 continue;
             }
@@ -68,8 +75,9 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
             {
                 if(BytesTransferred>0&&BytesTransferred<721)
                 {
-                    log_info("%ld",BytesTransferred);
+                    log_debug("%ld",BytesTransferred);
                     CopyRecIotData2Cln(PerIoData->RECBUFFER,CONNHANDLE,BytesTransferred);
+                    CONNHANDLE->info[1]='Y';
                 }
                 else
                 {

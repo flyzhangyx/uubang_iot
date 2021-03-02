@@ -124,6 +124,7 @@
 		<Unit filename="head/SERVER.h" />
 		<Unit filename="head/libThreadPool.h" />
 		<Unit filename="head/md5.h" />
+		<Unit filename="head/sqlpool.h" />
 		<Unit filename="libstpool/stpool.h" />
 		<Unit filename="libstpool/stpool_caps.h" />
 		<Unit filename="libstpool/stpool_group.h" />
@@ -245,12 +246,6 @@
 		<Unit filename="src/Talk.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/UdpInit.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/UdpPackResolve.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="src/UpdateRegiterIotAndUser.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -275,9 +270,6 @@
 		<Unit filename="src/UserRequestMessage.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/fun_send.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="src/hash.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -293,6 +285,9 @@
 		<Unit filename="src/main.c">
 			<Option compilerVar="CC" />
 			<Option weight="0" />
+		</Unit>
+		<Unit filename="src/sqlpool.c">
+			<Option compilerVar="CC" />
 		</Unit>
 		<Extensions>
 			<lib_finder disable_auto="1" />

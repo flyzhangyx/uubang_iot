@@ -13,35 +13,34 @@
 #include <malloc.h>
 #include "stpool.h"
 #include "../head/libThreadPool.h"
+#include "sqlpool.h"
 #define msleep Sleep
-
-
 #define BUFSIZE 512
+
 //封装带颜色打印接口
-#define COLOR_YELLOW 14
-#define COLOR_RED 13
-#ifdef PRINT_LOG
-#if DEBUG_PRINT
-#define log_debug(format, args...)      SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), g_default_color);\
-                                            printf("[DBG][%s:%d] " #format "\n", __func__,__LINE__,##args)
+#if defined(PRINT_LOG)
+    #ifdef DEBUG_PRINT
+        #define log_debug(format, args...)     do{ SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_GREEN);\
+                                            printf("[%s %s][DBG][%s:%d] " #format "\n", __DATE__,__TIME__,__func__,__LINE__,##args) ;\
+                                            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), g_default_color);}while(0)
+    #else
+        #define log_debug(format, args...) //Nothing
+    #endif // DEBUG_PRINT
+
+    #ifdef INFO_PRINT
+        #define log_info(format, args...)       do {SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_BLUE|BACKGROUND_RED|BACKGROUND_GREEN);\
+                                            printf("[%s %s][INF][%s:%d] " #format "\n", __DATE__,__TIME__,__func__,__LINE__,##args);\
+                                            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), g_default_color); }while(0)
+    #else
+        #define log_info(format, args...)
+    #endif // INFO_PRINT
+
+    #define log_error(format, args...)       do{ SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_RED);\
+                                            printf("[%s %s][ERR][%s:%d] " #format "\n", __DATE__,__TIME__,__func__,__LINE__,##args);\
+                                            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), g_default_color); }while(0)
 #else
 #define log_debug(format, args...)
-#endif // DEBUG_PRINT
-#if INFO_PRINT
-#define log_info(format, args...)       SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), COLOR_YELLOW);\
-                                            printf("[INF][%s:%d] " #format "\n", __func__,__LINE__,##args);\
-                                            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), g_default_color);
-#else
 #define log_info(format, args...)
-#endif // INFO_PRINT
-#define log_error(format, args...)       SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), COLOR_RED);\
-                                            printf("[ERR][%s:%d] " #format "\n", __func__,__LINE__,##args);\
-                                            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), g_default_color);
-#else
-#define log_debug(format, args...)
-
-#define log_info(format, args...)
-
 #define log_error(format, args...)
 #endif // PRINT_LOG
 ///**************在线用户节点****************
@@ -84,12 +83,13 @@ typedef struct
 } UserPacketInterface;
 
 
-typedef struct{
+typedef struct
+{
     int publicKey;
     int privateKey;
     int commonKey;
     int encryptBlockBytes;
-}RSAKey;
+} RSAKey;
 ///********函数接口*************
 typedef struct
 {
@@ -109,18 +109,19 @@ typedef struct
 } CLN;
 typedef struct
 {
-	OVERLAPPED overlapped;
-	WSABUF WSADATABUF;
-	char RECBUFFER[sizeof(UserPacketInterface) ];
-	int BufferLen;
-	int OpCode;
-}PER_IO_OPERATEION_DATA, *LPPER_IO_OPERATION_DATA, *LPPER_IO_DATA, PER_IO_DATA;
+    OVERLAPPED overlapped;
+    WSABUF WSADATABUF;
+    char RECBUFFER[sizeof(UserPacketInterface) ];
+    int BufferLen;
+    int OpCode;
+} PER_IO_OPERATEION_DATA, *LPPER_IO_OPERATION_DATA, *LPPER_IO_DATA, PER_IO_DATA;
 
-typedef struct{
+typedef struct
+{
     char opCode[3];
     char SeqNum[2];
     char payLoad[100];//Max
-}IotPacketInterface;
+} IotPacketInterface;
 ///*****************************
 ///*******函数声明**************
 #ifdef STPOOL
@@ -150,24 +151,20 @@ void RequestIotEvent(CLN*);
 void logwrite(char*);
 int IoTtalk(CLN*);
 int Stringcut(char* str,int m,int n,char *des);
-int BitmapSize(FILE*);
-int bitmapfigure(CLN*,FILE*,char*);
-int UdpInit(int);
-int file_tcp_send(CLN*,FILE*,char*,char*);
-int MySqlInit();
+MYSQL* MySqlInit(MYSQL*);
 USER FindRegisterUserOrIotNode(int,char*,int);
 void generateRandString(char*dest,unsigned int len);
 void generateRandIntStr(char *dest,unsigned int len);
-int IotRegister(CLN* ,int);
+int IotRegister(CLN*,int);
 void PrintAllUserAndIotDevice();
 int NewUserFriend(CLN*,int);
 int NewUserIot (CLN*,int);
 int CmpDate(int year, int month, int day);
 int NewUserMsgTableInSQL();
-int UserRequestMessage(CLN*,int , char* ,char*,struct tm*);
+int UserRequestMessage(CLN*,int, char*,char*,struct tm*);
 int UserReqFriendRel(CLN*);
 int NewUserMsgStorage(CLN*,int);
-int IotUpdateStatus(CLN*,int ,int );
+int IotUpdateStatus(CLN*,int,int );
 int UserGetIotData(CLN*);
 int UserReqIotRel(CLN*);
 void CreateDailyMsgdb();
@@ -176,11 +173,11 @@ unsigned int DJBHash(char* str, unsigned int len);
 void InitRSA(RSAKey*);
 void encodeMessage(int len, int bytes, char* message,int* outCrypto, int exponent, int modulus);
 void decodeMessage(int len, int bytes, int* cryptogram,char *outSource, int exponent, int modulus);
-char* GetUpdateTimeStamp(int UserId,int index);
+char* GetUpdateTimeStamp(int UserId,int index,char*);
 int UpdateSqlInfoTimestamp(int UserId,int index,int flag);
 int UpdateLocalRegUserAndIotlist();
-void Decrypt(char *source_in ,int len,char *PinCode,char *source_out);
-void Encrypt(char *source_in ,int len,char *PinCode,char *source_out);
+void Decrypt(char *source_in,int len,char *PinCode,char *source_out);
+void Encrypt(char *source_in,int len,char *PinCode,char *source_out);
 int NewIotCmdToBeExecute(CLN *a,char *cmd,int Devclass,int status,char *CmdTimeStamp);
 int IotReadCmd(CLN *a,int Devclass,int del);
 int mysql_master_connect_ping();
@@ -231,7 +228,7 @@ int warnfile;
 int logflag;
 FILE* REGISTERlocal;
 FILE* loginfo;
-MYSQL mysql, *sock;
+SQL_CONN_POOL *MySqlConnPool;
 pthread_mutex_t mysql_mutex;
 #ifdef STPOOL
 stpool_t * ThreadPool;

@@ -9,13 +9,14 @@ int UserReqIotRel(CLN *a)
     MYSQL_RES *res;
     MYSQL_ROW row;
     sprintf(find, "%s%d", "SELECT * FROM `iotrelationship` WHERE `userId` = ", a->USERKEY_ID);
-    mysql_master_connect_ping();
-    if (mysql_real_query(&mysql, find, strlen(find)))//No devices bonded
+    SQL_NODE *temmp=get_db_connect(MySqlConnPool); MYSQL *mysql=&(temmp->fd);
+    if (mysql_real_query(mysql, find, strlen(find)))//No devices bonded
     {
-        log_error(" SQL ERR (REQIOTREL):%s",mysql_error(&mysql));
+        log_error(" SQL ERR (REQIOTREL):%s",mysql_error(mysql));
+        release_node(MySqlConnPool, temmp);
         return 0;
     }
-    res = mysql_store_result(&mysql);
+    res = mysql_store_result(mysql);
     memset(&RecDataStruct,0,sizeof(UserPacketInterface));
     strcpy(RecDataStruct.checkcode,"RCI");
     strcpy(RecDataStruct.USERID,a->USERID);
@@ -25,6 +26,7 @@ int UserReqIotRel(CLN *a)
         USER Temp = FindRegisterUserOrIotNode(10,NULL,atoi(row[1]));
         if(Temp==NULL)
         {
+            release_node(MySqlConnPool, temmp);
             mysql_free_result(res);
             return 0;
         }
@@ -37,10 +39,12 @@ int UserReqIotRel(CLN *a)
         {
             closesocket(a->remote_socket);
             mysql_free_result(res);
+            release_node(MySqlConnPool, temmp);
             return 0;
         }
         //Sleep(100);
     }
+    release_node(MySqlConnPool, temmp);
     mysql_free_result(res);
     return 1;
 }

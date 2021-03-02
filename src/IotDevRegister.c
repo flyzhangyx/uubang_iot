@@ -11,11 +11,13 @@ int IotRegister(CLN* a,int DevClass)
             a->USERPASSWORD,
             "', ",
             "CURRENT_TIMESTAMP)");
-    mysql_master_connect_ping();
-    if(mysql_real_query(&mysql,insert,strlen(insert)))
+    SQL_NODE *temmp=get_db_connect(MySqlConnPool); MYSQL *mysql=&(temmp->fd);
+    if(mysql_real_query(mysql,insert,strlen(insert)))
     {
-        log_error("MySQL ERR :%s",mysql_error(&mysql));
+        release_node(MySqlConnPool, temmp);
+        log_error("MySQL ERR :%s",mysql_error(mysql));
         return -1;
     }
+    release_node(MySqlConnPool, temmp);
     return 1;
 }

@@ -11,19 +11,22 @@ int NewUserMsgTableInSQL()
             time_now,
             "` ( `userId` INT UNSIGNED NOT NULL , `friendId` INT UNSIGNED NOT NULL , `Content` TEXT NOT NULL , `SendDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ) ENGINE = InnoDB"
            );
-    mysql_master_connect_ping();
-    if(mysql_real_query(&mysql,create,strlen(create)))
+    SQL_NODE *temmp=get_db_connect(MySqlConnPool); MYSQL *mysql=&(temmp->fd);
+    if(mysql_real_query(mysql,create,strlen(create)))
     {
-        const char *err = mysql_error(&mysql);
+        const char *err = mysql_error(mysql);
         if(strstr(err,"already"))
         {
+            release_node(MySqlConnPool, temmp);
             return -1;
         }
         else
         {
             log_error("SQL ERR (CREATE TABLE):%s",err);
+            release_node(MySqlConnPool, temmp);
             return 0;
         }
     }
+    release_node(MySqlConnPool, temmp);
     return 1;
 }

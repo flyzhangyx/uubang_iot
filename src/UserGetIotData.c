@@ -7,14 +7,15 @@ int UserGetIotData(CLN *a)
     char sendbuf[sizeof(UserPacketInterface)]= {0};
     char find[100]="";
     sprintf(find,"%s%d","SELECT * FROM `iotevtcache` WHERE `iotId` =",FindRegisterUserOrIotNode(10,a->TalktoID,0)->USERKEY_ID);
-    mysql_master_connect_ping();
-    if(mysql_real_query(&mysql,find,strlen(find)))
+    SQL_NODE *temmp=get_db_connect(MySqlConnPool); MYSQL *mysql=&(temmp->fd);
+    if(mysql_real_query(mysql,find,strlen(find)))
     {
-        log_error(" SQL ERR (USERGETIOTDATA):%s",mysql_error(&mysql));
+        release_node(MySqlConnPool, temmp);
+        log_error(" SQL ERR (USERGETIOTDATA):%s",mysql_error(mysql));
         return 0;
     }
     memset(&RecDataStruct,0,sizeof(UserPacketInterface));
-    res = mysql_store_result(&mysql);
+    res = mysql_store_result(mysql);
     strcpy(RecDataStruct.checkcode,"IOT");
     strcpy(RecDataStruct.TalktoID,a->TalktoID);
     strcpy(RecDataStruct.USERID,a->USERID);
@@ -29,11 +30,13 @@ int UserGetIotData(CLN *a)
         if(len==SOCKET_ERROR||len==0)
         {
             closesocket(a->remote_socket);
+            release_node(MySqlConnPool, temmp);
             mysql_free_result(res);
             return 0;
         }
         Sleep(100);
     }
+    release_node(MySqlConnPool, temmp);
     mysql_free_result(res);
     return 1;
 }

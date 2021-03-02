@@ -11,13 +11,14 @@ int UpdateLocalRegUserAndIotlist()
             );
     MYSQL_RES *res;
     MYSQL_ROW row;
-    mysql_master_connect_ping();
-    if (mysql_real_query(&mysql, query, strlen(query)))
+    SQL_NODE *temmp=get_db_connect(MySqlConnPool); MYSQL *mysql=&(temmp->fd);
+    if (mysql_real_query(mysql, query, strlen(query)))
     {
-        log_error("Failed to Get NewlyUserInfo: %s", mysql_error(&mysql));
+        log_error("Failed to Get NewlyUserInfo: %s", mysql_error(mysql));
+        release_node(MySqlConnPool, temmp);
         return -1;
     }
-    res = mysql_store_result(&mysql);
+    res = mysql_store_result(mysql);
     while ((row = mysql_fetch_row(res)))
     {
         strcpy(a.USERID,row[1]);
@@ -27,6 +28,7 @@ int UpdateLocalRegUserAndIotlist()
         AddtoLocal(&a);
     }
     pthread_mutex_unlock(&(RegistedUserHead->mute));
+    release_node(MySqlConnPool, temmp);
     mysql_free_result(res);
     ///...................................................
     memset(query,0,200*sizeof(char));
@@ -38,13 +40,13 @@ int UpdateLocalRegUserAndIotlist()
             );
     MYSQL_RES *res_iot;
     MYSQL_ROW row_iot;
-    mysql_master_connect_ping();
-    if (mysql_real_query(&mysql, query, strlen(query)))
+    if (mysql_real_query(mysql, query, strlen(query)))
     {
-        log_error("Failed to Get NewlyIotInfo: %s", mysql_error(&mysql));
+        log_error("Failed to Get NewlyIotInfo: %s", mysql_error(mysql));
+        release_node(MySqlConnPool, temmp);
         return -1;
     }
-    res_iot = mysql_store_result(&mysql);
+    res_iot = mysql_store_result(mysql);
     while ((row_iot = mysql_fetch_row(res_iot)))
     {
         strcpy(a.USERID,row_iot[1]);
@@ -55,6 +57,7 @@ int UpdateLocalRegUserAndIotlist()
         AddtoLocal(&a);
     }
     pthread_mutex_unlock(&(RegistedIotHead->mute));
+    release_node(MySqlConnPool, temmp);
     mysql_free_result(res_iot);
     return 1;
 }

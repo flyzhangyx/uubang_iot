@@ -30,30 +30,34 @@ int IotUpdateStatus(CLN *a,int EvtClass,int status)
             a->USERKEY_ID,
             " AND `iotevtcache`.`evtClass` =  ",
             EvtClass);
-    mysql_master_connect_ping();
-    if(mysql_real_query(&mysql,insert,strlen(insert)))
+    SQL_NODE *temmp=get_db_connect(MySqlConnPool); MYSQL *mysql=&(temmp->fd);
+    if(mysql_real_query(mysql,insert,strlen(insert)))
     {
-        if(strstr(mysql_error(&mysql),"Duplicate")==NULL)
+        if(strstr(mysql_error(mysql),"Duplicate")==NULL)
         {
-            log_error("SQL ERR(IOT UPDATE ERR1): %s",mysql_error(&mysql));
+            log_error("SQL ERR(IOT UPDATE ERR1): %s",mysql_error(mysql));
+            release_node(MySqlConnPool, temmp);
             return 0;
         }
         else
         {
-            mysql_master_connect_ping();
-            mysql_real_query(&mysql,update,strlen(update));
-            if(mysql_affected_rows(&mysql)==0)
+            SQL_NODE *temmp=get_db_connect(MySqlConnPool); MYSQL *mysql=&(temmp->fd);
+            mysql_real_query(mysql,update,strlen(update));
+            if(mysql_affected_rows(mysql)==0)
             {
-                log_error("SQL ERR(IOT UPDATE ERR2): %s",mysql_error(&mysql));
+                release_node(MySqlConnPool, temmp);
+                log_error("SQL ERR(IOT UPDATE ERR2): %s",mysql_error(mysql));
                 return 0;
             }
             else
             {
+                release_node(MySqlConnPool, temmp);
                 return 1;
             }
         }
     }
     else{
+        release_node(MySqlConnPool, temmp);
         return 1;
     }
 }

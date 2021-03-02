@@ -13,10 +13,11 @@ int UserRegiter(CLN* a)
             a->data,
             "', ",
             "CURRENT_TIMESTAMP)");
-    mysql_master_connect_ping();
-    if(mysql_real_query(&mysql,insert,strlen(insert)))
+    SQL_NODE *temmp=get_db_connect(MySqlConnPool); MYSQL *mysql=&(temmp->fd);
+    if(mysql_real_query(mysql,insert,strlen(insert)))
     {
-        log_error("MySQL ERR :%s",mysql_error(&mysql));
+        log_error("MySQL ERR :%s",mysql_error(mysql));
+        release_node(MySqlConnPool, temmp);
         return -1;
     }
     char insert1[800] = "";
@@ -30,10 +31,10 @@ int UserRegiter(CLN* a)
             "', '",
             0,
             "')");
-    mysql_master_connect_ping();
-    if(mysql_real_query(&mysql,insert1,strlen(insert1)))
+    if(mysql_real_query(mysql,insert1,strlen(insert1)))
     {
-        log_error("MySQL ERR :%s",mysql_error(&mysql));
+        release_node(MySqlConnPool, temmp);
+        log_error("MySQL ERR :%s",mysql_error(mysql));
         return -1;
     }
     return 1;

@@ -9,13 +9,14 @@ int UserReqFriendRel(CLN *a)
     MYSQL_RES *res;
     MYSQL_ROW row;
     sprintf(find, "%s%d", "SELECT * FROM `userrelationship` WHERE `userId` = ", a->USERKEY_ID);
-    mysql_master_connect_ping();
-    if (mysql_real_query(&mysql, find, strlen(find)))//No devices bonded
+    SQL_NODE *temmp=get_db_connect(MySqlConnPool); MYSQL *mysql=&(temmp->fd);
+    if (mysql_real_query(mysql, find, strlen(find)))//No devices bonded
     {
-        log_error(" SQL ERR (REQFRIENDREL):%s",mysql_error(&mysql));
+        log_error(" SQL ERR (REQFRIENDREL):%s",mysql_error(mysql));
+        release_node(MySqlConnPool, temmp);
         return 0;
     }
-    res = mysql_store_result(&mysql);
+    res = mysql_store_result(mysql);
     while ((row = mysql_fetch_row(res)))
     {
         memset(&RecDataStruct,0,sizeof(UserPacketInterface));
@@ -23,6 +24,7 @@ int UserReqFriendRel(CLN *a)
         USER Temp = FindRegisterUserOrIotNode(0,NULL,atoi(row[1]));
         if(Temp==NULL)
         {
+            release_node(MySqlConnPool, temmp);
             mysql_free_result(res);
             return 0;
         }
@@ -36,10 +38,12 @@ int UserReqFriendRel(CLN *a)
         if(len==SOCKET_ERROR||len==0)
         {
             closesocket(a->remote_socket);
+            release_node(MySqlConnPool, temmp);
             mysql_free_result(res);
             return 0;
         }
     }
+    release_node(MySqlConnPool, temmp);
     mysql_free_result(res);
     return 1;
 }

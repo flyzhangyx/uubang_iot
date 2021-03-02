@@ -1,7 +1,6 @@
 #include"../head/SERVER.h"
 int AcceptClient()
 {
-
     HANDLE completionPort  = CreateIoCompletionPort( INVALID_HANDLE_VALUE, NULL, 0, 0);
     if (NULL == completionPort) 	// 创建IO内核对象失败
     {

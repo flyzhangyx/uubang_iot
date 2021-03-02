@@ -10,15 +10,15 @@ int IotReadCmd(CLN *a,int Devclass,int del)
                 "'AND `class` = '",
                 Devclass,
                 "'");
-        mysql_master_connect_ping();
-        if(mysql_real_query(&mysql,read,strlen(read)))
+        SQL_NODE *temmp=get_db_connect(MySqlConnPool); MYSQL *mysql=&(temmp->fd);
+        if(mysql_real_query(mysql,read,strlen(read)))
         {
-            log_error("MySQL ERR(IOT READ CMD) :%s",mysql_error(&mysql));
+            log_error("MySQL ERR(IOT READ CMD) :%s",mysql_error(mysql));
             return 0;
         }
         MYSQL_RES *res;
         MYSQL_ROW row;
-        res = mysql_store_result(&mysql);
+        res = mysql_store_result(mysql);
         row = mysql_fetch_row(res);
         sprintf(a->data,"%s|%s|%s|%s",row[2],row[3],row[4],row[5]);
         return 1;
@@ -30,12 +30,14 @@ int IotReadCmd(CLN *a,int Devclass,int del)
                 "'AND `iotcmd`.`class` = '",
                  Devclass,
                 "'");
-        mysql_master_connect_ping();
-        if(mysql_real_query(&mysql,del,strlen(del)))
+        SQL_NODE *temmp=get_db_connect(MySqlConnPool); MYSQL *mysql=&(temmp->fd);
+        if(mysql_real_query(mysql,del,strlen(del)))
         {
-            log_error("MySQL ERR(IOT DEL CMD) :%s",mysql_error(&mysql));
+            release_node(MySqlConnPool, temmp);
+            log_error("MySQL ERR(IOT DEL CMD) :%s",mysql_error(mysql));
             return 0;
         }
+        release_node(MySqlConnPool, temmp);
         return 1;
     }
 }

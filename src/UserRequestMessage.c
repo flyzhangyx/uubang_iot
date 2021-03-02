@@ -62,13 +62,15 @@ int UserRequestMessage(CLN *a,int Direction,char *DateFirst,char *DateLast,struc
         strcpy(RecDataStruct.TalktoID,a->USERID);
         strcpy(RecDataStruct.USERID,a->TalktoID);
     }
-    mysql_master_connect_ping();
-    if (mysql_real_query(&mysql, find, strlen(find)))
+    SQL_NODE *temmp=get_db_connect(MySqlConnPool);
+    MYSQL *mysql=&(temmp->fd);
+    if (mysql_real_query(mysql, find, strlen(find)))
     {
-        log_error("SQL ERR (REQUEST MSG):%s",mysql_error(&mysql));
+        log_error("SQL ERR (REQUEST MSG):%s",mysql_error(mysql));
+        release_node(MySqlConnPool, temmp);
         return 0;
     }
-    res = mysql_store_result(&mysql);
+    res = mysql_store_result(mysql);
     while ((row = mysql_fetch_row(res)))
     {
         memset(sendbuf,0,sizeof(UserPacketInterface));
@@ -79,10 +81,12 @@ int UserRequestMessage(CLN *a,int Direction,char *DateFirst,char *DateLast,struc
         if(len==SOCKET_ERROR||len==0)
         {
             closesocket(a->remote_socket);
+            release_node(MySqlConnPool, temmp);
             mysql_free_result(res);
             return 0;
         }
     }
+    release_node(MySqlConnPool, temmp);
     mysql_free_result(res);
     return 1;
 }

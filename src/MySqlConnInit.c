@@ -1,5 +1,5 @@
 #include"../head/SERVER.h"
-int MySqlInit()
+MYSQL* MySqlInit(MYSQL *mysql)
 {
     char * host = "flyzhangyx.com";  //因为是作为本机测试，所以填写的是本地IP
     char * user = "iotServer";       //这里改为你的用户名，即连接MySQL的用户名
@@ -8,17 +8,21 @@ int MySqlInit()
     unsigned int port = 3306;           //这是MySQL的服务器的端口，如果你没有修改过的话就是3306。
     char * unix_socket = NULL;    //unix_socket这是unix下的，我在Windows下，所以就把它设置为NULL
     unsigned long client_flag = 0;      //这个参数一般为0
-    mysql_init(&mysql);
-    if ( ( sock = mysql_real_connect(&mysql, host, user, passwd, db, port, unix_socket, client_flag)) == NULL ) //连接MySQL
+    if(!mysql_init(mysql))
     {
-        log_error("Connect to MySQL FAILED , Reason : ");
-        fprintf(stderr, " %s", mysql_error(&mysql));
-        return -1;
+        return NULL;
+    }
+    MYSQL* conn=NULL;
+    if ((conn=mysql_real_connect(mysql, host, user, passwd, db, port, unix_socket, client_flag)) == NULL ) //连接MySQL
+    {
+        mysql_close(mysql);
+        log_error("Connect to MySQL FAILED , Reason :%s",mysql_error(mysql));
+        return NULL;
     }
     else
     {
-        log_info("Connect to MySQL SUCCESS! ");
-        return 1;
+        //log_info("Connect to MySQL SUCCESS! ");
+        return conn;
     }
 }
 

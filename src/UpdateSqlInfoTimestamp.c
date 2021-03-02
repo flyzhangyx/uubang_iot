@@ -33,11 +33,13 @@ int UpdateSqlInfoTimestamp(int UserId,int index,int flag)
                 ,UserId);
         break;
     }
-    mysql_master_connect_ping();
-    if(mysql_real_query(&mysql, update,strlen(update)))
+    SQL_NODE *temmp=get_db_connect(MySqlConnPool); MYSQL *mysql=&(temmp->fd);
+    if(mysql_real_query(mysql, update,strlen(update)))
     {
-        log_error("MySQL ERR :%s",mysql_error(&mysql));
+        log_error("MySQL ERR :%s",mysql_error(mysql));
+        release_node(MySqlConnPool, temmp);
         return -1;
     }
+    release_node(MySqlConnPool, temmp);
     return 1;
 }

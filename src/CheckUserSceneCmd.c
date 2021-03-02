@@ -18,9 +18,8 @@ DWORD WINAPI CheckUserSceneCmd()
         {
 
         }
-        strftime(time_now,80,"%Y-%m-%d %X",localtime(&t));
         stpool_stat(ThreadPool, &temp);
-        log_info("[%s] ONLINE_USER_NUM:[%d] ONLINE_IOT_NUM:[%d] THREADPOOL_THREAD/TASK_NUM:[%d/%d] ",time_now,onlineUserHead->OnlineUserNum,onlineIotHead->OnlineUserNum,temp.curthreads_active,temp.tasks_processed);
+        log_info("ONLINE_USER:[%d] ONLINE_IOT:[%d] THREADPOOL_THREAD/TASK:[%d/%d] ",onlineUserHead->OnlineUserNum,onlineIotHead->OnlineUserNum,temp.curthreads_active,temp.curtasks_pending);
         Sleep(1000*5);
     }
 }

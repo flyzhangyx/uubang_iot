@@ -17,7 +17,8 @@ int talk(LPVOID b)
 #else
     CLN* a = (CLN*)b;
 #endif
-    if(strlen(a->checkcode)<3)//IotDev
+    log_debug("%s",a->checkcode);
+    if(strstr(a->checkcode,"te"))//IotDev
     {
         IoTtalk(a);
     }

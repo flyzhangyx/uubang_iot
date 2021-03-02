@@ -10,13 +10,14 @@ int ReadOrDeleteUserScene(CLN *a,char* UserId,int CmdGroupId,int del)
                 "'AND `userscenecmd`.`fromUserId` = '",
                 FindRegisterUserOrIotNode(0,UserId,0)->USERKEY_ID,
                 "'");
-                mysql_master_connect_ping();
-        mysql_master_connect_ping();
-        if(mysql_real_query(&mysql,dele,strlen(dele)))
+        SQL_NODE *temmp=get_db_connect(MySqlConnPool); MYSQL *mysql=&(temmp->fd);
+        if(mysql_real_query(mysql,dele,strlen(dele)))
         {
-            log_error("MySQL ERR(DEL SCENE CMD) :%s",mysql_error(&mysql));
+            log_error("MySQL ERR(DEL SCENE CMD) :%s",mysql_error(mysql));
+            release_node(MySqlConnPool, temmp);
             return 0;
         }
+        release_node(MySqlConnPool, temmp);
         return 1;
     }
     else
@@ -28,13 +29,14 @@ int ReadOrDeleteUserScene(CLN *a,char* UserId,int CmdGroupId,int del)
         MYSQL_RES *res;
         MYSQL_ROW row;
         sprintf(find, "%s%d", "SELECT * FROM `userscenecmd` WHERE `fromUserId` = ", FindRegisterUserOrIotNode(0,UserId,0)->USERKEY_ID);
-        mysql_master_connect_ping();
-        if (mysql_real_query(&mysql, find, strlen(find)))//No
+        SQL_NODE *temmp=get_db_connect(MySqlConnPool); MYSQL *mysql=&(temmp->fd);
+        if (mysql_real_query(mysql, find, strlen(find)))//No
         {
-            log_error(" SQL ERR (REQ USER SCENE):%s",mysql_error(&mysql));
+            log_error(" SQL ERR (REQ USER SCENE):%s",mysql_error(mysql));
+            release_node(MySqlConnPool, temmp);
             return 0;
         }
-        res = mysql_store_result(&mysql);
+        res = mysql_store_result(mysql);
         while ((row = mysql_fetch_row(res)))
         {
             memset(&RecDataStruct,0,sizeof(UserPacketInterface));
@@ -43,6 +45,7 @@ int ReadOrDeleteUserScene(CLN *a,char* UserId,int CmdGroupId,int del)
             if(Temp==NULL)
             {
                 mysql_free_result(res);
+                release_node(MySqlConnPool, temmp);
                 return 0;
             }
             strcpy(RecDataStruct.checkcode,"SCENE DATA");
@@ -55,11 +58,13 @@ int ReadOrDeleteUserScene(CLN *a,char* UserId,int CmdGroupId,int del)
             if(len==SOCKET_ERROR||len==0)
             {
                 closesocket(a->remote_socket);
+                release_node(MySqlConnPool, temmp);
                 mysql_free_result(res);
                 return 0;
             }
         }
         mysql_free_result(res);
+        release_node(MySqlConnPool, temmp);
         return 1;
     }
 }

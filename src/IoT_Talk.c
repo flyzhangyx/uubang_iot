@@ -1,7 +1,7 @@
 #include"../head/SERVER.h"
 int IoTtalk(CLN* b)
 {
-
+    log_debug("%s",GetUpdateTimeStamp(0,3,NULL));
 }
 /*
 char *timenow;

@@ -12,6 +12,7 @@ int initServer(int port)
     strcpy(SIGN_OUT,"SO");//注销登录码
     strcpy(REPWD,"RP");
     ///FIll the Three CHAR full With A ：TA + A = TAA
+#ifdef HASH_CODE
     CHECK_HASH = DJBHash("ZYX",3);///应用进入时登陆检测是否已经注册
     log_info("ZYX%d",CHECK_HASH);
     SIGN_IN_HASH = DJBHash("SIA",3);///登陆码
@@ -40,6 +41,7 @@ int initServer(int port)
     log_info("PIN%d",PINREQ_HASH);
     IOTCFM_HASH = DJBHash("IOC",3);
     log_info("IOC%d",IOTCFM_HASH);
+#endif // HASH_CODE
     ///***********socket初始化***********************
     WSADATA wsaData;
     while(1)
@@ -80,10 +82,24 @@ int initServer(int port)
         perror("bind");
         return -1;
     }
-    MySqlInit();///MySQL INIT
-
-
-
+    ///**********Init Thread Pool************///
+#ifdef STPOOL
+    long eCAPs = eCAP_F_DYNAMIC|eCAP_F_ROUTINE|eCAP_F_TASK_WAIT_ALL;
+    /** 创建线程池 */
+    ThreadPool = stpool_create("mypool", /** 线程池名                      */
+                               eCAPs,    /** 期望libstpool提供的的功能特性 */
+                               10,	   /** 线程池中运行的最大线程数目    */
+                               5,	   /** 预启动提供服务的的线程数目    */
+                               0,	   /** 保持线程池创建后调度任务状态  */
+                               1		   /** 优先级队列数目                */
+                              );
+    log_info("ThreadPool Init Success!");
+    MySqlConnPool=sql_pool_create(20);
+    log_info("MySQLConnPoll Init Success!");
+    /**********************************/
+#else
+    ThreadPool = libThreadPool_Init(10,30,60);
+#endif
     ///*******在线用户链表头初始化********
     do
     {
@@ -101,7 +117,7 @@ int initServer(int port)
     pthread_mutex_init(&(onlineIotHead->mute),NULL);
     ///LogFile
     loginfo=fopen("Loginfo.info","a+");
-      //获取终端当前默认颜色，用于后续所有打印的默认颜色配置
+    //获取终端当前默认颜色，用于后续所有打印的默认颜色配置
     HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_SCREEN_BUFFER_INFO csbiInfo;
     GetConsoleScreenBufferInfo(h, &csbiInfo);
@@ -129,13 +145,15 @@ int initServer(int port)
     MYSQL_RES *res;
     MYSQL_ROW row;
     sprintf(query, "%s", head);
-    mysql_master_connect_ping();
-    if (mysql_real_query(&mysql, query, strlen(query)))
+    SQL_NODE *temmp=get_db_connect(MySqlConnPool);
+    MYSQL *mysql=&(temmp->fd);
+    if (mysql_real_query(mysql, query, strlen(query)))
     {
-        log_error("Failed to Get UserInfo: %s", mysql_error(&mysql));
+        release_node(MySqlConnPool, temmp);
+        log_error("Failed to Get UserInfo: %s", mysql_error(mysql));
         return -1;
     }
-    res = mysql_store_result(&mysql);
+    res = mysql_store_result(mysql);
     while ((row = mysql_fetch_row(res)))
     {
         strcpy(a.USERID,row[1]);
@@ -150,13 +168,13 @@ int initServer(int port)
     sprintf(query, "%s", head_iot);
     MYSQL_RES *res_iot;
     MYSQL_ROW row_iot;
-    mysql_master_connect_ping();
-    if (mysql_real_query(&mysql, query, strlen(query)))
+    if (mysql_real_query(mysql, query, strlen(query)))
     {
-        log_error("Failed to Get IotInfo: %s", mysql_error(&mysql));
+        release_node(MySqlConnPool, temmp);
+        log_error("Failed to Get IotInfo: %s", mysql_error(mysql));
         return -1;
     }
-    res_iot = mysql_store_result(&mysql);
+    res_iot = mysql_store_result(mysql);
     while ((row_iot = mysql_fetch_row(res_iot)))
     {
         strcpy(a.USERID,row_iot[1]);
@@ -169,6 +187,7 @@ int initServer(int port)
     mysql_free_result(res_iot);
     log_info("Local Database IotDevices Get %d",RegistedIotHead->OnlineUserNum);
     log_info("Local Database Users Get %d",RegistedUserHead->OnlineUserNum);
+    release_node(MySqlConnPool, temmp);
     FILE* updversion=fopen("update","r");
     if(updversion)
     {

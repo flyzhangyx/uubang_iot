@@ -16,11 +16,13 @@ int NewIotCmdToBeExecute(CLN *a,char *cmd,int Devclass,int status,char * TimeToB
             "','",
              TimeToBeExe,
              "', '0')");
-    mysql_master_connect_ping();
-    if(mysql_real_query(&mysql,insert,strlen(insert)))
+    SQL_NODE *temmp=get_db_connect(MySqlConnPool); MYSQL *mysql=&(temmp->fd);
+    if(mysql_real_query(mysql,insert,strlen(insert)))
     {
-        log_error("MySQL ERR :%s",mysql_error(&mysql));
+        log_error("MySQL ERR :%s",mysql_error(mysql));
+        release_node(MySqlConnPool, temmp);
         return 0;
     }
+    release_node(MySqlConnPool, temmp);
     return 1;
 }

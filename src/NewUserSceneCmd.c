@@ -20,11 +20,14 @@ int NewUserSceneCmdStore(CLN *a,char *Cmd,int status,int devclass,int cmdGropu,c
             "', '",
             a->USERKEY_ID,
             "')");
-    mysql_master_connect_ping();
-    if(mysql_real_query(&mysql,insert,strlen(insert)))
+    SQL_NODE *temmp=get_db_connect(MySqlConnPool);
+    MYSQL *mysql=&(temmp->fd);
+    if(mysql_real_query(mysql,insert,strlen(insert)))
     {
-        log_error("MySQL ERR (NEW USER SCENE):%s",mysql_error(&mysql));
+        log_error("MySQL ERR (NEW USER SCENE):%s",mysql_error(mysql));
+        release_node(MySqlConnPool, temmp);
         return 0;
     }
+    release_node(MySqlConnPool, temmp);
     return 1;
 }

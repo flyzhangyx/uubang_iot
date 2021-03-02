@@ -22,12 +22,14 @@ int NewUserIot(CLN *a,int iotId)
             iotId,
             "', ",
             "CURRENT_TIMESTAMP)");
-    mysql_master_connect_ping();
-    if(mysql_real_query(&mysql,insert,strlen(insert)))
+    SQL_NODE *temmp=get_db_connect(MySqlConnPool); MYSQL *mysql=&(temmp->fd);
+    if(mysql_real_query(mysql,insert,strlen(insert)))
     {
-        log_error("MySQL ERR (USER IOT):%s",mysql_error(&mysql));
+        log_error("MySQL ERR (USER IOT):%s",mysql_error(mysql));
+        release_node(MySqlConnPool, temmp);
         return 0;
     }
     UpdateSqlInfoTimestamp(a->USERKEY_ID,2,0);
+    release_node(MySqlConnPool, temmp);
     return 1;
 }
