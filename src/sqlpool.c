@@ -20,11 +20,6 @@ SQL_CONN_POOL *sql_pool_create(int connect_pool_number)
     sp->shutdown    = 0; //开启连接池
     sp->pool_number = 0;
     sp->busy_number = 0;
-    strcpy(sp->ip,"");
-    sp->port = 3306;
-    strcpy(sp->db_name, "");
-    strcpy(sp->user, "");
-    strcpy(sp->passwd, "");
 
     /*创建连接*/
     if (connect_pool_number > POOL_MAX_NUMBER)

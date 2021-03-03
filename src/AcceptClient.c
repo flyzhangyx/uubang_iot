@@ -33,6 +33,7 @@ int AcceptClient()
         int RemoteLen = sizeof(struct sockaddr_in);
         CONNHANDLE->info[1] = 'N';
         CONNHANDLE->info[0] = 'N';
+        CONNHANDLE->info[2] = 0;
         pthread_mutex_init(&(CONNHANDLE->t),NULL);
         CONNHANDLE->remote_socket = accept(server_sockfd, (struct sockaddr*)&(CONNHANDLE->ADDR), &RemoteLen);
         if(SOCKET_ERROR == CONNHANDLE->remote_socket) 	// 接收客户端失败

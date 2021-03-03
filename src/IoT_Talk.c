@@ -1,7 +1,15 @@
 #include"../head/SERVER.h"
 int IoTtalk(CLN* b)
 {
-    GetUpdateTimeStamp(1,1,NULL);
+    static int flag =0;
+    //GetUpdateTimeStamp(1,1,NULL);
+    flag++;
+    if(flag%1000==0)
+    {
+        log_info("TASKRANK:%d",(int)b->info[2]);
+        flag=0;
+    }
+    Sleep(100);
     return 1;
 }
 /*

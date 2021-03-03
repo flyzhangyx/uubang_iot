@@ -17,6 +17,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
     while(1)
     {
         CONNHANDLE = NULL;
+        lpOverlapped = NULL;
         if(!GetQueuedCompletionStatus(CompletionPort, &BytesTransferred, (PULONG_PTR)&CONNHANDLE, (LPOVERLAPPED*)&lpOverlapped, INFINITE))
         {
             DWORD dwErr = GetLastError();
@@ -63,19 +64,25 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
             if(0 == BytesTransferred||BytesTransferred>721)
             {
                 //log_error("%d Byte Received",(int)BytesTransferred);
+                closesocket(CONNHANDLE->remote_socket);
                 if(CONNHANDLE!=NULL)//Continue to receiving data
                 {
-                    if(!pthread_mutex_trylock(&(CONNHANDLE->t)))
+                    //!pthread_mutex_trylock(&(CONNHANDLE->t))&&
+                    if((CONNHANDLE->info[2]==0))
                     {
-                        log_info("release %ld",CONNHANDLE->remote_socket);
+                        log_error("%d",CONNHANDLE->info[2]);
+                        static int num=0;
+                        //log_info("release %I64d : %d",CONNHANDLE->remote_socket,++num);
                         closesocket(CONNHANDLE->remote_socket);
-                        pthread_mutex_unlock(&(CONNHANDLE->t));
-                        pthread_mutex_destroy(&(CONNHANDLE->t));
+//                        pthread_mutex_unlock(&(CONNHANDLE->t));
+//                        pthread_mutex_destroy(&(CONNHANDLE->t));
                         free(CONNHANDLE);
+                        CONNHANDLE=NULL;
                         if(lpOverlapped!=NULL)
                         {
                             PerIoData = (LPPER_IO_DATA)CONTAINING_RECORD(lpOverlapped, PER_IO_DATA, overlapped);
                             free(PerIoData);//free source
+                            PerIoData=NULL;
                         }
                     }
                     else
@@ -95,6 +102,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                         log_error("CONN NULL");
                         PerIoData = (LPPER_IO_DATA)CONTAINING_RECORD(lpOverlapped, PER_IO_DATA, overlapped);
                         free(PerIoData);
+                        PerIoData=NULL;
                     }
                 }
                 continue;
@@ -141,11 +149,18 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                     }
                     continue;
                 }
+                if(CONNHANDLE->info[2]<100)
+                {
+                    CONNHANDLE->info[2]++;//Task num ++
 #ifdef STPOOL
-                stpool_add_routine(ThreadPool,"IN",(void*)(struct sttask*)talk,task_err_handler,CONNHANDLE,NULL);
+                    stpool_add_routine(ThreadPool,"IN",(void*)(struct sttask*)talk,task_err_handler,CONNHANDLE,NULL);
 #else
-                libThreadPool_TaskAdd(ThreadPool, talk, (void*)CONNHANDLE);//put into task queue
+                    libThreadPool_TaskAdd(ThreadPool, talk, (void*)CONNHANDLE);//put into task queue
 #endif
+                }
+                else
+                    send(CONNHANDLE->remote_socket,"OOM",4,0);//OUTOFMEM
+
                 memset(&(PerIoData->overlapped), 0,sizeof(OVERLAPPED)); //
                 PerIoData->WSADATABUF.len = sizeof(UserPacketInterface);
                 PerIoData->WSADATABUF.buf = PerIoData->RECBUFFER;

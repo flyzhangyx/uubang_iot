@@ -5,7 +5,7 @@
 #define DBNAME_LEN  64
 #define DBUSER_LEN  64
 #define PASSWD_LEN  64
-#define POOL_MAX_NUMBER 20
+#define POOL_MAX_NUMBER 30
 
 
 typedef struct _SQL_NODE SQL_NODE;                /*连接节点*/
@@ -30,11 +30,6 @@ int        shutdown;                   /*是否关闭*/
 SQL_NODE   sql_pool[POOL_MAX_NUMBER];  /* 一堆连接 */
 int        pool_number;                /* 连接数量 */
 int        busy_number;                /*被获取了的连接数量*/
-char       ip[IP_LEN+1];               /* 数据库的ip */
-int        port;                       /* 数据库的port,一般是3306 */
-char       db_name[DBNAME_LEN+1];      /* 数据库的名字 */
-char       user[DBUSER_LEN+1];         /* 用户名 */
-char       passwd[PASSWD_LEN+1];       /* 密码 */
 }SQL_CONN_POOL;
 
 /*创建连接池*/
