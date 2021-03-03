@@ -88,13 +88,13 @@ int initServer(int port)
     /** 创建线程池 */
     ThreadPool = stpool_create("mypool", /** 线程池名                      */
                                eCAPs,    /** 期望libstpool提供的的功能特性 */
-                               10,	   /** 线程池中运行的最大线程数目    */
-                               5,	   /** 预启动提供服务的的线程数目    */
+                               20,	   /** 线程池中运行的最大线程数目    */
+                               10,	   /** 预启动提供服务的的线程数目    */
                                0,	   /** 保持线程池创建后调度任务状态  */
                                1		   /** 优先级队列数目                */
                               );
     log_info("ThreadPool Init Success!");
-    MySqlConnPool=sql_pool_create(20);
+    MySqlConnPool=sql_pool_create(30);
     log_info("MySQLConnPoll Init Success!");
     /**********************************/
 #else
@@ -116,7 +116,7 @@ int initServer(int port)
     onlineIotHead->next=NULL;
     pthread_mutex_init(&(onlineIotHead->mute),NULL);
     ///LogFile
-    loginfo=fopen("Loginfo.info","a+");
+    loginfo=fopen("iotServer.log","a+");
     //获取终端当前默认颜色，用于后续所有打印的默认颜色配置
     HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_SCREEN_BUFFER_INFO csbiInfo;

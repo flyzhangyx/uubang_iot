@@ -1,7 +1,12 @@
 #include"../head/SERVER.h"
 int IoTtalk(CLN* b)
 {
-    log_debug("%s",GetUpdateTimeStamp(0,3,NULL));
+    //log_debug("%s",GetUpdateTimeStamp(0,3,NULL));
+    sprintf(b->data,"%s","test");
+    b->USERKEY_ID = 1;
+    //log_info("T:%d",NewUserMsgStorage(b,2));
+    log_info("1");
+    return 1;
 }
 /*
 char *timenow;

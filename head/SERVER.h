@@ -16,11 +16,9 @@
 #include "sqlpool.h"
 #define msleep Sleep
 #define BUFSIZE 512
-#define LOG 1
 //封装带颜色打印接口
-#if defined(PRINT_LOG)
-    #ifdef DEBUG_PRINT
-        #define log_debug(format, args...)     do{ SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_GREEN);\
+#ifdef DEBUG_PRINT
+    #define log_debug(format, args...)     do{ SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_GREEN);\
                                             time_t now_time;\
                                             time(&now_time);\
                                             char time_now[50];\
@@ -29,13 +27,13 @@
                                             char log[1000];\
                                             sprintf(log,"[%s][DBG][%s:%d] " #format "\n", time_now,__func__,__LINE__,##args);\
                                             logwrite(log);\
-                                            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), g_default_color);}while(0)
-    #else
-        #define log_debug(format, args...) //Nothing
-    #endif // DEBUG_PRINT
+                                            }while(0)
+#else
+#define log_debug(format, args...) //Nothing
+#endif // DEBUG_PRINT
 
-    #ifdef INFO_PRINT
-        #define log_info(format, args...)       do{ SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_BLUE|BACKGROUND_RED|BACKGROUND_GREEN);\
+#ifdef INFO_PRINT
+#define log_info(format, args...)       do{ SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_BLUE|BACKGROUND_RED|BACKGROUND_GREEN);\
                                             time_t now_time;\
                                             time(&now_time);\
                                             char time_now[50];\
@@ -44,12 +42,12 @@
                                             char log[1000];\
                                             sprintf(log,"[%s][INF][%s:%d] " #format "\n", time_now,__func__,__LINE__,##args);\
                                             logwrite(log);\
-                                            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), g_default_color); }while(0)
-    #else
-        #define log_info(format, args...)
-    #endif // INFO_PRINT
+                                            }while(0)
+#else
+#define log_info(format, args...)
+#endif // INFO_PRINT
 
-    #define log_error(format, args...)       do{ SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_RED);\
+#define log_error(format, args...)       do{ SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_RED);\
                                             time_t now_time;\
                                             time(&now_time);\
                                             char time_now[50];\
@@ -58,12 +56,8 @@
                                             char log[1000];\
                                             sprintf(log,"[%s][ERR][%s:%d] " #format "\n", time_now,__func__,__LINE__,##args);\
                                             logwrite(log);\
-                                            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), g_default_color); }while(0)
-#else
-#define log_debug(format, args...)
-#define log_info(format, args...)
-#define log_error(format, args...)
-#endif // PRINT_LOG
+                                            }while(0)
+//SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), g_default_color);
 ///**************在线用户节点****************
 struct user
 {
@@ -127,6 +121,7 @@ typedef struct
     char info[100];//[0]是否注销登录,N_Y;
     char Pin[7];
     RSAKey key;
+    pthread_mutex_t t;
 } CLN;
 typedef struct
 {
@@ -135,7 +130,7 @@ typedef struct
     char RECBUFFER[sizeof(UserPacketInterface) ];
     int BufferLen;
     int OpCode;
-} PER_IO_OPERATEION_DATA, *LPPER_IO_OPERATION_DATA, *LPPER_IO_DATA, PER_IO_DATA;
+} *LPPER_IO_DATA, PER_IO_DATA;
 
 typedef struct
 {
@@ -143,6 +138,7 @@ typedef struct
     char SeqNum[2];
     char payLoad[100];//Max
 } IotPacketInterface;
+
 ///*****************************
 ///*******函数声明**************
 #ifdef STPOOL
@@ -213,6 +209,8 @@ int Initialize();
 int GetCPUUseRate();
 void StartCheckUserScene();
 int GetRamUse();
+int addConnMemWait4Free(CLN* Conn,LPPER_IO_DATA PerIoData);
+void freeConnMemWait4Free();
 ///*****************************
 ///***************各类标志码**********************
 char CHECK[3];///应用进入时登陆检测是否已经注册

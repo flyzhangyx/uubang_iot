@@ -32,24 +32,27 @@ int AcceptClient()
         memset(CONNHANDLE,0,sizeof(CLN));
         int RemoteLen = sizeof(struct sockaddr_in);
         CONNHANDLE->info[1] = 'N';
+        CONNHANDLE->info[0] = 'N';
+        pthread_mutex_init(&(CONNHANDLE->t),NULL);
         CONNHANDLE->remote_socket = accept(server_sockfd, (struct sockaddr*)&(CONNHANDLE->ADDR), &RemoteLen);
         if(SOCKET_ERROR == CONNHANDLE->remote_socket) 	// 接收客户端失败
         {
             log_error("Accept Socket Error" );
+            pthread_mutex_destroy(&(CONNHANDLE->t));
             free(CONNHANDLE);
-            system("pause");
             continue;
         }
         CreateIoCompletionPort((HANDLE)(CONNHANDLE ->remote_socket), completionPort, (ULONG_PTR)CONNHANDLE, 0);//Create relation between CONNHANDLE and COmpletionPort
-        LPPER_IO_OPERATION_DATA PerIoData = (LPPER_IO_OPERATION_DATA)malloc(sizeof(PER_IO_OPERATEION_DATA));//Per IO operation exchange data use this struct,put it in the WSARecv func to Rec something
+        LPPER_IO_DATA PerIoData = (LPPER_IO_DATA)malloc(sizeof(PER_IO_DATA));//Per IO operation exchange data use this struct,put it in the WSARecv func to Rec something
         if(PerIoData==NULL)
         {
             closesocket(CONNHANDLE ->remote_socket);
+            pthread_mutex_destroy(&(CONNHANDLE->t));
             free(CONNHANDLE);
             log_error("Malloc PerIOData Fail");
             continue;
         }
-        memset(PerIoData,0, sizeof(PER_IO_OPERATEION_DATA));
+        memset(PerIoData,0, sizeof(PER_IO_DATA));
         memset(&(PerIoData -> overlapped),0, sizeof(OVERLAPPED));
         PerIoData->WSADATABUF.len = sizeof(UserPacketInterface);
         PerIoData->WSADATABUF.buf = PerIoData->RECBUFFER;

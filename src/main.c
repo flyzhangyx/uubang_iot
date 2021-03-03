@@ -28,7 +28,7 @@ int main(int argc,char**argv)
     ReadOrDeleteUserScene(&a,"tvVmreNKu8R",2,1);
     ///88888888888888888888888888888888888888888888888888
     AcceptClient();
-    close(loginfo);
+    fclose(loginfo);
     pthread_mutex_destroy(&(RegistedIotHead->mute));
     pthread_mutex_destroy(&(RegistedUserHead->mute));
     pthread_mutex_destroy(&(onlineIotHead->mute));

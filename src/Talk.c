@@ -10,17 +10,25 @@ int talk(LPVOID b)
 #ifdef STPOOL
     if(ptask->task_arg==NULL)
     {
-        log_info("ERR");
+        log_error("ERR");
         return 0;
     }
     CLN* a=(CLN*)ptask->task_arg;
 #else
     CLN* a = (CLN*)b;
 #endif
+    if(pthread_mutex_trylock(&(a->t))!=0)//Lock
+    {
+        log_error("CONN FREE BEFORE EXCUTE");
+        return 0;
+    }
     log_debug("%s",a->checkcode);
     if(strstr(a->checkcode,"te"))//IotDev
     {
         IoTtalk(a);
+        pthread_mutex_unlock(&(a->t));
+        free(a);
+        return 0;
     }
     char logcat[256]="";
     UserPacketInterface SendDataStruct;
@@ -59,6 +67,7 @@ int talk(LPVOID b)
         if (len == SOCKET_ERROR || len == 0)
         {
             closesocket(c);
+            pthread_mutex_unlock(&(a->t));
             return 0;
         }
     }
@@ -78,6 +87,7 @@ int talk(LPVOID b)
         {
             log_info("连接%I64d退出",c);
             closesocket(c);
+            pthread_mutex_unlock(&(a->t));
             return 0;
         }
     }
@@ -113,6 +123,7 @@ int talk(LPVOID b)
         {
             log_info("连接%I64d退出",c);
             closesocket(c);
+            pthread_mutex_unlock(&(a->t));
             return 0;
         }
     }
@@ -137,6 +148,7 @@ int talk(LPVOID b)
             if (len == SOCKET_ERROR || len == 0)
             {
                 closesocket(c);
+                pthread_mutex_unlock(&(a->t));
                 return 0;
             }
         }
@@ -151,6 +163,7 @@ int talk(LPVOID b)
             if (len == SOCKET_ERROR || len == 0)
             {
                 closesocket(c);
+                pthread_mutex_unlock(&(a->t));
                 return 0;
             }
         }
@@ -172,6 +185,7 @@ int talk(LPVOID b)
             if (len == SOCKET_ERROR || len == 0)
             {
                 closesocket(c);
+                pthread_mutex_unlock(&(a->t));
                 return 0;
             }
         }
@@ -190,6 +204,7 @@ int talk(LPVOID b)
             if (len == SOCKET_ERROR || len == 0)
             {
                 closesocket(c);
+                pthread_mutex_unlock(&(a->t));
                 return 0;
             }
         }
@@ -204,6 +219,7 @@ int talk(LPVOID b)
             if (len == SOCKET_ERROR || len == 0)
             {
                 closesocket(c);
+                pthread_mutex_unlock(&(a->t));
                 return 0;
             }
         }
@@ -220,6 +236,7 @@ int talk(LPVOID b)
         USER find = FindRegisterUserOrIotNode(0, a->TalktoID, 0);
         if (find == NULL)
         {
+            pthread_mutex_unlock(&(a->t));
             return 0;
         }
         NewUserMsgStorage(a, find->USERKEY_ID);
@@ -232,6 +249,7 @@ int talk(LPVOID b)
         if (len == SOCKET_ERROR || len == 0)
         {
             closesocket(c);
+            pthread_mutex_unlock(&(a->t));
             return 0;
         }
     }
@@ -247,6 +265,7 @@ int talk(LPVOID b)
         if (len == SOCKET_ERROR || len == 0)
         {
             closesocket(c);
+            pthread_mutex_unlock(&(a->t));
             return 0;
         }
         delete_out_user(a);
@@ -270,6 +289,7 @@ int talk(LPVOID b)
         USER find = FindRegisterUserOrIotNode(0, a->TalktoID, 0);
         if (find == NULL)
         {
+            pthread_mutex_unlock(&(a->t));
             return 0;
         }
         NewUserMsgStorage(a, find->USERKEY_ID);
@@ -282,6 +302,7 @@ int talk(LPVOID b)
         if (len == SOCKET_ERROR || len == 0)
         {
             closesocket(c);
+            pthread_mutex_unlock(&(a->t));
             return 0;
         }
     }
@@ -306,6 +327,7 @@ int talk(LPVOID b)
         if (len == SOCKET_ERROR || len == 0)
         {
             closesocket(c);
+            pthread_mutex_unlock(&(a->t));
             return 0;
         }
     }
@@ -345,6 +367,7 @@ int talk(LPVOID b)
             if (len == SOCKET_ERROR || len == 0)
             {
                 closesocket(c);
+                pthread_mutex_unlock(&(a->t));
                 return 0;
             }
         }
@@ -359,6 +382,7 @@ int talk(LPVOID b)
             if (len == SOCKET_ERROR || len == 0)
             {
                 closesocket(c);
+                pthread_mutex_unlock(&(a->t));
                 return 0;
             }
         }
@@ -367,5 +391,6 @@ int talk(LPVOID b)
     default:
         break;
     }
+    pthread_mutex_unlock(&(a->t));
     return 1;
 }

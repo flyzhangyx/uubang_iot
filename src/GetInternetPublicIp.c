@@ -4,8 +4,7 @@ void getNetIp(char *ip)
     int flag=0;
     SOCKET sock=socket(AF_INET,SOCK_STREAM,0);;
     char **pptr=NULL;
-    struct hostent    *ptr = NULL;
-    char destIP[128];
+    struct hostent *ptr = NULL;
     ptr = gethostbyname("www.flyzhangyx.com");
     if(NULL == ptr)
     {
@@ -14,9 +13,10 @@ void getNetIp(char *ip)
     }
     for(flag=0,pptr=ptr->h_addr_list ; NULL != *pptr ; ++pptr)
     {
-        inet_ntop(ptr->h_addrtype,*pptr,destIP,sizeof(destIP));
+        struct in_addr myaddr;
+        memcpy(&myaddr.s_addr,*pptr,strlen(*pptr)+1);
         SOCKADDR_IN hostAddr;
-        hostAddr.sin_addr.S_un.S_addr = inet_addr(destIP);
+        hostAddr.sin_addr.S_un.S_addr = inet_addr(inet_ntoa(myaddr));
         hostAddr.sin_family = AF_INET;
         hostAddr.sin_port = htons(81);
         //连接服务器

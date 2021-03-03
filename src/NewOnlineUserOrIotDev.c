@@ -34,7 +34,7 @@ int newOnlineUserOrIotDev(CLN *a)
         newuser->next=onlineUserHead->next;
         strcpy(newuser->info,a->info);
         onlineUserHead->next=newuser;
-         pthread_mutex_unlock(&(onlineUserHead->mute));
+        pthread_mutex_unlock(&(onlineUserHead->mute));
         onlineUserHead->OnlineUserNum++;
     }
     return 1;
