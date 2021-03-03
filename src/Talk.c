@@ -27,7 +27,6 @@ int talk(LPVOID b)
     {
         IoTtalk(a);
         pthread_mutex_unlock(&(a->t));
-        free(a);
         return 0;
     }
     char logcat[256]="";

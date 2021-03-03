@@ -17,7 +17,8 @@ int NewUserMsgStorage(CLN *a,int ToId)
             a->data,
             "', ",
             "CURRENT_TIMESTAMP)");
-    SQL_NODE *temmp=get_db_connect(MySqlConnPool); MYSQL *mysql=&(temmp->fd);
+    SQL_NODE *temmp=get_db_connect(MySqlConnPool);
+    MYSQL *mysql=&(temmp->fd);
     if (mysql_real_query(mysql, insert, strlen(insert)))
     {
         log_error("SQL ERR (INSERT MSG):%s",mysql_error(mysql));

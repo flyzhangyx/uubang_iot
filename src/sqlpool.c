@@ -33,7 +33,7 @@ SQL_CONN_POOL *sql_pool_create(int connect_pool_number)
     for (int index=0; index < connect_pool_number; index++)
     {
         //创建失败
-        if (!create_db_connect(sp, &sp->sql_pool[index]))
+        if (!create_db_connect(sp, &(sp->sql_pool[index])))
         {
             //销毁连接池
             sql_pool_destroy(sp);
@@ -44,7 +44,6 @@ SQL_CONN_POOL *sql_pool_create(int connect_pool_number)
         sp->pool_number++;
         //log_debug("create database pool connect:-%d-.\n",sp->sql_pool[index].index);
     }
-
     return sp;
 }
 /*节点创建连接*/
@@ -56,7 +55,7 @@ int create_db_connect(SQL_CONN_POOL *sp, SQL_NODE *node)
     {
         if (sp->shutdown == 1)
             return -1;
-        /*加锁*/
+        /*init锁*/
         pthread_mutex_init(&node->lock, NULL);
 
         /*初始化mysql对象*/
@@ -70,10 +69,10 @@ int create_db_connect(SQL_CONN_POOL *sp, SQL_NODE *node)
         node->used = 0;
         node->sql_state = DB_CONN;
         //设置自动连接开启
-        mysql_options(&node->fd, MYSQL_OPT_RECONNECT, &opt);
+        mysql_options(&(node->fd), MYSQL_OPT_RECONNECT, &opt);
         opt = 3;
         //设置连接超时时间为3s，3s未连接成功则超时
-        mysql_options(&node->fd, MYSQL_OPT_CONNECT_TIMEOUT, &opt);
+        mysql_options(&(node->fd), MYSQL_OPT_CONNECT_TIMEOUT, &opt);
         res = 1;
     }
     while(0);
@@ -105,15 +104,13 @@ SQL_NODE *get_db_connect(SQL_CONN_POOL *sp)
 
     if (sp->shutdown == 1)
         return NULL;
-
-    srand((int)time(0)); //根据当前时间生成随机数
     start_index = rand() % sp->pool_number; //访问的开始地址
 
     for (i=0; i < sp->pool_number; i++)
     {
         index = (start_index + i) % sp->pool_number;
 
-        if (!pthread_mutex_trylock(&sp->sql_pool[index].lock))
+        if (!pthread_mutex_trylock(&(sp->sql_pool[index].lock)))
         {
             if (DB_DISCONN == sp->sql_pool[index].sql_state)
             {
@@ -150,7 +147,6 @@ SQL_NODE *get_db_connect(SQL_CONN_POOL *sp)
     {
         return &(sp->sql_pool[index]);
     }
-
 }
 /*归回连接*/
 void release_node(SQL_CONN_POOL *sp, SQL_NODE *node)

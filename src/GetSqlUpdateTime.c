@@ -6,18 +6,32 @@ char* GetUpdateTimeStamp(int UserId,int index,char *ret_row)
     MYSQL_RES *res;
     MYSQL_ROW row;
     sprintf(find, "%s%d", "SELECT * FROM `iotserverinfo` WHERE `userId` = ", UserId);
-    SQL_NODE *temmp=get_db_connect(MySqlConnPool); MYSQL *mysql=&(temmp->fd);
-    if (mysql_real_query(mysql, find, strlen(find)))
+    SQL_NODE *temmp;
+    while((temmp=get_db_connect(MySqlConnPool))==NULL)
     {
-        log_error("SQL ERR (REQ IOTSERVER INFO):%s",mysql_error(mysql));
+        Sleep(50);
+        continue;
+    }
+
+    log_error("0x%x",(temmp->mysql_sock));
+    release_node(MySqlConnPool, temmp);
+    return NULL;
+    //
+
+    if (mysql_real_query(&(temmp->fd), find, strlen(find)+1))
+    {
+        log_error("SQL ERR (REQ IOTSERVER INFO):%s",mysql_error(&(temmp->fd)));
         release_node(MySqlConnPool, temmp);
         return 0;
     }
-    res = mysql_store_result(mysql);
+    res = mysql_store_result(&(temmp->fd));
     row = mysql_fetch_row(res);//only a record
     release_node(MySqlConnPool, temmp);
     mysql_free_result(res);
     if(ret_row!=NULL)
-    memcpy(ret_row,row[index],strlen(row[index])+1);
+    {
+        if(row[index]!=NULL);
+        memcpy(ret_row,row[index],strlen(row[index])+1);
+    }
     return row[index];
 }

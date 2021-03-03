@@ -67,7 +67,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                 {
                     if(!pthread_mutex_trylock(&(CONNHANDLE->t)))
                     {
-                        log_info("release");
+                        log_info("release %ld",CONNHANDLE->remote_socket);
                         closesocket(CONNHANDLE->remote_socket);
                         pthread_mutex_unlock(&(CONNHANDLE->t));
                         pthread_mutex_destroy(&(CONNHANDLE->t));
@@ -141,12 +141,10 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                     }
                     continue;
                 }
-                CLN* temp = (CLN*)malloc(sizeof(CLN));
-                memcpy(temp,CONNHANDLE,sizeof(CLN));
 #ifdef STPOOL
-                stpool_add_routine(ThreadPool,"IN",(void*)(struct sttask*)talk,task_err_handler,temp,NULL);
+                stpool_add_routine(ThreadPool,"IN",(void*)(struct sttask*)talk,task_err_handler,CONNHANDLE,NULL);
 #else
-                libThreadPool_TaskAdd(ThreadPool, talk, (void*)temp);//put into task queue
+                libThreadPool_TaskAdd(ThreadPool, talk, (void*)CONNHANDLE);//put into task queue
 #endif
                 memset(&(PerIoData->overlapped), 0,sizeof(OVERLAPPED)); //
                 PerIoData->WSADATABUF.len = sizeof(UserPacketInterface);
