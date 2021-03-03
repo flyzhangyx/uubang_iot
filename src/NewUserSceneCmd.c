@@ -20,7 +20,12 @@ int NewUserSceneCmdStore(CLN *a,char *Cmd,int status,int devclass,int cmdGropu,c
             "', '",
             a->USERKEY_ID,
             "')");
-    SQL_NODE *temmp=get_db_connect(MySqlConnPool);
+    SQL_NODE *temmp;
+    while((temmp=get_db_connect(MySqlConnPool))==NULL)
+    {
+        Sleep(50);
+        continue;
+    }
     MYSQL *mysql=&(temmp->fd);
     if(mysql_real_query(mysql,insert,strlen(insert)))
     {

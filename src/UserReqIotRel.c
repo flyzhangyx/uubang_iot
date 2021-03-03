@@ -9,7 +9,13 @@ int UserReqIotRel(CLN *a)
     MYSQL_RES *res;
     MYSQL_ROW row;
     sprintf(find, "%s%d", "SELECT * FROM `iotrelationship` WHERE `userId` = ", a->USERKEY_ID);
-    SQL_NODE *temmp=get_db_connect(MySqlConnPool); MYSQL *mysql=&(temmp->fd);
+    SQL_NODE *temmp;
+    while((temmp=get_db_connect(MySqlConnPool))==NULL)
+    {
+        Sleep(50);
+        continue;
+    }
+    MYSQL *mysql=&(temmp->fd);
     if (mysql_real_query(mysql, find, strlen(find)))//No devices bonded
     {
         log_error(" SQL ERR (REQIOTREL):%s",mysql_error(mysql));

@@ -30,7 +30,13 @@ int IotUpdateStatus(CLN *a,int EvtClass,int status)
             a->USERKEY_ID,
             " AND `iotevtcache`.`evtClass` =  ",
             EvtClass);
-    SQL_NODE *temmp=get_db_connect(MySqlConnPool); MYSQL *mysql=&(temmp->fd);
+    SQL_NODE *temmp;
+    while((temmp=get_db_connect(MySqlConnPool))==NULL)
+    {
+        Sleep(50);
+        continue;
+    }
+    MYSQL *mysql=&(temmp->fd);
     if(mysql_real_query(mysql,insert,strlen(insert)))
     {
         if(strstr(mysql_error(mysql),"Duplicate")==NULL)
@@ -41,7 +47,13 @@ int IotUpdateStatus(CLN *a,int EvtClass,int status)
         }
         else
         {
-            SQL_NODE *temmp=get_db_connect(MySqlConnPool); MYSQL *mysql=&(temmp->fd);
+            SQL_NODE *temmp;
+            while((temmp=get_db_connect(MySqlConnPool))==NULL)
+            {
+                Sleep(50);
+                continue;
+            }
+            MYSQL *mysql=&(temmp->fd);
             mysql_real_query(mysql,update,strlen(update));
             if(mysql_affected_rows(mysql)==0)
             {
@@ -56,7 +68,8 @@ int IotUpdateStatus(CLN *a,int EvtClass,int status)
             }
         }
     }
-    else{
+    else
+    {
         release_node(MySqlConnPool, temmp);
         return 1;
     }

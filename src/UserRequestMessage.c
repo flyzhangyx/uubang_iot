@@ -62,7 +62,12 @@ int UserRequestMessage(CLN *a,int Direction,char *DateFirst,char *DateLast,struc
         strcpy(RecDataStruct.TalktoID,a->USERID);
         strcpy(RecDataStruct.USERID,a->TalktoID);
     }
-    SQL_NODE *temmp=get_db_connect(MySqlConnPool);
+    SQL_NODE *temmp;
+    while((temmp=get_db_connect(MySqlConnPool))==NULL)
+    {
+        Sleep(50);
+        continue;
+    }
     MYSQL *mysql=&(temmp->fd);
     if (mysql_real_query(mysql, find, strlen(find)))
     {

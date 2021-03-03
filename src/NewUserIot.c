@@ -22,7 +22,13 @@ int NewUserIot(CLN *a,int iotId)
             iotId,
             "', ",
             "CURRENT_TIMESTAMP)");
-    SQL_NODE *temmp=get_db_connect(MySqlConnPool); MYSQL *mysql=&(temmp->fd);
+    SQL_NODE *temmp;
+    while((temmp=get_db_connect(MySqlConnPool))==NULL)
+    {
+        Sleep(50);
+        continue;
+    }
+    MYSQL *mysql=&(temmp->fd);
     if(mysql_real_query(mysql,insert,strlen(insert)))
     {
         log_error("MySQL ERR (USER IOT):%s",mysql_error(mysql));

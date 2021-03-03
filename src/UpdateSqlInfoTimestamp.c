@@ -33,7 +33,13 @@ int UpdateSqlInfoTimestamp(int UserId,int index,int flag)
                 ,UserId);
         break;
     }
-    SQL_NODE *temmp=get_db_connect(MySqlConnPool); MYSQL *mysql=&(temmp->fd);
+    SQL_NODE *temmp;
+    while((temmp=get_db_connect(MySqlConnPool))==NULL)
+    {
+        Sleep(50);
+        continue;
+    }
+    MYSQL *mysql=&(temmp->fd);
     if(mysql_real_query(mysql, update,strlen(update)))
     {
         log_error("MySQL ERR :%s",mysql_error(mysql));

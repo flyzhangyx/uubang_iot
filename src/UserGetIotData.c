@@ -7,7 +7,13 @@ int UserGetIotData(CLN *a)
     char sendbuf[sizeof(UserPacketInterface)]= {0};
     char find[100]="";
     sprintf(find,"%s%d","SELECT * FROM `iotevtcache` WHERE `iotId` =",FindRegisterUserOrIotNode(10,a->TalktoID,0)->USERKEY_ID);
-    SQL_NODE *temmp=get_db_connect(MySqlConnPool); MYSQL *mysql=&(temmp->fd);
+    SQL_NODE *temmp;
+    while((temmp=get_db_connect(MySqlConnPool))==NULL)
+    {
+        Sleep(50);
+        continue;
+    }
+    MYSQL *mysql=&(temmp->fd);
     if(mysql_real_query(mysql,find,strlen(find)))
     {
         release_node(MySqlConnPool, temmp);

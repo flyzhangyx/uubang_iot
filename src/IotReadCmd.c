@@ -10,7 +10,13 @@ int IotReadCmd(CLN *a,int Devclass,int del)
                 "'AND `class` = '",
                 Devclass,
                 "'");
-        SQL_NODE *temmp=get_db_connect(MySqlConnPool); MYSQL *mysql=&(temmp->fd);
+        SQL_NODE *temmp;
+        while((temmp=get_db_connect(MySqlConnPool))==NULL)
+        {
+            Sleep(50);
+            continue;
+        }
+        MYSQL *mysql=&(temmp->fd);
         if(mysql_real_query(mysql,read,strlen(read)))
         {
             log_error("MySQL ERR(IOT READ CMD) :%s",mysql_error(mysql));
@@ -22,15 +28,23 @@ int IotReadCmd(CLN *a,int Devclass,int del)
         row = mysql_fetch_row(res);
         sprintf(a->data,"%s|%s|%s|%s",row[2],row[3],row[4],row[5]);
         return 1;
-    }else{
+    }
+    else
+    {
         char del[200]="";
         sprintf(del,"%s%d%s%d%s",
                 "DELETE FROM `iotcmd` WHERE `iotcmd`.`iotid` = '",
-                 a->USERKEY_ID,
+                a->USERKEY_ID,
                 "'AND `iotcmd`.`class` = '",
-                 Devclass,
+                Devclass,
                 "'");
-        SQL_NODE *temmp=get_db_connect(MySqlConnPool); MYSQL *mysql=&(temmp->fd);
+        SQL_NODE *temmp;
+        while((temmp=get_db_connect(MySqlConnPool))==NULL)
+        {
+            Sleep(50);
+            continue;
+        }
+        MYSQL *mysql=&(temmp->fd);
         if(mysql_real_query(mysql,del,strlen(del)))
         {
             release_node(MySqlConnPool, temmp);

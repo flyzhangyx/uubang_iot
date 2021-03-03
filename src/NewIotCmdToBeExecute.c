@@ -14,9 +14,15 @@ int NewIotCmdToBeExecute(CLN *a,char *cmd,int Devclass,int status,char * TimeToB
             "', '",
             a->USERKEY_ID,
             "','",
-             TimeToBeExe,
-             "', '0')");
-    SQL_NODE *temmp=get_db_connect(MySqlConnPool); MYSQL *mysql=&(temmp->fd);
+            TimeToBeExe,
+            "', '0')");
+    SQL_NODE *temmp;
+    while((temmp=get_db_connect(MySqlConnPool))==NULL)
+    {
+        Sleep(50);
+        continue;
+    }
+    MYSQL *mysql=&(temmp->fd);
     if(mysql_real_query(mysql,insert,strlen(insert)))
     {
         log_error("MySQL ERR :%s",mysql_error(mysql));

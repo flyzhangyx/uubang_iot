@@ -8,10 +8,16 @@ int UpdateLocalRegUserAndIotlist()
             ,"SELECT * FROM `user` WHERE `id` > '"
             ,RegistedUserHead->next->USERKEY_ID
             ,"' ORDER BY `id` ASC"
-            );
+           );
     MYSQL_RES *res;
     MYSQL_ROW row;
-    SQL_NODE *temmp=get_db_connect(MySqlConnPool); MYSQL *mysql=&(temmp->fd);
+    SQL_NODE *temmp;
+    while((temmp=get_db_connect(MySqlConnPool))==NULL)
+    {
+        Sleep(50);
+        continue;
+    }
+    MYSQL *mysql=&(temmp->fd);
     if (mysql_real_query(mysql, query, strlen(query)))
     {
         log_error("Failed to Get NewlyUserInfo: %s", mysql_error(mysql));
@@ -37,7 +43,7 @@ int UpdateLocalRegUserAndIotlist()
             ,"SELECT * FROM `iotnode` WHERE `id` > '"
             ,RegistedIotHead->next->USERKEY_ID
             ,"' ORDER BY `id` ASC"
-            );
+           );
     MYSQL_RES *res_iot;
     MYSQL_ROW row_iot;
     if (mysql_real_query(mysql, query, strlen(query)))

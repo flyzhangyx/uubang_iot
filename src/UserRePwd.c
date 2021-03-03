@@ -24,7 +24,13 @@ int UserRePwd(CLN *a)
                     {
                         char update[200] = "";
                         sprintf(update,"%s%s%s%d","UPDATE `user` SET `passWord` = '",a->REUSERPASSWORD,"' WHERE `user`.`id` = ",a->USERKEY_ID);
-                        SQL_NODE *temmp=get_db_connect(MySqlConnPool); MYSQL *mysql=&(temmp->fd);
+                        SQL_NODE *temmp;
+                        while((temmp=get_db_connect(MySqlConnPool))==NULL)
+                        {
+                            Sleep(50);
+                            continue;
+                        }
+                        MYSQL *mysql=&(temmp->fd);
                         if(mysql_real_query(mysql, update,strlen(update)))
                         {
                             release_node(MySqlConnPool, temmp);

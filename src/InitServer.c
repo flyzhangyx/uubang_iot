@@ -145,7 +145,12 @@ int initServer(int port)
     MYSQL_RES *res;
     MYSQL_ROW row;
     sprintf(query, "%s", head);
-    SQL_NODE *temmp=get_db_connect(MySqlConnPool);
+    SQL_NODE *temmp;
+    while((temmp=get_db_connect(MySqlConnPool))==NULL)
+    {
+        Sleep(50);
+        continue;
+    }
     MYSQL *mysql=&(temmp->fd);
     if (mysql_real_query(mysql, query, strlen(query)))
     {
