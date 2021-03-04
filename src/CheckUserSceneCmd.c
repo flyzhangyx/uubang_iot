@@ -18,6 +18,8 @@ DWORD WINAPI CheckUserSceneCmd()
         {
 
         }
+        stpool_stat(ThreadPool_ExecuteTask, &temp);
+        log_info("CONN2BEFREE_THREAD/TASK:[%d/%d]",temp.curthreads_active,temp.curtasks_pending);
         freeConnMemWait4Free();
         stpool_stat(ThreadPool_ExecuteMsg, &temp);
         log_info("ONLINE_USER:[%d] ONLINE_IOT:[%d] THREAD/TASK:[%d/%d] ",onlineUserHead->OnlineUserNum,onlineIotHead->OnlineUserNum,temp.curthreads_active,temp.curtasks_pending);

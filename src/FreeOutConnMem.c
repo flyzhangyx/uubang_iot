@@ -15,13 +15,13 @@ int addConnMemWait4Free(struct sttask *ptask)
         log_error("ThreadPool Err");
         return 0;
     }
-    log_info("Add 2 Thread Pool :%s",ptask->task_name);
-    pthread_mutex_lock(&Con2FreeLink_mutex);
+    log_info("Add 2 Thread Pool Reason: %s",ptask->task_name);
+    WaitForSingleObject(Con2FreeLink_mutex, INFINITE);
     Con2FreeArg* arg =(Con2FreeArg*) (ptask->task_arg);
     CLN* Conn = arg->Conn;
+    log_info("MemAddr: 0x%x",Conn);
     LPPER_IO_DATA PerIoData=arg->PerIoData;
     CLN_LINK *cursor=&Head;
-    cursor->time++;
     while(cursor->next!=NULL)
     {
         cursor=cursor->next;
@@ -30,7 +30,7 @@ int addConnMemWait4Free(struct sttask *ptask)
     if(ConnMemNode==NULL)
     {
         log_error("Malloc Error!");
-        pthread_mutex_unlock(&Con2FreeLink_mutex);
+        ReleaseMutex(Con2FreeLink_mutex);
         free(arg);
         return 0;
     }
@@ -38,15 +38,21 @@ int addConnMemWait4Free(struct sttask *ptask)
     ConnMemNode->PERIODATA=PerIoData;
     ConnMemNode->time=0;
     cursor->next=ConnMemNode;
-    pthread_mutex_unlock(&Con2FreeLink_mutex);
+    Head.time++;
+    ReleaseMutex(Con2FreeLink_mutex);
     free(arg);
     return 1;
 }
 
 void freeConnMemWait4Free()
 {
+    if(WAIT_TIMEOUT==WaitForSingleObject(Con2FreeLink_mutex, 0))
+    {
+        log_info("LOCK CONN2BEFREE_LINK FAIL");
+        return;
+    }
     CLN_LINK* cursor=&Head;
-    log_info("CONN2BEFREE %d",Head.time);
+    log_info("CONN2BEFREE %d",cursor->time);
     while(cursor->next!=NULL)
     {
         if(cursor->next->CONNHANDLE!=NULL)
@@ -54,7 +60,7 @@ void freeConnMemWait4Free()
             if(cursor->next->time==1&&cursor->next->CONNHANDLE->info[2]==0)
             {
                 pthread_mutex_destroy(&(cursor->next->CONNHANDLE->t));
-                log_info("Free Conn :%I64d",cursor->next->CONNHANDLE->remote_socket);
+                log_info("Free Conn :%I64d  MemAddr :0x%x",cursor->next->CONNHANDLE->remote_socket,cursor->next->CONNHANDLE);
                 free(cursor->next->CONNHANDLE);
                 cursor->next->CONNHANDLE=NULL;
                 if(cursor->next->PERIODATA!=NULL)
@@ -66,7 +72,8 @@ void freeConnMemWait4Free()
                 cursor->next=cursor->next->next;
                 free(temp);
                 temp=NULL;
-                Head.time--;
+                if(Head.time>0)
+                    Head.time--;
                 continue;
             }
             else
@@ -83,15 +90,17 @@ void freeConnMemWait4Free()
         }
         else
         {
-            if(cursor->next->PERIODATA!=NULL)
-            {
-                free(cursor->next->PERIODATA);
-                cursor->next->PERIODATA=NULL;
-            }
+            log_error("CON2BEFREE_NULL");
+//            if(cursor->next->PERIODATA!=NULL)
+//            {
+//                free(cursor->next->PERIODATA);
+//                cursor->next->PERIODATA=NULL;
+//            }
             CLN_LINK *temp = cursor->next;
             cursor->next=cursor->next->next;
             free(temp);
             temp=NULL;
         }
     }
+    ReleaseMutex(Con2FreeLink_mutex);
 }

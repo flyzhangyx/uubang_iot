@@ -20,7 +20,7 @@ int AcceptClient()
         CloseHandle(ThreadHandle);
     }
 
-    listen(server_sockfd,10);///等待客户端连接请求到达
+    listen(server_sockfd,1);///等待客户端连接请求到达
     while(1)
     {
         CLN* CONNHANDLE = (CLN*)malloc(sizeof(CLN));
@@ -43,6 +43,7 @@ int AcceptClient()
             free(CONNHANDLE);
             continue;
         }
+        log_info("Accept %I64d , MemAddr 0x%x",CONNHANDLE->remote_socket,CONNHANDLE);
         CreateIoCompletionPort((HANDLE)(CONNHANDLE ->remote_socket), completionPort, (ULONG_PTR)CONNHANDLE, 0);//Create relation between CONNHANDLE and COmpletionPort
         LPPER_IO_DATA PerIoData = (LPPER_IO_DATA)malloc(sizeof(PER_IO_DATA));//Per IO operation exchange data use this struct,put it in the WSARecv func to Rec something
         if(PerIoData==NULL)

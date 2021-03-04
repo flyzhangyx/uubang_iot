@@ -216,7 +216,7 @@ int initServer(int port)
     memset(NetIP,0,20);
     getNetIp(NetIP);
     Initialize();//init CPU Load
-    pthread_mutex_init(&Con2FreeLink_mutex,NULL);
+    Con2FreeLink_mutex = CreateMutex(NULL, FALSE, NULL);
     ///*************************************
     return 1;
 }

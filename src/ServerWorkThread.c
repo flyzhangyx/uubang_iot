@@ -52,7 +52,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                         Autofree->Conn = CONNHANDLE;
                         Autofree->PerIoData = PerIoData;
 #ifdef STPOOL
-                        stpool_add_routine(ThreadPool_ExecuteTask,"CON2FREE",(void*)(struct sttask*)addConnMemWait4Free,task_err_handler,Autofree,NULL);
+                        stpool_add_routine(ThreadPool_ExecuteTask,"ADDCON2FREE_CLOSE",(void*)(struct sttask*)addConnMemWait4Free,task_err_handler,Autofree,NULL);
 #else
                         libThreadPoolaskAdd(ThreadPool_ExecuteTask, addConnMemWait4Free, (void*)Autofree);//put into task queue
 #endif
@@ -71,11 +71,14 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
             PerIoData = (LPPER_IO_DATA)CONTAINING_RECORD(lpOverlapped, PER_IO_DATA, overlapped);
             if(0 == BytesTransferred||BytesTransferred>721)
             {
-                //log_error("%d Byte Received",(int)BytesTransferred);
                 closesocket(CONNHANDLE->remote_socket);
+                if(CONNHANDLE==NULL)
+                {
+                    log_error("Crash Here");
+                }
                 if(CONNHANDLE->info[2]==0)
                 {
-                    log_info("CONNHANDLE_INFO[2]:%d",CONNHANDLE->info[2]);
+                    log_info("INSTANT CONN: %I64d MemAddr: 0x%x",CONNHANDLE->remote_socket,CONNHANDLE);
                     pthread_mutex_destroy(&(CONNHANDLE->t));
                     free(CONNHANDLE);
                     CONNHANDLE=NULL;
@@ -84,11 +87,15 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                 }
                 else
                 {
+                    if(CONNHANDLE==NULL)
+                    {
+                        log_error("Crash Here");
+                    }
                     Con2FreeArg *Autofree = (Con2FreeArg*)malloc(sizeof(Con2FreeArg));
                     Autofree->Conn = CONNHANDLE;
                     Autofree->PerIoData = PerIoData;
 #ifdef STPOOL
-                    stpool_add_routine(ThreadPool_ExecuteTask,"CON2FREE",(void*)(struct sttask*)addConnMemWait4Free,task_err_handler,Autofree,NULL);
+                    stpool_add_routine(ThreadPool_ExecuteTask,"ADDCON2FREE_EMPTY",(void*)(struct sttask*)addConnMemWait4Free,task_err_handler,Autofree,NULL);
 #else
                     libThreadPoolaskAdd(ThreadPool_ExecuteTask, addConnMemWait4Free, (void*)Autofree);//put into task queue
 #endif
@@ -125,7 +132,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
             }
             if(CONNHANDLE->info[1]!='Y')
             {
-                log_info("[Illegal User] %s:%d",inet_ntoa((CONNHANDLE->ADDR.sin_addr)),CONNHANDLE->ADDR.sin_port);
+                log_info("[Illegal User] %s:%d , Con = %I64d ",inet_ntoa((CONNHANDLE->ADDR.sin_addr)),CONNHANDLE->ADDR.sin_port,CONNHANDLE->remote_socket);
                 closesocket(CONNHANDLE->remote_socket);
                 free(CONNHANDLE);
                 CONNHANDLE=NULL;
@@ -137,7 +144,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
             {
                 CONNHANDLE->info[2]++;//Task num ++
 #ifdef STPOOL
-                stpool_add_routine(ThreadPool_ExecuteMsg,"IN",(void*)(struct sttask*)talk,task_err_handler,CONNHANDLE,NULL);
+                stpool_add_routine(ThreadPool_ExecuteMsg,"ExcuteMsg",(void*)(struct sttask*)talk,task_err_handler,CONNHANDLE,NULL);
 #else
                 libThreadPoolaskAdd(ThreadPool_ExecuteMsg, talk, (void*)CONNHANDLE);//put into task queue
 #endif

@@ -9,7 +9,8 @@ int IoTtalk(CLN* b)
         log_info("TASKRANK:%d",(int)b->info[2]);
         flag=0;
     }
-    GetUpdateTimeStamp(1,1,NULL);
+    //GetUpdateTimeStamp(1,1,NULL);
+    Sleep(20);
     return 1;
 }
 /*

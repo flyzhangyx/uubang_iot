@@ -255,7 +255,7 @@ FILE* REGISTERlocal;
 FILE* loginfo;
 SQL_CONN_POOL *MySqlConnPool;
 pthread_mutex_t mysql_mutex;
-pthread_mutex_t Con2FreeLink_mutex;
+HANDLE Con2FreeLink_mutex;
 #ifdef STPOOL
 stpool_t * ThreadPool_ExecuteMsg;
 stpool_t * ThreadPool_ExecuteTask;

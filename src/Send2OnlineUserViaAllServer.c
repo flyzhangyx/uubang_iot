@@ -88,9 +88,9 @@ DWORD WINAPI ReceiveMsgFromTopServer()
             memset(CONNHANDLE,0,sizeof(CLN));
             CopyUserPacketInterface2Cln(pack,CONNHANDLE);
 #ifdef STPOOL
-            stpool_add_routine(ThreadPool_ExecuteMsg,"IN",(void*)(struct sttask*)HandleTopServerMsg,task_err_handler1,CONNHANDLE,NULL);
+            stpool_add_routine(ThreadPool_ExecuteTask,"TopServerMsg",(void*)(struct sttask*)HandleTopServerMsg,task_err_handler1,CONNHANDLE,NULL);
 #else
-            libThreadPoolaskAdd(ThreadPool_ExecuteMsg, HandleTopServerMsg, (void*)CONNHANDLE);//put into task queue
+            libThreadPoolaskAdd(ThreadPool_ExecuteTask, HandleTopServerMsg, (void*)CONNHANDLE);//put into task queue
 #endif
         }
     }

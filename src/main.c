@@ -21,11 +21,11 @@ int main(int argc,char**argv)
     sprintf(a.data,"%s","12345678901");
     Send2OnlineUserViaTopServer(a);
     char cmd[100]="123";
-    NewIotCmdToBeExecute(&a,cmd,1,0,time_now);
-    IotReadCmd(&a,1,0);
-    log_info("%s",a.data);
-    NewUserSceneCmdStore(&a,"",0,0,2,"23:00:00","1111111");
-    ReadOrDeleteUserScene(&a,"tvVmreNKu8R",2,1);
+    //NewIotCmdToBeExecute(&a,cmd,1,0,time_now);
+    //IotReadCmd(&a,1,0);
+    //log_info("%s",a.data);
+    //NewUserSceneCmdStore(&a,"",0,0,2,"23:00:00","1111111");
+    //ReadOrDeleteUserScene(&a,"tvVmreNKu8R",2,1);
     ///88888888888888888888888888888888888888888888888888
     AcceptClient();
     fclose(loginfo);
