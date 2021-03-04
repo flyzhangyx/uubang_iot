@@ -6,8 +6,8 @@ int IoTtalk(CLN* b)
     flag++;
     if(flag%1000==0)
     {
-        if(b->conn!=NULL)
-        log_info("TASKRANK:%d",(int)b->conn->info[2]);
+        //if(b->conn!=NULL)
+           // log_info("TASKRANK:%d",(int)b->conn->info[2]);
         flag=0;
     }
     //GetUpdateTimeStamp(1,1,NULL);

@@ -37,6 +37,7 @@ int addConnMemWait4Free(struct sttask *ptask)
     ConnMemNode->CONNHANDLE=Conn;
     ConnMemNode->PERIODATA=PerIoData;
     ConnMemNode->time=0;
+    ConnMemNode->next=NULL;
     cursor->next=ConnMemNode;
     Head.time++;
     ReleaseMutex(Con2FreeLink_mutex);
