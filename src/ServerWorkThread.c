@@ -12,12 +12,14 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
     DWORD BytesTransferred;
     LPOVERLAPPED lpOverlapped;
     CLN* CONNHANDLE = NULL;//Relation with PerConn is store in this struct
+    CLN* ARG_CONN = NULL;
     LPPER_IO_DATA PerIoData = NULL;
     UserPacketInterface RecBuff;
     while(1)
     {
         CONNHANDLE = NULL;
         lpOverlapped = NULL;
+        ARG_CONN = NULL;
         if(!GetQueuedCompletionStatus(CompletionPort, &BytesTransferred, (PULONG_PTR)&CONNHANDLE, (LPOVERLAPPED*)&lpOverlapped, INFINITE))
         {
             DWORD dwErr = GetLastError();
@@ -95,7 +97,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                     Autofree->Conn = CONNHANDLE;
                     Autofree->PerIoData = PerIoData;
 #ifdef STPOOL
-                    //stpool_add_routine(ThreadPool_ExecuteTask,"ADDCON2FREE_EMPTY",(void*)(struct sttask*)addConnMemWait4Free,task_err_handler,Autofree,NULL);
+                    stpool_add_routine(ThreadPool_ExecuteTask,"ADDCON2FREE_EMPTY",(void*)(struct sttask*)addConnMemWait4Free,task_err_handler,Autofree,NULL);
 #else
                     libThreadPoolaskAdd(ThreadPool_ExecuteTask, addConnMemWait4Free, (void*)Autofree);//put into task queue
 #endif
@@ -104,24 +106,48 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
             }
             else if(BytesTransferred>0&&BytesTransferred<721)
             {
-                CopyRecIotData2Cln(PerIoData->RECBUFFER,CONNHANDLE,BytesTransferred);
+                ARG_CONN = (CLN*)malloc(sizeof(CLN));
+                if(ARG_CONN==NULL)
+                {
+                    send(CONNHANDLE->remote_socket,"OOE",4,0);//OUTOFMEM
+                    free(CONNHANDLE);
+                    log_error("OOE");
+                    continue;
+                }
+                memcpy(ARG_CONN,CONNHANDLE,sizeof(CLN));
+                CopyRecIotData2Cln(PerIoData->RECBUFFER,ARG_CONN,BytesTransferred);
+                memcpy(CONNHANDLE->checkcode,ARG_CONN->checkcode,18);
+                ARG_CONN->conn = CONNHANDLE;
                 CONNHANDLE->info[1]='Y';
             }
             else
             {
+                ARG_CONN = (CLN*)malloc(sizeof(CLN));
+                if(ARG_CONN==NULL)
+                {
+                    send(CONNHANDLE->remote_socket,"OOE",4,0);//OUTOFMEM
+                    free(CONNHANDLE);
+                    log_error("OOE");
+                    continue;
+                }
+                memcpy(ARG_CONN,CONNHANDLE,sizeof(CLN));
+                ARG_CONN->conn = CONNHANDLE;
                 memset(&RecBuff,0,sizeof(UserPacketInterface));
                 memcpy(&RecBuff,PerIoData->RECBUFFER,BytesTransferred);
-                CopyUserPacketInterface2Cln(RecBuff,CONNHANDLE);
+                CopyUserPacketInterface2Cln(RecBuff,ARG_CONN);
+                memcpy(CONNHANDLE->checkcode,ARG_CONN->checkcode,18);
             }
             if(strstr(CONNHANDLE->checkcode,"ZYX")!=NULL&&CONNHANDLE->info[1]!='Y')
             {
                 if(strstr(CONNHANDLE->checkcode,"ZYXX1226")!=NULL)
                 {
                     CONNHANDLE->info[1]='Y';
+                    ARG_CONN->info[1]='Y';
                 }
                 else if(strstr(CONNHANDLE->checkcode,"ZYXX1227")!=NULL)
                 {
                     CONNHANDLE->info[1]='Y';
+                    ARG_CONN->info[1]='Y';
                 }
                 else
                 {
@@ -138,15 +164,16 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                 CONNHANDLE=NULL;
                 free(PerIoData);//free source
                 PerIoData=NULL;
+                free(ARG_CONN);
                 continue;
             }
             if(CONNHANDLE->info[2]<100)
             {
                 CONNHANDLE->info[2]++;//Task num ++
 #ifdef STPOOL
-                stpool_add_routine(ThreadPool_ExecuteMsg,"ExcuteMsg",(void*)(struct sttask*)talk,task_err_handler,CONNHANDLE,NULL);
+                stpool_add_routine(ThreadPool_ExecuteMsg,"ExcuteMsg",(void*)(struct sttask*)talk,task_err_handler,ARG_CONN,NULL);
 #else
-                libThreadPoolaskAdd(ThreadPool_ExecuteMsg, talk, (void*)CONNHANDLE);//put into task queue
+                libThreadPoolaskAdd(ThreadPool_ExecuteMsg, talk, (void*)ARG_CONN);//put into task queue
 #endif
             }
             else

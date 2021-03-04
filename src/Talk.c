@@ -21,8 +21,8 @@ int talk(LPVOID b)
     if(strstr(a->checkcode,"te"))//IotDev
     {
         IoTtalk(a);
-        //pthread_mutex_unlock(&(a->t));
-        a->info[2]--;
+        a->conn->info[2]--;
+        free(a);
         return 0;
     }
     char logcat[256]="";
@@ -39,16 +39,9 @@ int talk(LPVOID b)
     strcat(logcat,"|");
     strcat(logcat,a->checkcode);
     //logwrite(logcat);
-    if(FindRegisterUserOrIotNode(0,a->USERID,0)!=NULL)
-        a->USERKEY_ID = FindRegisterUserOrIotNode(0,a->USERID,0)->USERKEY_ID;
     ///**********************验证是否为合法用户***************************
     signIN = (a->info[0]=='Y');//whether User had Signed in
     ///************************循环接受用户请求******************************
-    if(signIN&&a->info[0]!='N'&&!creat_check_alive)
-    {
-        creat_check_alive=1;
-        //CreateThread(NULL,0,(LPTHREAD_START_ROUTINE)Check_alive,a,0,NULL);
-    }
     switch (DJBHash(tag, 3))
     {
     case 57648: //HBA
@@ -63,7 +56,8 @@ int talk(LPVOID b)
         {
             closesocket(c);
             //pthread_mutex_unlock(&(a->t));
-            a->info[2]--;
+            a->conn->info[2]--;
+            free(a);
             return 0;
         }
     }
@@ -71,6 +65,7 @@ int talk(LPVOID b)
     {
         InitRSA(&(a->key));//Create RSAKey, need srand(time(NULL)) first
         InitRSA(&(a->key));//twice ,it is a bug left to be fixed
+        a->conn->key = a->key;
         log_info("Public Key (%d,%d) | Private Key (%d,%d)",a->key.publicKey,a->key.commonKey,a->key.privateKey,a->key.commonKey);
         memset(&SendDataStruct,0,sizeof(UserPacketInterface));
         memset(sendbuf,0,sizeof(UserPacketInterface));
@@ -84,7 +79,8 @@ int talk(LPVOID b)
             log_info("连接%I64d退出",c);
             closesocket(c);
             //pthread_mutex_unlock(&(a->t));
-            a->info[2]--;
+            a->conn->info[2]--;
+            free(a);
             return 0;
         }
     }
@@ -92,6 +88,7 @@ int talk(LPVOID b)
     case 66604://PIN
     {
         generateRandIntStr(a->Pin,6);
+        memcpy(a->conn->Pin,a->Pin,7);
         memset(&SendDataStruct,0,sizeof(UserPacketInterface));
         memset(sendbuf,0,sizeof(UserPacketInterface));
         strcpy(SendDataStruct.checkcode,"PIN");
@@ -101,7 +98,7 @@ int talk(LPVOID b)
             int encodedCrypto[100]= {0};
             memcpy(encodedCrypto,a->data,sizeof(int)*6*a->key.encryptBlockBytes);
             decodeMessage(6, a->key.encryptBlockBytes, encodedCrypto,a->Pin,a->key.privateKey, a->key.commonKey);
-            a->Pin[5]=0;
+            a->Pin[6]=0;
             char MD5Temp[33]="";
             Compute_string_md5((unsigned char *)MD5Temp,32,a->Pin);
             sprintf(SendDataStruct.DATA,"%s",MD5Temp);
@@ -109,7 +106,7 @@ int talk(LPVOID b)
         else
         {
             char cmd[200]="";
-            sprintf(cmd,"%s %s %s","cmd.exe /c \"PINSend.bat\"",a->info,a->Pin);
+            sprintf(cmd,"%s %s %s","cmd.exe /c \"PINSend.bat\"",a->data,a->Pin);
             log_info("%s",cmd);
             system(cmd);
         }
@@ -121,7 +118,8 @@ int talk(LPVOID b)
             log_info("连接%I64d退出",c);
             closesocket(c);
             //pthread_mutex_unlock(&(a->t));
-            a->info[2]--;
+            a->conn->info[2]--;
+            free(a);
             return 0;
         }
     }
@@ -135,8 +133,15 @@ int talk(LPVOID b)
         a->USERPASSWORD[32]=0;
         if (SIGNIN(a) == 1)
         {
+            memcpy(a->conn->USERID,a->USERID,12);
+            if(FindRegisterUserOrIotNode(0,a->USERID,0)!=NULL)
+            {
+                a->USERKEY_ID = FindRegisterUserOrIotNode(0,a->USERID,0)->USERKEY_ID;
+                a->conn->USERKEY_ID = a->USERKEY_ID;
+            }
             signIN = 1;
             a->info[0] = 'Y';
+            a->conn->info[0] = 'Y';
             memset(&SendDataStruct, 0, sizeof(UserPacketInterface));
             memset(sendbuf, 0, sizeof(UserPacketInterface));
             strcpy(SendDataStruct.checkcode, "SIA");
@@ -147,7 +152,8 @@ int talk(LPVOID b)
             {
                 closesocket(c);
                 //pthread_mutex_unlock(&(a->t));
-                a->info[2]--;
+                a->conn->info[2]--;
+                free(a);
                 return 0;
             }
         }
@@ -163,7 +169,8 @@ int talk(LPVOID b)
             {
                 closesocket(c);
                 //pthread_mutex_unlock(&(a->t));
-                a->info[2]--;
+                a->conn->info[2]--;
+                free(a);
                 return 0;
             }
         }
@@ -186,7 +193,8 @@ int talk(LPVOID b)
             {
                 closesocket(c);
                 //pthread_mutex_unlock(&(a->t));
-                a->info[2]--;
+                a->conn->info[2]--;
+                free(a);
                 return 0;
             }
         }
@@ -206,7 +214,8 @@ int talk(LPVOID b)
             {
                 closesocket(c);
                 //pthread_mutex_unlock(&(a->t));
-                a->info[2]--;
+                a->conn->info[2]--;
+                free(a);
                 return 0;
             }
         }
@@ -222,7 +231,8 @@ int talk(LPVOID b)
             {
                 closesocket(c);
                 //pthread_mutex_unlock(&(a->t));
-                a->info[2]--;
+                a->conn->info[2]--;
+                free(a);
                 return 0;
             }
         }
@@ -240,7 +250,8 @@ int talk(LPVOID b)
         if (find == NULL)
         {
             //pthread_mutex_unlock(&(a->t));
-            a->info[2]--;
+            a->conn->info[2]--;
+            free(a);
             return 0;
         }
         NewUserMsgStorage(a, find->USERKEY_ID);
@@ -254,7 +265,8 @@ int talk(LPVOID b)
         {
             closesocket(c);
             //pthread_mutex_unlock(&(a->t));
-            a->info[2]--;
+            a->conn->info[2]--;
+            free(a);
             return 0;
         }
     }
@@ -271,7 +283,8 @@ int talk(LPVOID b)
         {
             closesocket(c);
             //pthread_mutex_unlock(&(a->t));
-            a->info[2]--;
+            a->conn->info[2]--;
+            free(a);
             return 0;
         }
         delete_out_user(a);
@@ -296,7 +309,8 @@ int talk(LPVOID b)
         if (find == NULL)
         {
             //pthread_mutex_unlock(&(a->t));
-            a->info[2]--;
+            a->conn->info[2]--;
+            free(a);
             return 0;
         }
         NewUserMsgStorage(a, find->USERKEY_ID);
@@ -310,7 +324,8 @@ int talk(LPVOID b)
         {
             closesocket(c);
             //pthread_mutex_unlock(&(a->t));
-            a->info[2]--;
+            a->conn->info[2]--;
+            free(a);
             return 0;
         }
     }
@@ -336,7 +351,8 @@ int talk(LPVOID b)
         {
             closesocket(c);
             //pthread_mutex_unlock(&(a->t));
-            a->info[2]--;
+            a->conn->info[2]--;
+            free(a);
             return 0;
         }
     }
@@ -377,7 +393,8 @@ int talk(LPVOID b)
             {
                 closesocket(c);
                 //pthread_mutex_unlock(&(a->t));
-                a->info[2]--;
+                a->conn->info[2]--;
+                free(a);
                 return 0;
             }
         }
@@ -393,7 +410,8 @@ int talk(LPVOID b)
             {
                 closesocket(c);
                 //pthread_mutex_unlock(&(a->t));
-                a->info[2]--;
+                a->conn->info[2]--;
+                free(a);
                 return 0;
             }
         }

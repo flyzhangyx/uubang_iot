@@ -10,7 +10,6 @@ typedef struct cln_link
 static CLN_LINK Head;
 int addConnMemWait4Free(struct sttask *ptask)
 {
-    return 1;
     WaitForSingleObject(Con2FreeLink_mutex, INFINITE);
     if(ptask==NULL)
     {

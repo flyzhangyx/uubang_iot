@@ -107,7 +107,7 @@ typedef struct
     int encryptBlockBytes;
 } RSAKey;
 ///********º¯Êý½Ó¿Ú*************
-typedef struct
+typedef struct cln
 {
     SOCKET remote_socket;
     SOCKADDR_IN ADDR;
@@ -123,6 +123,7 @@ typedef struct
     char Pin[7];
     RSAKey key;
     pthread_mutex_t t;
+    struct cln* conn;
 } CLN;
 typedef struct
 {
