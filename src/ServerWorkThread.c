@@ -33,22 +33,29 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                 }
                 else
                 {
-                    //Client close (MITM)
-                    log_error("Cl");
-                    if(CONNHANDLE==NULL)
-                        continue;
+                    log_error("Cl");//Client close (MITM)
                     closesocket(CONNHANDLE->remote_socket);
                     delete_out_user(CONNHANDLE);
-                    if(CONNHANDLE!=NULL&&!pthread_mutex_trylock(&(CONNHANDLE->t)))
+                    if(CONNHANDLE->info[2]==0)
                     {
-                        pthread_mutex_unlock(&(CONNHANDLE->t));
                         pthread_mutex_destroy(&(CONNHANDLE->t));
                         free(CONNHANDLE);
-                    }
-                    if(lpOverlapped!=NULL)
-                    {
+                        CONNHANDLE=NULL;
                         PerIoData = (LPPER_IO_DATA)CONTAINING_RECORD(lpOverlapped, PER_IO_DATA, overlapped);
                         free(PerIoData);//free source
+                        PerIoData=NULL;
+                    }
+                    else
+                    {
+                        PerIoData = (LPPER_IO_DATA)CONTAINING_RECORD(lpOverlapped, PER_IO_DATA, overlapped);
+                        Con2FreeArg *Autofree = (Con2FreeArg*)malloc(sizeof(Con2FreeArg));
+                        Autofree->Conn = CONNHANDLE;
+                        Autofree->PerIoData = PerIoData;
+#ifdef STPOOL
+                        stpool_add_routine(ThreadPool_ExecuteTask,"CON2FREE",(void*)(struct sttask*)addConnMemWait4Free,task_err_handler,Autofree,NULL);
+#else
+                        libThreadPoolaskAdd(ThreadPool_ExecuteTask, addConnMemWait4Free, (void*)Autofree);//put into task queue
+#endif
                     }
                     continue;
                 }
@@ -56,8 +63,9 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
         }
         else
         {
-            if(lpOverlapped==NULL)
+            if(lpOverlapped==NULL||CONNHANDLE==NULL)
             {
+                log_error("Recv Success, but Mem is Null");
                 continue;
             }
             PerIoData = (LPPER_IO_DATA)CONTAINING_RECORD(lpOverlapped, PER_IO_DATA, overlapped);
@@ -65,114 +73,85 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
             {
                 //log_error("%d Byte Received",(int)BytesTransferred);
                 closesocket(CONNHANDLE->remote_socket);
-                if(CONNHANDLE!=NULL)//Continue to receiving data
+                if(CONNHANDLE->info[2]==0)
                 {
-                    //!pthread_mutex_trylock(&(CONNHANDLE->t))&&
-                    if((CONNHANDLE->info[2]==0))
-                    {
-                        log_error("%d",CONNHANDLE->info[2]);
-                        static int num=0;
-                        //log_info("release %I64d : %d",CONNHANDLE->remote_socket,++num);
-                        closesocket(CONNHANDLE->remote_socket);
-//                        pthread_mutex_unlock(&(CONNHANDLE->t));
-//                        pthread_mutex_destroy(&(CONNHANDLE->t));
-                        free(CONNHANDLE);
-                        CONNHANDLE=NULL;
-                        if(lpOverlapped!=NULL)
-                        {
-                            PerIoData = (LPPER_IO_DATA)CONTAINING_RECORD(lpOverlapped, PER_IO_DATA, overlapped);
-                            free(PerIoData);//free source
-                            PerIoData=NULL;
-                        }
-                    }
-                    else
-                    {
-                        if(lpOverlapped!=NULL)
-                        {
-                            PerIoData = (LPPER_IO_DATA)CONTAINING_RECORD(lpOverlapped, PER_IO_DATA, overlapped);
-                        }
-                        if(!addConnMemWait4Free(CONNHANDLE,PerIoData))
-                            log_error("add Conn to Be Free Err");
-                    }
+                    log_info("CONNHANDLE_INFO[2]:%d",CONNHANDLE->info[2]);
+                    pthread_mutex_destroy(&(CONNHANDLE->t));
+                    free(CONNHANDLE);
+                    CONNHANDLE=NULL;
+                    free(PerIoData);//free source
+                    PerIoData=NULL;
                 }
                 else
                 {
-                    if(lpOverlapped!=NULL)
-                    {
-                        log_error("CONN NULL");
-                        PerIoData = (LPPER_IO_DATA)CONTAINING_RECORD(lpOverlapped, PER_IO_DATA, overlapped);
-                        free(PerIoData);
-                        PerIoData=NULL;
-                    }
+                    Con2FreeArg *Autofree = (Con2FreeArg*)malloc(sizeof(Con2FreeArg));
+                    Autofree->Conn = CONNHANDLE;
+                    Autofree->PerIoData = PerIoData;
+#ifdef STPOOL
+                    stpool_add_routine(ThreadPool_ExecuteTask,"CON2FREE",(void*)(struct sttask*)addConnMemWait4Free,task_err_handler,Autofree,NULL);
+#else
+                    libThreadPoolaskAdd(ThreadPool_ExecuteTask, addConnMemWait4Free, (void*)Autofree);//put into task queue
+#endif
                 }
                 continue;
             }
-            else if(CONNHANDLE!=NULL&&PerIoData!=NULL)
+            else if(BytesTransferred>0&&BytesTransferred<721)
             {
-                if(BytesTransferred>0&&BytesTransferred<721)
+                CopyRecIotData2Cln(PerIoData->RECBUFFER,CONNHANDLE,BytesTransferred);
+                CONNHANDLE->info[1]='Y';
+            }
+            else
+            {
+                memset(&RecBuff,0,sizeof(UserPacketInterface));
+                memcpy(&RecBuff,PerIoData->RECBUFFER,BytesTransferred);
+                CopyUserPacketInterface2Cln(RecBuff,CONNHANDLE);
+            }
+            if(strstr(CONNHANDLE->checkcode,"ZYX")!=NULL&&CONNHANDLE->info[1]!='Y')
+            {
+                if(strstr(CONNHANDLE->checkcode,"ZYXX1226")!=NULL)
                 {
-                    //log_debug("%ld",BytesTransferred);
-                    CopyRecIotData2Cln(PerIoData->RECBUFFER,CONNHANDLE,BytesTransferred);
+                    CONNHANDLE->info[1]='Y';
+                }
+                else if(strstr(CONNHANDLE->checkcode,"ZYXX1227")!=NULL)
+                {
                     CONNHANDLE->info[1]='Y';
                 }
                 else
                 {
-                    memset(&RecBuff,0,sizeof(UserPacketInterface));
-                    memcpy(&RecBuff,PerIoData->RECBUFFER,BytesTransferred);
-                    CopyUserPacketInterface2Cln(RecBuff,CONNHANDLE);
+                    //OLD VERSION
+                    char tempBuf[721]="UPD";
+                    send(CONNHANDLE->remote_socket,tempBuf,721,0);
                 }
-                if(strstr(CONNHANDLE->checkcode,"ZYX")!=NULL&&CONNHANDLE->info[1]!='Y')
-                {
-                    if(strstr(CONNHANDLE->checkcode,"ZYXX1226")!=NULL)
-                    {
-                        CONNHANDLE->info[1]='Y';
-                    }
-                    else if(strstr(CONNHANDLE->checkcode,"ZYXX1227")!=NULL)
-                    {
-                        CONNHANDLE->info[1]='Y';
-                    }
-                    else
-                    {
-                        //OLD VERSION
-                        char tempBuf[721]="UPD";
-                        send(CONNHANDLE->remote_socket,tempBuf,721,0);
-                    }
-                }
-                if(CONNHANDLE->info[1]!='Y')
-                {
-                    closesocket(CONNHANDLE->remote_socket);
-                    free(CONNHANDLE);
-                    if(lpOverlapped!=NULL)
-                    {
-                        PerIoData = (LPPER_IO_DATA)CONTAINING_RECORD(lpOverlapped, PER_IO_DATA, overlapped);
-                        free(PerIoData);//free source
-                    }
-                    continue;
-                }
-                if(CONNHANDLE->info[2]<100)
-                {
-                    CONNHANDLE->info[2]++;//Task num ++
+            }
+            if(CONNHANDLE->info[1]!='Y')
+            {
+                log_info("[Illegal User] %s:%d",inet_ntoa((CONNHANDLE->ADDR.sin_addr)),CONNHANDLE->ADDR.sin_port);
+                closesocket(CONNHANDLE->remote_socket);
+                free(CONNHANDLE);
+                CONNHANDLE=NULL;
+                free(PerIoData);//free source
+                PerIoData=NULL;
+                continue;
+            }
+            if(CONNHANDLE->info[2]<100)
+            {
+                CONNHANDLE->info[2]++;//Task num ++
 #ifdef STPOOL
-                    stpool_add_routine(ThreadPool,"IN",(void*)(struct sttask*)talk,task_err_handler,CONNHANDLE,NULL);
+                stpool_add_routine(ThreadPool_ExecuteMsg,"IN",(void*)(struct sttask*)talk,task_err_handler,CONNHANDLE,NULL);
 #else
-                    libThreadPool_TaskAdd(ThreadPool, talk, (void*)CONNHANDLE);//put into task queue
+                libThreadPoolaskAdd(ThreadPool_ExecuteMsg, talk, (void*)CONNHANDLE);//put into task queue
 #endif
-                }
-                else
-                    send(CONNHANDLE->remote_socket,"OOM",4,0);//OUTOFMEM
-
-                memset(&(PerIoData->overlapped), 0,sizeof(OVERLAPPED)); //
-                PerIoData->WSADATABUF.len = sizeof(UserPacketInterface);
-                PerIoData->WSADATABUF.buf = PerIoData->RECBUFFER;
-                PerIoData->OpCode= 0;// read
-                DWORD RecvBytes;
-                DWORD Flags = 0;
-                WSARecv(CONNHANDLE->remote_socket, &(PerIoData->WSADATABUF), 1, &RecvBytes, &Flags, &(PerIoData->overlapped), NULL);
             }
             else
-            {
-                ;
-            }
+                send(CONNHANDLE->remote_socket,"OOM",4,0);//OUTOFMEM
+
+            memset(&(PerIoData->overlapped), 0,sizeof(OVERLAPPED)); //
+            PerIoData->WSADATABUF.len = sizeof(UserPacketInterface);
+            PerIoData->WSADATABUF.buf = PerIoData->RECBUFFER;
+            PerIoData->OpCode= 0;// read
+            DWORD RecvBytes;
+            DWORD Flags = 0;
+            WSARecv(CONNHANDLE->remote_socket, &(PerIoData->WSADATABUF), 1, &RecvBytes, &Flags, &(PerIoData->overlapped), NULL);
         }
     }
     return 0;

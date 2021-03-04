@@ -17,11 +17,6 @@ int talk(LPVOID b)
 #else
     CLN* a = (CLN*)b;
 #endif
-//    if(pthread_mutex_lock(&(a->t))!=0)//Lock
-//    {
-//        log_error("LOCK ERR");
-//        a->info[2]--; return 0;
-//    }
     log_debug("%s",a->checkcode);
     if(strstr(a->checkcode,"te"))//IotDev
     {

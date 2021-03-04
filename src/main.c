@@ -33,12 +33,15 @@ int main(int argc,char**argv)
     pthread_mutex_destroy(&(RegistedUserHead->mute));
     pthread_mutex_destroy(&(onlineIotHead->mute));
     pthread_mutex_destroy(&(onlineUserHead->mute));
-    pthread_mutex_destroy(mysql_mutex);
+    pthread_mutex_destroy(&mysql_mutex);
+    pthread_mutex_destroy(&Con2FreeLink_mutex);
     sql_pool_destroy(MySqlConnPool);
 #ifdef STPOOL
-    stpool_release(ThreadPool);
+    stpool_release(ThreadPool_ExecuteMsg);
+    stpool_release(ThreadPool_ExecuteTask);
 #else
-    libThreadPool_destroy(ThreadPool);
+    libThreadPool_destroy(ThreadPool_ExecuteMsg);
+    libThreadPool_destroy(ThreadPool_ExecuteTask);
 #endif
     return 0;
 }

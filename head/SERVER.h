@@ -59,6 +59,7 @@
                                             }while(0)
 //SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), g_default_color);
 ///**************在线用户节点****************
+
 struct user
 {
     SOCKET USER_socket;
@@ -139,6 +140,11 @@ typedef struct
     char payLoad[100];//Max
 } IotPacketInterface;
 
+typedef struct
+{
+    CLN* Conn;
+    LPPER_IO_DATA PerIoData;
+}Con2FreeArg;
 ///*****************************
 ///*******函数声明**************
 #ifdef STPOOL
@@ -209,7 +215,7 @@ int Initialize();
 int GetCPUUseRate();
 void StartCheckUserScene();
 int GetRamUse();
-int addConnMemWait4Free(CLN* Conn,LPPER_IO_DATA PerIoData);
+int addConnMemWait4Free(struct sttask *ptask);
 void freeConnMemWait4Free();
 ///*****************************
 ///***************各类标志码**********************
@@ -249,10 +255,13 @@ FILE* REGISTERlocal;
 FILE* loginfo;
 SQL_CONN_POOL *MySqlConnPool;
 pthread_mutex_t mysql_mutex;
+pthread_mutex_t Con2FreeLink_mutex;
 #ifdef STPOOL
-stpool_t * ThreadPool;
+stpool_t * ThreadPool_ExecuteMsg;
+stpool_t * ThreadPool_ExecuteTask;
 #else
 threadPool_t *ThreadPool;
+threadPool_t * ThreadPool_ExecuteTask;
 #endif // STPOOL
 int g_default_color ;
 char app_version[4];

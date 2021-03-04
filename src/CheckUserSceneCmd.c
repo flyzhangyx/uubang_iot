@@ -19,8 +19,8 @@ DWORD WINAPI CheckUserSceneCmd()
 
         }
         freeConnMemWait4Free();
-        stpool_stat(ThreadPool, &temp);
-        log_info("ONLINE_USER:[%d] ONLINE_IOT:[%d] THREADPOOL_THREAD/TASK:[%d/%d] ",onlineUserHead->OnlineUserNum,onlineIotHead->OnlineUserNum,temp.curthreads_active,temp.curtasks_pending);
+        stpool_stat(ThreadPool_ExecuteMsg, &temp);
+        log_info("ONLINE_USER:[%d] ONLINE_IOT:[%d] THREAD/TASK:[%d/%d] ",onlineUserHead->OnlineUserNum,onlineIotHead->OnlineUserNum,temp.curthreads_active,temp.curtasks_pending);
         Sleep(1000*5);
     }
 }

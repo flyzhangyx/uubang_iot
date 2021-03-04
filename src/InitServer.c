@@ -86,19 +86,26 @@ int initServer(int port)
 #ifdef STPOOL
     long eCAPs = eCAP_F_DYNAMIC|eCAP_F_ROUTINE|eCAP_F_TASK_WAIT_ALL;
     /** 创建线程池 */
-    ThreadPool = stpool_create("mypool", /** 线程池名                      */
-                               eCAPs,    /** 期望libstpool提供的的功能特性 */
-                               20,	   /** 线程池中运行的最大线程数目    */
-                               10,	   /** 预启动提供服务的的线程数目    */
-                               0,	   /** 保持线程池创建后调度任务状态  */
-                               1		   /** 优先级队列数目                */
-                              );
+    ThreadPool_ExecuteMsg = stpool_create("MSG_EXE_POOL", /** 线程池名                      */
+                                          eCAPs,    /** 期望libstpool提供的的功能特性 */
+                                          20,	   /** 线程池中运行的最大线程数目    */
+                                          10,	   /** 预启动提供服务的的线程数目    */
+                                          0,	   /** 保持线程池创建后调度任务状态  */
+                                          1		   /** 优先级队列数目                */
+                                         );
+    ThreadPool_ExecuteTask = stpool_create("EXE_TASK_POOL", /** 线程池名                      */
+                                          eCAPs,    /** 期望libstpool提供的的功能特性 */
+                                          10,	   /** 线程池中运行的最大线程数目    */
+                                          5,	   /** 预启动提供服务的的线程数目    */
+                                          0,	   /** 保持线程池创建后调度任务状态  */
+                                          1		   /** 优先级队列数目                */
+                                         );
     log_info("ThreadPool Init Success!");
     MySqlConnPool=sql_pool_create(30);
     log_info("MySQLConnPoll Init Success!");
     /**********************************/
 #else
-    ThreadPool = libThreadPool_Init(10,30,60);
+    ThreadPool_ExecuteMsg = libThreadPool_Init(10,30,60);
 #endif
     ///*******在线用户链表头初始化********
     do
@@ -209,6 +216,7 @@ int initServer(int port)
     memset(NetIP,0,20);
     getNetIp(NetIP);
     Initialize();//init CPU Load
+    pthread_mutex_init(&Con2FreeLink_mutex,NULL);
     ///*************************************
     return 1;
 }
