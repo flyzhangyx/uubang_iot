@@ -4,13 +4,13 @@ int IoTtalk(CLN* b)
     static int flag =0;
     //GetUpdateTimeStamp(1,1,NULL);
     flag++;
-    if(flag%10==0)
+    if(flag%1000==0)
     {
         log_info("TASKRANK:%d",(int)b->info[2]);
         flag=0;
     }
     //GetUpdateTimeStamp(1,1,NULL);
-    Sleep(20);
+    Sleep(10);
     return 1;
 }
 /*

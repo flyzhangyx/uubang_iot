@@ -95,7 +95,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                     Autofree->Conn = CONNHANDLE;
                     Autofree->PerIoData = PerIoData;
 #ifdef STPOOL
-                    stpool_add_routine(ThreadPool_ExecuteTask,"ADDCON2FREE_EMPTY",(void*)(struct sttask*)addConnMemWait4Free,task_err_handler,Autofree,NULL);
+                    //stpool_add_routine(ThreadPool_ExecuteTask,"ADDCON2FREE_EMPTY",(void*)(struct sttask*)addConnMemWait4Free,task_err_handler,Autofree,NULL);
 #else
                     libThreadPoolaskAdd(ThreadPool_ExecuteTask, addConnMemWait4Free, (void*)Autofree);//put into task queue
 #endif

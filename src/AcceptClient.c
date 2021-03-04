@@ -20,7 +20,7 @@ int AcceptClient()
         CloseHandle(ThreadHandle);
     }
 
-    listen(server_sockfd,1);///等待客户端连接请求到达
+    listen(server_sockfd,10);///等待客户端连接请求到达
     while(1)
     {
         CLN* CONNHANDLE = (CLN*)malloc(sizeof(CLN));

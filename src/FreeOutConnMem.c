@@ -10,13 +10,14 @@ typedef struct cln_link
 static CLN_LINK Head;
 int addConnMemWait4Free(struct sttask *ptask)
 {
+    return 1;
+    WaitForSingleObject(Con2FreeLink_mutex, INFINITE);
     if(ptask==NULL)
     {
         log_error("ThreadPool Err");
         return 0;
     }
     log_info("Add 2 Thread Pool Reason: %s",ptask->task_name);
-    WaitForSingleObject(Con2FreeLink_mutex, INFINITE);
     Con2FreeArg* arg =(Con2FreeArg*) (ptask->task_arg);
     CLN* Conn = arg->Conn;
     log_info("MemAddr: 0x%x",Conn);
