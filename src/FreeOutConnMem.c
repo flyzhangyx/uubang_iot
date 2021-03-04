@@ -60,7 +60,7 @@ void freeConnMemWait4Free()
             if(cursor->next->time==1&&cursor->next->CONNHANDLE->info[2]==0)
             {
                 pthread_mutex_destroy(&(cursor->next->CONNHANDLE->t));
-                log_info("Free Conn :%I64d  MemAddr :0x%x",cursor->next->CONNHANDLE->remote_socket,cursor->next->CONNHANDLE);
+                log_debug("Free Conn :%I64d  MemAddr :0x%x",cursor->next->CONNHANDLE->remote_socket,cursor->next->CONNHANDLE);
                 free(cursor->next->CONNHANDLE);
                 cursor->next->CONNHANDLE=NULL;
                 if(cursor->next->PERIODATA!=NULL)

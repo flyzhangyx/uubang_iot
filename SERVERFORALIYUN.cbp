@@ -243,9 +243,6 @@
 		<Unit filename="src/ServerWorkThread.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/StartThread.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="src/String.c">
 			<Option compilerVar="CC" />
 		</Unit>

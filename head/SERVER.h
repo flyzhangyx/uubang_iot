@@ -29,7 +29,7 @@
                                             logwrite(log);\
                                             }while(0)
 #else
-#define log_debug(format, args...) //Nothing
+#define log_debug(format, args...)  ;
 #endif // DEBUG_PRINT
 
 #ifdef INFO_PRINT

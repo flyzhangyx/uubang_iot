@@ -177,8 +177,10 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
 #endif
             }
             else
+            {
                 send(CONNHANDLE->remote_socket,"OOM",4,0);//OUTOFMEM
-
+                free(ARG_CONN);
+            }
             memset(&(PerIoData->overlapped), 0,sizeof(OVERLAPPED)); //
             PerIoData->WSADATABUF.len = sizeof(UserPacketInterface);
             PerIoData->WSADATABUF.buf = PerIoData->RECBUFFER;

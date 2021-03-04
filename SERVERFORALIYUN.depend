@@ -781,7 +781,7 @@
 1614876013 source:g:\2017210415\uubang_iot\src\hash.c
 	"../head/SERVER.h"
 
-1614876245 g:\2017210415\uubang_iot\head\server.h
+1614879847 g:\2017210415\uubang_iot\head\server.h
 	<stdio.h>
 	<WinSock2.h>
 	<windows.h>
@@ -844,7 +844,7 @@
 1614876013 source:g:\2017210415\uubang_iot\src\initserver.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\acceptclient.c
+1614881065 source:g:\2017210415\uubang_iot\src\acceptclient.c
 	"../head/SERVER.h"
 
 1614876013 source:g:\2017210415\uubang_iot\src\addtolcoal.c
@@ -853,7 +853,7 @@
 1614876013 source:g:\2017210415\uubang_iot\src\checkid_pwd.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\checkuserscenecmd.c
+1614881065 source:g:\2017210415\uubang_iot\src\checkuserscenecmd.c
 	"../head/SERVER.h"
 
 1614876013 source:g:\2017210415\uubang_iot\src\copycln2sendbag.c
@@ -877,7 +877,7 @@
 1614876013 source:g:\2017210415\uubang_iot\src\finduseroriotnode.c
 	"../head/SERVER.h"
 
-1614876119 source:g:\2017210415\uubang_iot\src\freeoutconnmem.c
+1614881065 source:g:\2017210415\uubang_iot\src\freeoutconnmem.c
 	"../head/SERVER.h"
 
 1614876013 source:g:\2017210415\uubang_iot\src\generaterandstr.c
@@ -891,7 +891,7 @@
 1614876013 source:g:\2017210415\uubang_iot\src\getinternetpublicip.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\iot_talk.c
+1614880019 source:g:\2017210415\uubang_iot\src\iot_talk.c
 	"../head/SERVER.h"
 
 1614876013 source:g:\2017210415\uubang_iot\src\iotdevregister.c
@@ -956,7 +956,7 @@
 1614876013 source:g:\2017210415\uubang_iot\src\send2onlineuserviaallserver.c
 	"../head/SERVER.h"
 
-1614877341 source:g:\2017210415\uubang_iot\src\serverworkthread.c
+1614881065 source:g:\2017210415\uubang_iot\src\serverworkthread.c
 	"../head/SERVER.h"
 
 1614876013 source:g:\2017210415\uubang_iot\src\sign_in.c
