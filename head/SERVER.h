@@ -1,10 +1,12 @@
 #ifndef SERVER_H_INCLUDED
 #define SERVER_H_INCLUDED
+#define _CRTDBG_MAP_ALLOC
 #include <stdio.h>
 #include <WinSock2.h>
 #include <windows.h>
 #include <conio.h>
 #include <stdlib.h>
+#include <crtdbg.h>
 #include <string.h>
 #include <pthread.h>
 #include <direct.h>

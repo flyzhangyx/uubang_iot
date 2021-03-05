@@ -49,6 +49,7 @@ int addConnMemWait4Free(struct sttask *ptask)
 
 void freeConnMemWait4Free()
 {
+    static int flag = 0;
     if(WAIT_TIMEOUT==WaitForSingleObject(Con2FreeLink_mutex, 0))
     {
         log_info("LOCK CONN2BEFREE_LINK FAIL");
@@ -108,4 +109,13 @@ void freeConnMemWait4Free()
         }
     }
     ReleaseMutex(Con2FreeLink_mutex);
+    if(cursor->time>=9000)
+    {
+        flag = 1;
+    }
+    if(flag&&cursor->time<=100)
+    {
+        _CrtDumpMemoryLeaks();
+        exit(122);
+    }
 }
