@@ -4,9 +4,10 @@ typedef struct cln_link
     CLN* CONNHANDLE;
     LPPER_IO_DATA PERIODATA;
     int time;
+    int left_time;
     struct cln_link* next;
 } CLN_LINK;
-
+extern int AcceptClientNum;
 static CLN_LINK Head;
 int addConnMemWait4Free(struct sttask *ptask)
 {
@@ -16,10 +17,10 @@ int addConnMemWait4Free(struct sttask *ptask)
         log_error("ThreadPool Err");
         return 0;
     }
-    log_info("Add 2 Thread Pool Reason: %s",ptask->task_name);
+    log_debug("Add 2 Thread Pool Reason: %s",ptask->task_name);
     Con2FreeArg* arg =(Con2FreeArg*) (ptask->task_arg);
     CLN* Conn = arg->Conn;
-    log_info("MemAddr: 0x%x",Conn);
+    log_debug("MemAddr: 0x%x",Conn);
     LPPER_IO_DATA PerIoData=arg->PerIoData;
     CLN_LINK *cursor=&Head;
     while(cursor->next!=NULL)
@@ -37,6 +38,7 @@ int addConnMemWait4Free(struct sttask *ptask)
     ConnMemNode->CONNHANDLE=Conn;
     ConnMemNode->PERIODATA=PerIoData;
     ConnMemNode->time=0;
+    ConnMemNode->left_time=0;
     ConnMemNode->next=NULL;
     cursor->next=ConnMemNode;
     Head.time++;
@@ -58,7 +60,7 @@ void freeConnMemWait4Free()
     {
         if(cursor->next->CONNHANDLE!=NULL)
         {
-            if(cursor->next->time==1&&cursor->next->CONNHANDLE->info[2]==0)
+            if(cursor->next->time==1&&cursor->next->CONNHANDLE->info[2]==0||cursor->next->left_time>=200)
             {
                 pthread_mutex_destroy(&(cursor->next->CONNHANDLE->t));
                 log_debug("Free Conn :%I64d  MemAddr :0x%x",cursor->next->CONNHANDLE->remote_socket,cursor->next->CONNHANDLE);
@@ -73,6 +75,7 @@ void freeConnMemWait4Free()
                 cursor->next=cursor->next->next;
                 free(temp);
                 temp=NULL;
+                AcceptClientNum--;
                 if(Head.time>0)
                     Head.time--;
                 continue;
@@ -82,6 +85,7 @@ void freeConnMemWait4Free()
                 if(cursor->next->CONNHANDLE->info[2]!=0)
                 {
                     cursor->next->time=0;
+                    cursor->next->left_time++;
                 }
                 else
                     cursor->next->time++;

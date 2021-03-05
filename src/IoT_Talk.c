@@ -8,10 +8,12 @@ int IoTtalk(CLN* b)
     {
         //if(b->conn!=NULL)
            // log_info("TASKRANK:%d",(int)b->conn->info[2]);
+
         flag=0;
     }
     //GetUpdateTimeStamp(1,1,NULL);
     Sleep(10);
+    closesocket(b->remote_socket);
     return 1;
 }
 /*

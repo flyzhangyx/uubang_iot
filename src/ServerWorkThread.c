@@ -1,5 +1,6 @@
 #include "../head/SERVER.h"
 #ifdef STPOOL
+extern int AcceptClientNum;
 void task_err_handler(struct sttask *ptask, long reasons)
 {
     fprintf(stderr, "**ERR: '%s' (%lx)",
@@ -35,7 +36,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                 }
                 else
                 {
-                    log_error("Cl");//Client close (MITM)
+                    log_debug("Cl");//Client close (MITM)
                     closesocket(CONNHANDLE->remote_socket);
                     delete_out_user(CONNHANDLE);
                     if(CONNHANDLE->info[2]==0)
@@ -46,6 +47,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                         PerIoData = (LPPER_IO_DATA)CONTAINING_RECORD(lpOverlapped, PER_IO_DATA, overlapped);
                         free(PerIoData);//free source
                         PerIoData=NULL;
+                        AcceptClientNum--;
                     }
                     else
                     {
@@ -86,13 +88,10 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                     CONNHANDLE=NULL;
                     free(PerIoData);//free source
                     PerIoData=NULL;
+                    AcceptClientNum--;
                 }
                 else
                 {
-                    if(CONNHANDLE==NULL)
-                    {
-                        log_error("Crash Here");
-                    }
                     Con2FreeArg *Autofree = (Con2FreeArg*)malloc(sizeof(Con2FreeArg));
                     Autofree->Conn = CONNHANDLE;
                     Autofree->PerIoData = PerIoData;
@@ -110,7 +109,9 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                 if(ARG_CONN==NULL)
                 {
                     send(CONNHANDLE->remote_socket,"OOE",4,0);//OUTOFMEM
+                    closesocket(CONNHANDLE->remote_socket);
                     free(CONNHANDLE);
+                    AcceptClientNum--;
                     log_error("OOE");
                     continue;
                 }
@@ -126,7 +127,9 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                 if(ARG_CONN==NULL)
                 {
                     send(CONNHANDLE->remote_socket,"OOE",4,0);//OUTOFMEM
+                    closesocket(CONNHANDLE->remote_socket);
                     free(CONNHANDLE);
+                    AcceptClientNum--;
                     log_error("OOE");
                     continue;
                 }
@@ -165,6 +168,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                 free(PerIoData);//free source
                 PerIoData=NULL;
                 free(ARG_CONN);
+                AcceptClientNum--;
                 continue;
             }
             if(CONNHANDLE->info[2]<100)

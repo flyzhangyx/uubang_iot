@@ -1,4 +1,5 @@
 #include"../head/SERVER.h"
+int AcceptClientNum = 0;
 int AcceptClient()
 {
     HANDLE completionPort  = CreateIoCompletionPort( INVALID_HANDLE_VALUE, NULL, 0, 0);
@@ -43,6 +44,14 @@ int AcceptClient()
             free(CONNHANDLE);
             continue;
         }
+        if(AcceptClientNum>=10000)
+        {
+            log_debug("Accept Num Exceed 10000");
+            pthread_mutex_destroy(&(CONNHANDLE->t));
+            free(CONNHANDLE);
+            continue;
+        }
+        AcceptClientNum++;
         log_debug("Accept %I64d , MemAddr 0x%x",CONNHANDLE->remote_socket,CONNHANDLE);
         CreateIoCompletionPort((HANDLE)(CONNHANDLE ->remote_socket), completionPort, (ULONG_PTR)CONNHANDLE, 0);//Create relation between CONNHANDLE and COmpletionPort
         LPPER_IO_DATA PerIoData = (LPPER_IO_DATA)malloc(sizeof(PER_IO_DATA));//Per IO operation exchange data use this struct,put it in the WSARecv func to Rec something
