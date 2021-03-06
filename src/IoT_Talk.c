@@ -12,8 +12,8 @@ int IoTtalk(CLN* b)
         flag=0;
     }
     //GetUpdateTimeStamp(1,1,NULL);
-    Sleep(10);
-    closesocket(b->remote_socket);
+    Sleep(50);
+    //closesocket(b->remote_socket);
     return 1;
 }
 /*

@@ -3,8 +3,7 @@ SOCKET LocalSocket;
 #ifdef STPOOL
 void task_err_handler1(struct sttask *ptask, long reasons)
 {
-    fprintf(stderr, "**ERR: '%s' (%lx)",
-            ptask->task_name, reasons);
+    log_error("**ERR: '%s' (%lx)",ptask->task_name, reasons);
 }
 
 

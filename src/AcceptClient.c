@@ -1,5 +1,16 @@
 #include"../head/SERVER.h"
 int AcceptClientNum = 0;
+static void task_err_handler(struct sttask *ptask, long reasons)
+{
+    log_error("**ERR: '%s' (%lx)",ptask->task_name, reasons);
+}
+void Add2MallocConnList(CLN* CONNHANDLE,LPPER_IO_DATA PerIoData)
+{
+    Con2FreeArg *ConnMalloc = (Con2FreeArg*)malloc(sizeof(Con2FreeArg));
+    ConnMalloc->Conn = CONNHANDLE;
+    ConnMalloc->PerIoData = PerIoData;
+    addConnMemWait4Ping(ConnMalloc);
+}
 int AcceptClient()
 {
     HANDLE completionPort  = CreateIoCompletionPort( INVALID_HANDLE_VALUE, NULL, 0, 0);
@@ -36,6 +47,13 @@ int AcceptClient()
         CONNHANDLE->info[0] = 'N';
         CONNHANDLE->info[2] = 0;
         pthread_mutex_init(&(CONNHANDLE->t),NULL);
+        if(AcceptClientNum>=10000)
+        {
+            log_debug("Accept Num Exceed 10000");
+            pthread_mutex_destroy(&(CONNHANDLE->t));
+            free(CONNHANDLE);
+            continue;
+        }
         CONNHANDLE->remote_socket = accept(server_sockfd, (struct sockaddr*)&(CONNHANDLE->ADDR), &RemoteLen);
         if(SOCKET_ERROR == CONNHANDLE->remote_socket) 	// 接收客户端失败
         {
@@ -44,18 +62,8 @@ int AcceptClient()
             free(CONNHANDLE);
             continue;
         }
-        if(AcceptClientNum>=10000)
-        {
-            log_debug("Accept Num Exceed 10000");
-            pthread_mutex_destroy(&(CONNHANDLE->t));
-            free(CONNHANDLE);
-            continue;
-        }
-        AcceptClientNum++;
-        log_debug("Accept %I64d , MemAddr 0x%x",CONNHANDLE->remote_socket,CONNHANDLE);
-        CreateIoCompletionPort((HANDLE)(CONNHANDLE ->remote_socket), completionPort, (ULONG_PTR)CONNHANDLE, 0);//Create relation between CONNHANDLE and COmpletionPort
         LPPER_IO_DATA PerIoData = (LPPER_IO_DATA)malloc(sizeof(PER_IO_DATA));//Per IO operation exchange data use this struct,put it in the WSARecv func to Rec something
-        if(PerIoData==NULL)
+         if(PerIoData==NULL)
         {
             closesocket(CONNHANDLE ->remote_socket);
             pthread_mutex_destroy(&(CONNHANDLE->t));
@@ -63,6 +71,10 @@ int AcceptClient()
             log_error("Malloc PerIOData Fail");
             continue;
         }
+        Add2MallocConnList(CONNHANDLE,PerIoData);
+        AcceptClientNum++;
+        log_debug("Accept %I64d , MemAddr 0x%x",CONNHANDLE->remote_socket,CONNHANDLE);
+        CreateIoCompletionPort((HANDLE)(CONNHANDLE ->remote_socket), completionPort, (ULONG_PTR)CONNHANDLE, 0);//Create relation between CONNHANDLE and COmpletionPort
         memset(PerIoData,0, sizeof(PER_IO_DATA));
         memset(&(PerIoData -> overlapped),0, sizeof(OVERLAPPED));
         PerIoData->WSADATABUF.len = sizeof(UserPacketInterface);

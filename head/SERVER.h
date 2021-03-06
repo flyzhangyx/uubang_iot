@@ -1,12 +1,10 @@
 #ifndef SERVER_H_INCLUDED
 #define SERVER_H_INCLUDED
-#define _CRTDBG_MAP_ALLOC
 #include <stdio.h>
 #include <WinSock2.h>
 #include <windows.h>
 #include <conio.h>
 #include <stdlib.h>
-#include <crtdbg.h>
 #include <string.h>
 #include <pthread.h>
 #include <direct.h>
@@ -220,6 +218,8 @@ void StartCheckUserScene();
 int GetRamUse();
 int addConnMemWait4Free(struct sttask *ptask);
 void freeConnMemWait4Free();
+int addConnMemWait4Ping(Con2FreeArg*);
+void PingMallocConnList();
 ///*****************************
 ///***************各类标志码**********************
 char CHECK[3];///应用进入时登陆检测是否已经注册
@@ -253,7 +253,6 @@ SOCKET server_sockfd_udp;//UDP服务器端套接字
 HANDLE CLN_thread[200];
 int CLN_num;
 int warnfile;
-int logflag;
 FILE* REGISTERlocal;
 FILE* loginfo;
 SQL_CONN_POOL *MySqlConnPool;

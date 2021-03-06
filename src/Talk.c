@@ -10,7 +10,7 @@ int talk(LPVOID b)
 #ifdef STPOOL
     if(ptask->task_arg==NULL)
     {
-        log_error("ERR");
+        log_error("ARG NULL ERR");
         return 0;
     }
     CLN* a=(CLN*)ptask->task_arg;
