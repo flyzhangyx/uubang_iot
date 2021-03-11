@@ -1,19 +1,9 @@
 #include"../head/SERVER.h"
 int IoTtalk(CLN* b)
 {
-    static int flag =0;
-    //GetUpdateTimeStamp(1,1,NULL);
-    flag++;
-    if(flag%1000==0)
-    {
-        //if(b->conn!=NULL)
-           // log_info("TASKRANK:%d",(int)b->conn->info[2]);
-
-        flag=0;
-    }
-    //GetUpdateTimeStamp(1,1,NULL);
-    Sleep(50);
-    //closesocket(b->remote_socket);
+    char str[100]="";
+    GetUpdateTimeStamp(0,1,str);
+    send(b->remote_socket,str,strlen(str)+1,0);
     return 1;
 }
 /*

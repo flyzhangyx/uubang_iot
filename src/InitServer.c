@@ -122,7 +122,9 @@ int initServer(int port)
     onlineIotHead->next=NULL;
     pthread_mutex_init(&(onlineIotHead->mute),NULL);
     ///LogFile
-    loginfo=fopen("iotServer.log","a+");
+    char log_path[100] ="";
+    sprintf(log_path,"Port_%d_%s",port,"iotServer.log");
+    loginfo=fopen(log_path,"a+");
     //获取终端当前默认颜色，用于后续所有打印的默认颜色配置
     HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_SCREEN_BUFFER_INFO csbiInfo;

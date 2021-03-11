@@ -13,8 +13,8 @@ char* GetUpdateTimeStamp(int UserId,int index,char *ret_row)
         log_error("SQL NODE NULL");
         continue;
     }
-    release_node(MySqlConnPool, temmp);
-    return NULL;
+    //release_node(MySqlConnPool, temmp);
+    //return NULL;
     MYSQL *mysql=temmp->mysql_sock;
     if (mysql_real_query(mysql, find, strlen(find)+1))
     {

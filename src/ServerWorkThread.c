@@ -66,7 +66,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                 closesocket(CONNHANDLE->remote_socket);
                 continue;
             }
-            else if(BytesTransferred>0&&BytesTransferred<721)
+            else if(BytesTransferred!=9&&BytesTransferred>0&&BytesTransferred<721)
             {
                 ARG_CONN = (CLN*)malloc(sizeof(CLN));
                 if(ARG_CONN==NULL)

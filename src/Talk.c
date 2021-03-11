@@ -29,7 +29,7 @@ int talk(LPVOID b)
     UserPacketInterface SendDataStruct;
     char sendbuf[sizeof(UserPacketInterface)]= {0};
     char tag[4];
-    memset(tag,0,3);
+    memset(tag,0,4);
     memset(&SendDataStruct,0,sizeof(UserPacketInterface));
     SOCKET c=a->remote_socket;
     strncpy(tag,a->checkcode,3);
@@ -70,7 +70,7 @@ int talk(LPVOID b)
         memset(&SendDataStruct,0,sizeof(UserPacketInterface));
         memset(sendbuf,0,sizeof(UserPacketInterface));
         strcpy(SendDataStruct.checkcode,"RSA");
-        sprintf(SendDataStruct.DATA,"%d|%d|%d",a->key.publicKey,a->key.commonKey,a->key.encryptBlockBytes);
+        sprintf(SendDataStruct.DATA,"%d_%d_%d_",a->key.publicKey,a->key.commonKey,a->key.encryptBlockBytes);
         SendDataStruct.save[99]='\n';
         memcpy(sendbuf,&SendDataStruct,sizeof(SendDataStruct));
         len=send(a->remote_socket,sendbuf,sizeof(UserPacketInterface),0);
