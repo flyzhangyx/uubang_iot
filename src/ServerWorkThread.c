@@ -66,7 +66,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                 closesocket(CONNHANDLE->remote_socket);
                 continue;
             }
-            else if(BytesTransferred!=9&&BytesTransferred>0&&BytesTransferred<721)
+            else if(BytesTransferred>20&&BytesTransferred<721)
             {
                 ARG_CONN = (CLN*)malloc(sizeof(CLN));
                 if(ARG_CONN==NULL)
@@ -124,7 +124,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
             {
                 log_info("[Illegal User] %s:%d , Con = %I64d ",inet_ntoa((CONNHANDLE->ADDR.sin_addr)),CONNHANDLE->ADDR.sin_port,CONNHANDLE->remote_socket);
                 closesocket(CONNHANDLE->remote_socket);
-                AddToFreeThread(CONNHANDLE,PerIoData);
+                //AddToFreeThread(CONNHANDLE,PerIoData);
                 free(ARG_CONN);
                 continue;
             }

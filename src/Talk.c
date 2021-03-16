@@ -32,8 +32,7 @@ int talk(LPVOID b)
     memset(tag,0,4);
     memset(&SendDataStruct,0,sizeof(UserPacketInterface));
     SOCKET c=a->remote_socket;
-    strncpy(tag,a->checkcode,3);
-    tag[3]=0;
+    memcpy(tag,a->checkcode,3);
     memset(logcat,0,100*sizeof(char));
     strcpy(logcat,inet_ntoa(a->ADDR.sin_addr));
     strcat(logcat,"|");
@@ -126,7 +125,6 @@ int talk(LPVOID b)
     break;
     case 69858: //SIA
     {
-        log_info("%s/%s/", a->USERID, a->USERPASSWORD);
         int encodedCrypto[100]= {0};
         memcpy(encodedCrypto,a->data,sizeof(int)*32*a->key.encryptBlockBytes);
         decodeMessage(32, a->key.encryptBlockBytes, encodedCrypto,a->USERPASSWORD,a->key.privateKey, a->key.commonKey);
@@ -146,7 +144,7 @@ int talk(LPVOID b)
             memset(sendbuf, 0, sizeof(UserPacketInterface));
             strcpy(SendDataStruct.checkcode, "SIA");
             SendDataStruct.save[99] = '\n';
-            memcpy(sendbuf, &SendDataStruct, sizeof(SendDataStruct));
+            memcpy(sendbuf, &SendDataStruct, sizeof(UserPacketInterface));
             len = send(c, sendbuf, sizeof(UserPacketInterface), 0);
             if (len == SOCKET_ERROR || len == 0)
             {
@@ -240,7 +238,7 @@ int talk(LPVOID b)
     break;
     case 68905: //RME
     {
-        UserGetIotData(a);
+        //UserGetIotData(a);
         //UserRequestMessage(a,)
     }
     break;
@@ -369,8 +367,9 @@ int talk(LPVOID b)
     break;
     case 68585: //RCO
     {
-        UserReqFriendRel(a);
-        UserReqIotRel(a);
+        //UserReqFriendRel(a);
+        //UserReqIotRel(a);
+
     }
     break;
     case 69000: //RPA
@@ -418,8 +417,12 @@ int talk(LPVOID b)
     }
     break;
     default:
+    {
         break;
     }
+    }
     //pthread_mutex_unlock(&(a->t));
-    return 1;
+    a->conn->info[2]--;
+    free(a);
+    return 0;
 }
