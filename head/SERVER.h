@@ -124,6 +124,7 @@ typedef struct cln
     RSAKey key;
     pthread_mutex_t t;
     struct cln* conn;
+    int MemMark;
 } CLN;
 typedef struct
 {
@@ -220,6 +221,10 @@ int addConnMemWait4Free(struct sttask *ptask);
 void freeConnMemWait4Free();
 int addConnMemWait4Ping(Con2FreeArg*);
 void PingMallocConnList();
+int InitMemPool(int MemPoolSize,int MallocNodeSize );
+void *mallocNode(int *flag/*sup user a index which mem is providing */);
+void freeNode(int flag,void *node);
+void freeMemPool();
 ///*****************************
 ///***************各类标志码**********************
 char CHECK[3];///应用进入时登陆检测是否已经注册

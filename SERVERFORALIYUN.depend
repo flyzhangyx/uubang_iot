@@ -518,10 +518,10 @@
 1612612983 source:g:\2017210415\uubang_server-master\src\rsautils.c
 	"../head/SERVER.h"
 
-1614857925 source:c:\users\bescd\desktop\test\uubang_iot\src\main.c
+1616148483 source:c:\users\bescd\desktop\test\uubang_iot\src\main.c
 	"../head/SERVER.h"
 
-1615018175 c:\users\bescd\desktop\test\uubang_iot\head\server.h
+1616148226 c:\users\bescd\desktop\test\uubang_iot\head\server.h
 	<stdio.h>
 	<WinSock2.h>
 	<windows.h>
@@ -576,7 +576,7 @@
 	<pthread.h>
 	<signal.h>
 
-1616139182 source:c:\users\bescd\desktop\test\uubang_iot\src\initserver.c
+1616148059 source:c:\users\bescd\desktop\test\uubang_iot\src\initserver.c
 	"../head/SERVER.h"
 
 1615017034 source:c:\users\bescd\desktop\test\uubang_iot\src\acceptclient.c
@@ -775,7 +775,7 @@
 
 1614824762 c:\users\bescd\desktop\test\uubang_iot\head\sqlpool.h
 
-1616122768 source:c:\users\bescd\desktop\test\uubang_iot\src\freeoutconnmem.c
+1616142433 source:c:\users\bescd\desktop\test\uubang_iot\src\freeoutconnmem.c
 	"../head/SERVER.h"
 
 1614876013 source:g:\2017210415\uubang_iot\src\hash.c
@@ -1010,5 +1010,8 @@
 	"../head/SERVER.h"
 
 1615058112 source:g:\2017210415\uubang_iot\src\getsqlupdatetime.c
+	"../head/SERVER.h"
+
+1616148671 source:c:\users\bescd\desktop\test\uubang_iot\src\mempool.c
 	"../head/SERVER.h"
 
