@@ -194,6 +194,9 @@
 		<Unit filename="src/IotUpdateData.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="src/MemPool.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="src/MySqlConnInit.c">
 			<Option compilerVar="CC" />
 		</Unit>

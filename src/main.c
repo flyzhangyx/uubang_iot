@@ -45,6 +45,7 @@ int main(int argc,char**argv)
     pthread_mutex_destroy(&mysql_mutex);
     CloseHandle(Con2FreeLink_mutex);
     sql_pool_destroy(MySqlConnPool);
+    freeMemPool();
 #ifdef STPOOL
     stpool_release(ThreadPool_ExecuteMsg);
     stpool_release(ThreadPool_ExecuteTask);

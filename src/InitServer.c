@@ -102,7 +102,7 @@ int initServer(int port)
     log_info("ThreadPool Init Success!");
     MySqlConnPool=sql_pool_create(30);
     log_info("MySQLConnPoll Init Success!");
-    InitMemPool(10000,sizeof(CLN));
+    InitMemPool(100000,sizeof(CLN));
     log_info("MemPoll Init Success!");
     /**********************************/
 #else
