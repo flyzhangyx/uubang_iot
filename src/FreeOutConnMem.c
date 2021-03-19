@@ -149,6 +149,7 @@ void freeConnMemWait4Free()
             {
                 pthread_mutex_destroy(&(cursor->next->CONNHANDLE->t));
                 log_debug("Free Conn :%I64d  MemAddr :0x%x",cursor->next->CONNHANDLE->remote_socket,cursor->next->CONNHANDLE);
+                delete_out_user(cursor->next->CONNHANDLE);
                 closesocket(cursor->next->CONNHANDLE->remote_socket);
                 free(cursor->next->CONNHANDLE);
                 cursor->next->CONNHANDLE=NULL;

@@ -25,20 +25,16 @@ int talk(LPVOID b)
         free(a);
         return 0;
     }
-    char logcat[256]="";
+    /****************************/
     UserPacketInterface SendDataStruct;
     char sendbuf[sizeof(UserPacketInterface)]= {0};
+    memset(&SendDataStruct,0,sizeof(UserPacketInterface));
+    /********************************/
     char tag[4];
     memset(tag,0,4);
-    memset(&SendDataStruct,0,sizeof(UserPacketInterface));
-    SOCKET c=a->remote_socket;
     memcpy(tag,a->checkcode,3);
-    memset(logcat,0,100*sizeof(char));
-    strcpy(logcat,inet_ntoa(a->ADDR.sin_addr));
-    strcat(logcat,"|");
-    strcat(logcat,a->checkcode);
-    //logwrite(logcat);
-    ///**********************验证是否为合法用户***************************
+    /*******************************/
+    SOCKET c=a->remote_socket;
     signIN = (a->info[0]=='Y');//whether User had Signed in
     ///************************循环接受用户请求******************************
     switch (DJBHash(tag, 3))
@@ -367,8 +363,8 @@ int talk(LPVOID b)
     break;
     case 68585: //RCO
     {
-        //UserReqFriendRel(a);
-        //UserReqIotRel(a);
+        UserReqFriendRel(a);
+        UserReqIotRel(a);
 
     }
     break;

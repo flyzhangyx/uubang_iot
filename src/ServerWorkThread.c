@@ -61,12 +61,18 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                 continue;
             }
             PerIoData = (LPPER_IO_DATA)CONTAINING_RECORD(lpOverlapped, PER_IO_DATA, overlapped);
+            if(PerIoData==NULL)
+            {
+                log_error("Recv Success, but PerIoData is Null");
+                closesocket(CONNHANDLE->remote_socket);
+                continue;
+            }
             if(0 == BytesTransferred||BytesTransferred>721)
             {
                 closesocket(CONNHANDLE->remote_socket);
                 continue;
             }
-            else if(BytesTransferred>20&&BytesTransferred<721)
+            else if(BytesTransferred>10&&BytesTransferred<105)
             {
                 ARG_CONN = (CLN*)malloc(sizeof(CLN));
                 if(ARG_CONN==NULL)
@@ -78,7 +84,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                 {
                     memcpy(ARG_CONN,CONNHANDLE,sizeof(CLN));
                     CopyRecIotData2Cln(PerIoData->RECBUFFER,ARG_CONN,BytesTransferred);
-                    memcpy(CONNHANDLE->checkcode,ARG_CONN->checkcode,18);
+                    memcpy(CONNHANDLE->checkcode,ARG_CONN->checkcode,17);
                     ARG_CONN->conn = CONNHANDLE;
                     CONNHANDLE->info[1]='Y';
                 }

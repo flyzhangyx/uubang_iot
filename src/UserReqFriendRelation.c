@@ -4,7 +4,6 @@ int UserReqFriendRel(CLN *a)
     UserPacketInterface RecDataStruct;
     int len=0;
     char sendbuf[sizeof(UserPacketInterface)]= {0};
-    log_info("Contact OK:");
     char find[100] = "";
     MYSQL_RES *res;
     MYSQL_ROW row;
