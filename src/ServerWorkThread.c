@@ -154,7 +154,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
 #endif
                 continue;
             }
-            if(CONNHANDLE->info[2]<100&&ARG_CONN!=NULL)
+            if(CONNHANDLE->info[2]<120&&ARG_CONN!=NULL)
             {
                 CONNHANDLE->info[2]++;//Task num ++
 #ifdef STPOOL

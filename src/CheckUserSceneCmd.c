@@ -24,7 +24,11 @@ DWORD WINAPI CheckUserSceneCmd()
         log_debug("CONN2BEFREE_THREAD/TASK:[%d/%d]",temp.curthreads_active,temp.curtasks_pending);
         freeConnMemWait4Free();
         stpool_stat(ThreadPool_ExecuteMsg, &temp);
-        log_info("ONLINE_USER:[%d] ONLINE_IOT:[%d] THREAD/TASK:[%d/%d] MEM_POOL:[%d]",onlineUserHead->OnlineUserNum,onlineIotHead->OnlineUserNum,temp.curthreads_active,temp.curtasks_pending,MemPoolAvailable);
+#ifdef MemPool
+        log_info("ONLINE_USER:[%d] ONLINE_IOT:[%d] THREAD/TASK:[%d/%d] ",onlineUserHead->OnlineUserNum,onlineIotHead->OnlineUserNum,temp.curthreads_active,temp.curtasks_pending);
+#else
+        log_info("ONLINE_USER:[%d] ONLINE_IOT:[%d] THREAD/TASK:[%d/%d] MEM_POOL:[%.2f%%]",onlineUserHead->OnlineUserNum,onlineIotHead->OnlineUserNum,temp.curthreads_active,temp.curtasks_pending,MemoryPoolGetUsage(mp)*100);
+#endif // MemPool
         Sleep(1000*5);
     }
 }

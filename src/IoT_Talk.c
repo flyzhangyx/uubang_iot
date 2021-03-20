@@ -3,6 +3,7 @@ int IoTtalk(CLN* b)
 {
     char str[100]="test";
     //GetUpdateTimeStamp(0,1,str);
+    Sleep(50);
     send(b->remote_socket,str,strlen(str)+1,0);
     return 1;
 }

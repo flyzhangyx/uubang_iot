@@ -87,8 +87,8 @@ int initServer(int port)
     /** 创建线程池 */
     ThreadPool_ExecuteMsg = stpool_create("MSG_EXE_POOL", /** 线程池名                      */
                                           eCAPs,    /** 期望libstpool提供的的功能特性 */
-                                          20,	   /** 线程池中运行的最大线程数目    */
-                                          10,	   /** 预启动提供服务的的线程数目    */
+                                          800,	   /** 线程池中运行的最大线程数目    */
+                                          100,	   /** 预启动提供服务的的线程数目    */
                                           0,	   /** 保持线程池创建后调度任务状态  */
                                           1		   /** 优先级队列数目                */
                                          );
@@ -100,7 +100,7 @@ int initServer(int port)
                                            1		   /** 优先级队列数目                */
                                           );
     log_info("ThreadPool Init Success!");
-    MySqlConnPool=sql_pool_create(30);
+    MySqlConnPool=sql_pool_create(36);
     log_info("MySQLConnPoll Init Success!");
 #ifdef MemPool
     InitMemPool(200000,sizeof(CLN));
