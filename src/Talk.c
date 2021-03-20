@@ -22,7 +22,11 @@ int talk(LPVOID b)
     {
         IoTtalk(a);
         a->conn->info[2]--;
-        free(a);
+#ifdef MemPool
+        freeNode(a->MemMark,a);
+#else
+        MemoryPoolFree(mp, a);
+#endif
         return 0;
     }
     /****************************/
@@ -52,7 +56,11 @@ int talk(LPVOID b)
             closesocket(c);
             //pthread_mutex_unlock(&(a->t));
             a->conn->info[2]--;
-            free(a);
+#ifdef MemPool
+            freeNode(a->MemMark,a);
+#else
+            MemoryPoolFree(mp, a);
+#endif
             return 0;
         }
     }
@@ -75,7 +83,11 @@ int talk(LPVOID b)
             closesocket(c);
             //pthread_mutex_unlock(&(a->t));
             a->conn->info[2]--;
-            free(a);
+#ifdef MemPool
+            freeNode(a->MemMark,a);
+#else
+            MemoryPoolFree(mp, a);
+#endif
             return 0;
         }
     }
@@ -114,7 +126,11 @@ int talk(LPVOID b)
             closesocket(c);
             //pthread_mutex_unlock(&(a->t));
             a->conn->info[2]--;
-            free(a);
+#ifdef MemPool
+            freeNode(a->MemMark,a);
+#else
+            MemoryPoolFree(mp, a);
+#endif
             return 0;
         }
     }
@@ -147,7 +163,11 @@ int talk(LPVOID b)
                 closesocket(c);
                 //pthread_mutex_unlock(&(a->t));
                 a->conn->info[2]--;
-                free(a);
+#ifdef MemPool
+                freeNode(a->MemMark,a);
+#else
+                MemoryPoolFree(mp, a);
+#endif
                 return 0;
             }
         }
@@ -164,7 +184,11 @@ int talk(LPVOID b)
                 closesocket(c);
                 //pthread_mutex_unlock(&(a->t));
                 a->conn->info[2]--;
-                free(a);
+#ifdef MemPool
+                freeNode(a->MemMark,a);
+#else
+                MemoryPoolFree(mp, a);
+#endif
                 return 0;
             }
         }
@@ -188,7 +212,11 @@ int talk(LPVOID b)
                 closesocket(c);
                 //pthread_mutex_unlock(&(a->t));
                 a->conn->info[2]--;
-                free(a);
+#ifdef MemPool
+                freeNode(a->MemMark,a);
+#else
+                MemoryPoolFree(mp, a);
+#endif
                 return 0;
             }
         }
@@ -209,7 +237,11 @@ int talk(LPVOID b)
                 closesocket(c);
                 //pthread_mutex_unlock(&(a->t));
                 a->conn->info[2]--;
-                free(a);
+#ifdef MemPool
+                freeNode(a->MemMark,a);
+#else
+                MemoryPoolFree(mp, a);
+#endif
                 return 0;
             }
         }
@@ -226,7 +258,11 @@ int talk(LPVOID b)
                 closesocket(c);
                 //pthread_mutex_unlock(&(a->t));
                 a->conn->info[2]--;
-                free(a);
+#ifdef MemPool
+                freeNode(a->MemMark,a);
+#else
+                MemoryPoolFree(mp, a);
+#endif
                 return 0;
             }
         }
@@ -245,7 +281,11 @@ int talk(LPVOID b)
         {
             //pthread_mutex_unlock(&(a->t));
             a->conn->info[2]--;
-            free(a);
+#ifdef MemPool
+            freeNode(a->MemMark,a);
+#else
+            MemoryPoolFree(mp, a);
+#endif
             return 0;
         }
         NewUserMsgStorage(a, find->USERKEY_ID);
@@ -260,7 +300,11 @@ int talk(LPVOID b)
             closesocket(c);
             //pthread_mutex_unlock(&(a->t));
             a->conn->info[2]--;
-            free(a);
+#ifdef MemPool
+            freeNode(a->MemMark,a);
+#else
+            MemoryPoolFree(mp, a);
+#endif
             return 0;
         }
     }
@@ -278,7 +322,11 @@ int talk(LPVOID b)
             closesocket(c);
             //pthread_mutex_unlock(&(a->t));
             a->conn->info[2]--;
-            free(a);
+#ifdef MemPool
+            freeNode(a->MemMark,a);
+#else
+            MemoryPoolFree(mp, a);
+#endif
             return 0;
         }
         delete_out_user(a);
@@ -304,7 +352,11 @@ int talk(LPVOID b)
         {
             //pthread_mutex_unlock(&(a->t));
             a->conn->info[2]--;
-            free(a);
+#ifdef MemPool
+            freeNode(a->MemMark,a);
+#else
+            MemoryPoolFree(mp, a);
+#endif
             return 0;
         }
         NewUserMsgStorage(a, find->USERKEY_ID);
@@ -319,7 +371,11 @@ int talk(LPVOID b)
             closesocket(c);
             //pthread_mutex_unlock(&(a->t));
             a->conn->info[2]--;
-            free(a);
+#ifdef MemPool
+            freeNode(a->MemMark,a);
+#else
+            MemoryPoolFree(mp, a);
+#endif
             return 0;
         }
     }
@@ -346,7 +402,11 @@ int talk(LPVOID b)
             closesocket(c);
             //pthread_mutex_unlock(&(a->t));
             a->conn->info[2]--;
-            free(a);
+#ifdef MemPool
+            freeNode(a->MemMark,a);
+#else
+            MemoryPoolFree(mp, a);
+#endif
             return 0;
         }
     }
@@ -389,7 +449,11 @@ int talk(LPVOID b)
                 closesocket(c);
                 //pthread_mutex_unlock(&(a->t));
                 a->conn->info[2]--;
-                free(a);
+#ifdef MemPool
+                freeNode(a->MemMark,a);
+#else
+                MemoryPoolFree(mp, a);
+#endif
                 return 0;
             }
         }
@@ -406,7 +470,11 @@ int talk(LPVOID b)
                 closesocket(c);
                 //pthread_mutex_unlock(&(a->t));
                 a->conn->info[2]--;
-                free(a);
+#ifdef MemPool
+                freeNode(a->MemMark,a);
+#else
+                MemoryPoolFree(mp, a);
+#endif
                 return 0;
             }
         }
@@ -419,6 +487,10 @@ int talk(LPVOID b)
     }
     //pthread_mutex_unlock(&(a->t));
     a->conn->info[2]--;
-    free(a);
+#ifdef MemPool
+    freeNode(a->MemMark,a);
+#else
+    MemoryPoolFree(mp, a);
+#endif
     return 0;
 }

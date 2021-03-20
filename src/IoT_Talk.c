@@ -1,8 +1,8 @@
 #include"../head/SERVER.h"
 int IoTtalk(CLN* b)
 {
-    char str[100]="";
-    GetUpdateTimeStamp(0,1,str);
+    char str[100]="test";
+    //GetUpdateTimeStamp(0,1,str);
     send(b->remote_socket,str,strlen(str)+1,0);
     return 1;
 }

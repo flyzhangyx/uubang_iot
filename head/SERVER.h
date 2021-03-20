@@ -13,6 +13,7 @@
 #include <malloc.h>
 #include "stpool.h"
 #include "../head/libThreadPool.h"
+#include "../MemoryPool/memorypool.h"
 #include "sqlpool.h"
 #define msleep Sleep
 #define BUFSIZE 512
@@ -273,5 +274,6 @@ threadPool_t * ThreadPool_ExecuteTask;
 int g_default_color ;
 char app_version[4];
 char NetIP[20];
+MemoryPool* mp ;
 ///**********************************
 #endif // SERVER_H_INCLUDED

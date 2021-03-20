@@ -21,6 +21,7 @@
 					<Add option="-DSTPOOL" />
 					<Add option="-DPRINT_LOG" />
 					<Add option="-DINFO_PRINT" />
+					<Add option="-D_Z_MEMORYPOOL_THREAD_" />
 					<Add directory="MYSQL/include" />
 					<Add directory="MYSQL/include/mysql" />
 					<Add directory="libstpool" />
@@ -52,6 +53,7 @@
 					<Add option="-DSTPOOL" />
 					<Add option="-DPRINT_LOG" />
 					<Add option="-DINFO_PRINT" />
+					<Add option="-D_Z_MEMORYPOOL_THREAD_" />
 					<Add directory="MYSQL/include" />
 					<Add directory="MYSQL/include/mysql" />
 					<Add directory="libstpool" />
@@ -123,10 +125,13 @@
 		<Unit filename="MYSQL/include/sslopt-longopts.h" />
 		<Unit filename="MYSQL/include/sslopt-vars.h" />
 		<Unit filename="MYSQL/include/typelib.h" />
+		<Unit filename="MemoryPool/memorypool.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="MemoryPool/memorypool.h" />
 		<Unit filename="head/SERVER.h" />
 		<Unit filename="head/libThreadPool.h" />
 		<Unit filename="head/md5.h" />
-		<Unit filename="head/sqlpool.h" />
 		<Unit filename="libstpool/stpool.h" />
 		<Unit filename="libstpool/stpool_caps.h" />
 		<Unit filename="libstpool/stpool_group.h" />

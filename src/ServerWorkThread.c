@@ -74,7 +74,12 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
             }
             else if(BytesTransferred>10&&BytesTransferred<105)
             {
-                ARG_CONN = (CLN*)malloc(sizeof(CLN));
+#ifdef MemPool
+                int NodeSeq = 0 ;
+                ARG_CONN = (CLN*)mallocNode(&NodeSeq);
+#else
+                ARG_CONN = (CLN*)MemoryPoolAlloc(mp, sizeof(CLN));
+#endif
                 if(ARG_CONN==NULL)
                 {
                     send(CONNHANDLE->remote_socket,"OOE",4,0);//OUTOFMEM
@@ -82,6 +87,9 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                 }
                 else
                 {
+#ifdef MemPool
+                    ARG_CONN->MemMark = NodeSeq;
+#endif // MemPool
                     memcpy(ARG_CONN,CONNHANDLE,sizeof(CLN));
                     CopyRecIotData2Cln(PerIoData->RECBUFFER,ARG_CONN,BytesTransferred);
                     memcpy(CONNHANDLE->checkcode,ARG_CONN->checkcode,17);
@@ -91,7 +99,12 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
             }
             else
             {
-                ARG_CONN = (CLN*)malloc(sizeof(CLN));
+#ifdef MemPool
+                int NodeSeq = 0 ;
+                ARG_CONN = (CLN*)mallocNode(&NodeSeq);
+#else
+                ARG_CONN = (CLN*)MemoryPoolAlloc(mp, sizeof(CLN));
+#endif
                 if(ARG_CONN==NULL)
                 {
                     send(CONNHANDLE->remote_socket,"OOE",4,0);//OUTOFMEM
@@ -99,6 +112,9 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                 }
                 else
                 {
+#ifdef MemPool
+                    ARG_CONN->MemMark = NodeSeq;
+#endif // MemPool
                     memcpy(ARG_CONN,CONNHANDLE,sizeof(CLN));
                     ARG_CONN->conn = CONNHANDLE;
                     memset(&RecBuff,0,sizeof(UserPacketInterface));
@@ -107,7 +123,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                     memcpy(CONNHANDLE->checkcode,ARG_CONN->checkcode,18);
                 }
             }
-            if(strstr(CONNHANDLE->checkcode,"ZYX")!=NULL&&CONNHANDLE->info[1]!='Y')
+            if(strstr(CONNHANDLE->checkcode,"ZYX")!=NULL&&CONNHANDLE->info[1]!='Y'&&ARG_CONN!=NULL)
             {
                 if(strstr(CONNHANDLE->checkcode,"ZYXX1226")!=NULL)
                 {
@@ -131,7 +147,11 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                 log_info("[Illegal User] %s:%d , Con = %I64d ",inet_ntoa((CONNHANDLE->ADDR.sin_addr)),CONNHANDLE->ADDR.sin_port,CONNHANDLE->remote_socket);
                 closesocket(CONNHANDLE->remote_socket);
                 //AddToFreeThread(CONNHANDLE,PerIoData);
-                free(ARG_CONN);
+#ifdef MemPool
+                freeNode(ARG_CONN->MemMark,ARG_CONN);
+#else
+                MemoryPoolFree(mp, ARG_CONN);
+#endif
                 continue;
             }
             if(CONNHANDLE->info[2]<100&&ARG_CONN!=NULL)
@@ -146,7 +166,11 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
             else
             {
                 send(CONNHANDLE->remote_socket,"OOM",4,0);//OUTOFMEM
-                free(ARG_CONN);
+#ifdef MemPool
+                freeNode(ARG_CONN->MemMark,ARG_CONN);
+#else
+                MemoryPoolFree(mp, ARG_CONN);
+#endif
             }
             memset(&(PerIoData->overlapped), 0,sizeof(OVERLAPPED)); //
             PerIoData->WSADATABUF.len = sizeof(UserPacketInterface);

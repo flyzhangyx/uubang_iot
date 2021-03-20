@@ -518,10 +518,10 @@
 1612612983 source:g:\2017210415\uubang_server-master\src\rsautils.c
 	"../head/SERVER.h"
 
-1616152270 source:c:\users\bescd\desktop\test\uubang_iot\src\main.c
+1616230216 source:c:\users\bescd\desktop\test\uubang_iot\src\main.c
 	"../head/SERVER.h"
 
-1616148226 c:\users\bescd\desktop\test\uubang_iot\head\server.h
+1616227056 c:\users\bescd\desktop\test\uubang_iot\head\server.h
 	<stdio.h>
 	<WinSock2.h>
 	<windows.h>
@@ -535,6 +535,7 @@
 	<malloc.h>
 	"stpool.h"
 	"../head/libThreadPool.h"
+	"../MemoryPool/memorypool.h"
 	"sqlpool.h"
 
 1614330471 c:\users\bescd\desktop\test\uubang_iot\mysql\include\mysql.h
@@ -576,7 +577,7 @@
 	<pthread.h>
 	<signal.h>
 
-1616152293 source:c:\users\bescd\desktop\test\uubang_iot\src\initserver.c
+1616229380 source:c:\users\bescd\desktop\test\uubang_iot\src\initserver.c
 	"../head/SERVER.h"
 
 1615017034 source:c:\users\bescd\desktop\test\uubang_iot\src\acceptclient.c
@@ -618,7 +619,7 @@
 1614330471 source:c:\users\bescd\desktop\test\uubang_iot\src\hash.c
 	"../head/SERVER.h"
 
-1616122768 source:c:\users\bescd\desktop\test\uubang_iot\src\iot_talk.c
+1616210618 source:c:\users\bescd\desktop\test\uubang_iot\src\iot_talk.c
 	"../head/SERVER.h"
 
 1614771996 source:c:\users\bescd\desktop\test\uubang_iot\src\iotdevregister.c
@@ -676,7 +677,7 @@
 1614330471 source:c:\users\bescd\desktop\test\uubang_iot\src\string.c
 	"../head/SERVER.h"
 
-1616141872 source:c:\users\bescd\desktop\test\uubang_iot\src\talk.c
+1616227544 source:c:\users\bescd\desktop\test\uubang_iot\src\talk.c
 	"../head/SERVER.h"
 	"../head/md5.h"
 
@@ -706,7 +707,7 @@
 1614771994 source:c:\users\bescd\desktop\test\uubang_iot\src\userrequestmessage.c
 	"../head/SERVER.h"
 
-1616139116 source:c:\users\bescd\desktop\test\uubang_iot\src\serverworkthread.c
+1616227603 source:c:\users\bescd\desktop\test\uubang_iot\src\serverworkthread.c
 	"../head/SERVER.h"
 
 1614771996 source:c:\users\bescd\desktop\test\uubang_iot\src\userrepwd.c
@@ -746,7 +747,7 @@
 1614674949 source:c:\users\bescd\desktop\test\uubang_iot\src\copyiotdata.c
 	"../head/SERVER.h"
 
-1615018159 source:c:\users\bescd\desktop\test\uubang_iot\src\checkuserscenecmd.c
+1616211647 source:c:\users\bescd\desktop\test\uubang_iot\src\checkuserscenecmd.c
 	"../head/SERVER.h"
 
 1614771996 source:c:\users\bescd\desktop\test\uubang_iot\src\newiotcmdtobeexecute.c
@@ -775,7 +776,7 @@
 
 1614824762 c:\users\bescd\desktop\test\uubang_iot\head\sqlpool.h
 
-1616142433 source:c:\users\bescd\desktop\test\uubang_iot\src\freeoutconnmem.c
+1616211591 source:c:\users\bescd\desktop\test\uubang_iot\src\freeoutconnmem.c
 	"../head/SERVER.h"
 
 1614876013 source:g:\2017210415\uubang_iot\src\hash.c
@@ -1012,6 +1013,14 @@
 1615058112 source:g:\2017210415\uubang_iot\src\getsqlupdatetime.c
 	"../head/SERVER.h"
 
-1616153212 source:c:\users\bescd\desktop\test\uubang_iot\src\mempool.c
+1616230580 source:c:\users\bescd\desktop\test\uubang_iot\src\mempool.c
+	"../head/SERVER.h"
+
+1571063614 c:\users\bescd\desktop\test\uubang_iot\memorypool\memorypool.h
+	<pthread.h>
+	<stdlib.h>
+	<string.h>
+
+1616227727 source:c:\users\bescd\desktop\test\uubang_iot\memorypool\memorypool.c
 	"../head/SERVER.h"
 

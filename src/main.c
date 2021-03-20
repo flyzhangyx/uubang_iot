@@ -27,15 +27,6 @@ int main(int argc,char**argv)
     //NewUserSceneCmdStore(&a,"",0,0,2,"23:00:00","1111111");
     //ReadOrDeleteUserScene(&a,"tvVmreNKu8R",2,1);
     ///88888888888888888888888888888888888888888888888888
-    int flag;
-    CLN * temp = (CLN*)mallocNode(&flag);
-    if(temp==NULL)
-    {
-        log_error("111");
-    }
-    /*temp->MemMark = flag;
-    strcpy(temp->data,"123");
-    log_error("%s",temp->data);*/
     AcceptClient();
     fclose(loginfo);
     pthread_mutex_destroy(&(RegistedIotHead->mute));
@@ -45,7 +36,12 @@ int main(int argc,char**argv)
     pthread_mutex_destroy(&mysql_mutex);
     CloseHandle(Con2FreeLink_mutex);
     sql_pool_destroy(MySqlConnPool);
+#ifdef MemPool
     freeMemPool();
+#else
+    MemoryPoolDestroy(mp);
+#endif // MemPool
+
 #ifdef STPOOL
     stpool_release(ThreadPool_ExecuteMsg);
     stpool_release(ThreadPool_ExecuteTask);
