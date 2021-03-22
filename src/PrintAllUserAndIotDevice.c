@@ -11,7 +11,7 @@ void PrintAllUserAndIotDevice()
         int paixu=1;
         while(Tag!=NULL)
         {
-            log_info("%d_USERID:%s | Id-Key:%d",paixu,Tag->USERID,Tag->USERKEY_ID);
+            printf("%d_USERID:%s\t| Id-Key:%d\n",paixu,Tag->USERID,Tag->USERKEY_ID);
             Tag=Tag->next;
             paixu++;
         }
@@ -19,11 +19,11 @@ void PrintAllUserAndIotDevice()
         paixu = 1;
         while(Tag!=NULL)
         {
-            log_info("%d_IOTDeviceID:%s | Id-Key:%d | Class:%d",paixu,Tag->USERID,Tag->USERKEY_ID,atoi(Tag->info));
+            printf("%d_IOTDeviceID:%s \t| Id-Key:%d\t| Class:%d\n",paixu,Tag->USERID,Tag->USERKEY_ID,atoi(Tag->info));
             Tag=Tag->next;
             paixu++;
         }
-        log_info("Print User And IotDeviceOK!");
+        printf("Print User And IotDeviceOK!\n");
     }
 }
 

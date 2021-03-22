@@ -96,6 +96,9 @@ DWORD WINAPI ReceiveMsgFromTopServer()
 }
 void ConnectToTopServer()
 {
+    static int isConnected = 0;
+    if(isConnected)
+        return;
     struct sockaddr_in addr;
     LocalSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (ERROR == LocalSocket)
@@ -115,6 +118,7 @@ void ConnectToTopServer()
         return;
     }
     CreateThread(NULL,0,(LPTHREAD_START_ROUTINE)ReceiveMsgFromTopServer,NULL,0,NULL);
+    isConnected = 1;
 }
 int Send2OnlineUserViaTopServer(CLN a)
 {

@@ -2,6 +2,7 @@
 int initServer(int port)
 {
     int scan;
+    ManualCtrl = 0;
     CLN_num=0;
     strcpy(CHECK,"ZY");
     strcpy(SIGN_IN,"SI");//登陆码
@@ -87,7 +88,7 @@ int initServer(int port)
     /** 创建线程池 */
     ThreadPool_ExecuteMsg = stpool_create("MSG_EXE_POOL", /** 线程池名                      */
                                           eCAPs,    /** 期望libstpool提供的的功能特性 */
-                                          200,	   /** 线程池中运行的最大线程数目    */
+                                          800,	   /** 线程池中运行的最大线程数目    */
                                           100,	   /** 预启动提供服务的的线程数目    */
                                           0,	   /** 保持线程池创建后调度任务状态  */
                                           1		   /** 优先级队列数目                */
@@ -214,7 +215,7 @@ int initServer(int port)
     {
         fgets(app_version,4,updversion);
         fclose(updversion);
-        app_version[3]='\0';
+        app_version[3]=0;
         log_info("APP版本-%s",app_version);
     }
     else

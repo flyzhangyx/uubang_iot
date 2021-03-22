@@ -21,51 +21,10 @@
 #include "sqlpool.h"
 #include "mysql.h"
 
-
 #define msleep Sleep
 #define BUFSIZE 512
-//封装带颜色打印接口
-#ifdef DEBUG_PRINT
-#define log_debug(format, args...)     do{ SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_GREEN);\
-                                            time_t now_time;\
-                                            time(&now_time);\
-                                            char time_now[50];\
-                                            strftime(time_now,50,"%Y-%m-%d %X",localtime(&now_time));\
-                                            printf("[%s][DBG][%s:%d] " #format "\n",time_now,__func__,__LINE__,##args) ;\
-                                            char log[1000];\
-                                            sprintf(log,"[%s][DBG][%s:%d] " #format "\n", time_now,__func__,__LINE__,##args);\
-                                            logwrite(log);\
-                                            }while(0)
-#else
-#define log_debug(format, args...)  ;
-#endif // DEBUG_PRINT
 
-#ifdef INFO_PRINT
-#define log_info(format, args...)       do{ SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_BLUE|BACKGROUND_RED|BACKGROUND_GREEN);\
-                                            time_t now_time;\
-                                            time(&now_time);\
-                                            char time_now[50];\
-                                            strftime(time_now,50,"%Y-%m-%d %X",localtime(&now_time));\
-                                            printf("[%s][INF][%s:%d] " #format "\n", time_now,__func__,__LINE__,##args);\
-                                            char log[1000];\
-                                            sprintf(log,"[%s][INF][%s:%d] " #format "\n", time_now,__func__,__LINE__,##args);\
-                                            logwrite(log);\
-                                            }while(0)
-#else
-#define log_info(format, args...)
-#endif // INFO_PRINT
-
-#define log_error(format, args...)       do{ SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_RED);\
-                                            time_t now_time;\
-                                            time(&now_time);\
-                                            char time_now[50];\
-                                            strftime(time_now,50,"%Y-%m-%d %X",localtime(&now_time));\
-                                            printf("[%s][ERR][%s:%d] " #format "\n", time_now,__func__,__LINE__,##args);\
-                                            char log[1000];\
-                                            sprintf(log,"[%s][ERR][%s:%d] " #format "\n", time_now,__func__,__LINE__,##args);\
-                                            logwrite(log);\
-                                            }while(0)
-//SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), g_default_color);
+#include "../src/log_print.c"
 ///**************在线用户节点****************
 
 struct user
@@ -235,6 +194,7 @@ void *mallocNode(int *flag/*sup user a index which mem is providing */);
 void freeNode(int flag,void *node);
 void freeMemPool();
 #endif // MemPool
+void EnterManualCtrlMode();
 ///*****************************
 ///***************各类标志码**********************
 char CHECK[3];///应用进入时登陆检测是否已经注册
@@ -281,7 +241,7 @@ threadPool_t *ThreadPool;
 threadPool_t * ThreadPool_ExecuteTask;
 #endif // STPOOL
 int g_default_color ;
-char app_version[4];
+char app_version[20];
 char NetIP[20];
 MemoryPool* mp ;
 ///**********************************

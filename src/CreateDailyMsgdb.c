@@ -13,7 +13,7 @@ DWORD WINAPI CreateDailyMsgdbThread()
         p->tm_min=0;
         p->tm_sec=0;
         t1=mktime(p);
-        if((t1-t)/60>0&&(t1-t)/60<=15*60)
+        if((t1-t)/60>0&&(t1-t)/60<=5*60)
         {
             int i=0;
             while(i++<100&&!flag)
