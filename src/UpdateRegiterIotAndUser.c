@@ -38,6 +38,10 @@ int UpdateLocalRegUserAndIotlist()
     mysql_free_result(res);
     ///...................................................
     memset(query,0,200*sizeof(char));
+    if(RegistedIotHead->next==NULL)
+    {
+        return 1;
+    }
     pthread_mutex_lock(&(RegistedIotHead->mute));
     sprintf(query,"%s%d%s"
             ,"SELECT * FROM `iotnode` WHERE `id` > '"

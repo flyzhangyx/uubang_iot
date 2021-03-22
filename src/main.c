@@ -15,12 +15,9 @@ int main(int argc,char**argv)
     strftime(time_now,80,"%Y-%m-%d %X",localtime(&now_time));
     log_info("%s",time_now);
     CLN a;
-    a.USERKEY_ID = 22947;
-    strcpy(a.TalktoID,"ZZzoidFy");
-    strcpy(a.checkcode,"123");
-    sprintf(a.data,"%s","12345678901");
-    Send2OnlineUserViaTopServer(a);
-    char cmd[100]="123";
+    UpdateLocalRegUserAndIotlist();
+    int i = 60;
+
     //NewIotCmdToBeExecute(&a,cmd,1,0,time_now);
     //IotReadCmd(&a,1,0);
     //log_info("%s",a.data);
@@ -28,6 +25,7 @@ int main(int argc,char**argv)
     //ReadOrDeleteUserScene(&a,"tvVmreNKu8R",2,1);
     ///88888888888888888888888888888888888888888888888888
     AcceptClient();
+    ///*****************************************************************
     fclose(loginfo);
     pthread_mutex_destroy(&(RegistedIotHead->mute));
     pthread_mutex_destroy(&(RegistedUserHead->mute));

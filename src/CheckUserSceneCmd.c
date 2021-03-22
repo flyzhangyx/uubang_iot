@@ -6,6 +6,7 @@ DWORD WINAPI CheckUserSceneCmd()
     struct tm *p;
     time_t t,t1;
     char time_now[50];
+    Sleep(5000);
     while(1)
     {
         t =time(NULL);//Now Time

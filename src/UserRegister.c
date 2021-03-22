@@ -28,13 +28,13 @@ int UserRegiter(CLN* a)
     }
     char insert1[800] = "";
     sprintf(insert1,"%s%s%s%s%s%s%s%d%s",
-            "INSERT INTO `iotserverinfo` (`userId`, `FriendRelUpdateTime`, `IotRelUpdateTime`, `MsgRecUpdateTime`, `IsRegisterRecord`) VALUES ('",
-            a->USERID,
-            "', '",
+            "INSERT INTO `iotserverinfo` (`userId`, `FriendRelUpdateTime`, `IotRelUpdateTime`, `MsgRecUpdateTime`, `IsRegisterRecord`) VALUES (NULL,",
             "CURRENT_TIMESTAMP",
-            "', '",
+            ", ",
             "CURRENT_TIMESTAMP",
-            "', '",
+            ", ",
+            "CURRENT_TIMESTAMP",
+            ", '",
             0,
             "')");
     if(mysql_real_query(mysql,insert1,strlen(insert1)))

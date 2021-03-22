@@ -87,7 +87,7 @@ int initServer(int port)
     /** 创建线程池 */
     ThreadPool_ExecuteMsg = stpool_create("MSG_EXE_POOL", /** 线程池名                      */
                                           eCAPs,    /** 期望libstpool提供的的功能特性 */
-                                          800,	   /** 线程池中运行的最大线程数目    */
+                                          200,	   /** 线程池中运行的最大线程数目    */
                                           100,	   /** 预启动提供服务的的线程数目    */
                                           0,	   /** 保持线程池创建后调度任务状态  */
                                           1		   /** 优先级队列数目                */
