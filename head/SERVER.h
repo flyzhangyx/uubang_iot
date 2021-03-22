@@ -159,7 +159,7 @@ int NewUserMsgStorage(CLN*,int);
 int IotUpdateStatus(CLN*,int,int );
 int UserGetIotData(CLN*);
 int UserReqIotRel(CLN*);
-void CreateDailyMsgdb();
+HANDLE CreateDailyMsgdb();
 void CopyUserPacketInterface2Cln(UserPacketInterface UserPacketInterface,CLN *a);
 unsigned int DJBHash(char* str, unsigned int len);
 void InitRSA(RSAKey*);
@@ -174,7 +174,7 @@ int NewIotCmdToBeExecute(CLN *a,char *cmd,int Devclass,int status,char *CmdTimeS
 int IotReadCmd(CLN *a,int Devclass,int del);
 int mysql_master_connect_ping();
 void CopyRecIotData2Cln(char *recBuff,CLN* CONN,int len);
-void StartCheckUserScene();
+HANDLE StartCheckUserScene();
 int NewUserSceneCmdStore(CLN*,char*,int,int,int,char*,char*);
 int ReadOrDeleteUserScene(CLN*,char*,int,int);
 int Send2OnlineUserViaTopServer(CLN a);
@@ -182,7 +182,6 @@ void ConnectToTopServer();
 void getNetIp(char *ip);
 int Initialize();
 int GetCPUUseRate();
-void StartCheckUserScene();
 int GetRamUse();
 int addConnMemWait4Free(struct sttask *ptask);
 void freeConnMemWait4Free();
@@ -244,5 +243,6 @@ int g_default_color ;
 char app_version[20];
 char NetIP[20];
 MemoryPool* mp ;
+int isShutDown;
 ///**********************************
 #endif // SERVER_H_INCLUDED

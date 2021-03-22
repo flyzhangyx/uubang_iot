@@ -6,7 +6,7 @@ DWORD WINAPI CheckUserSceneCmd()
     struct tm *p;
     time_t t,t1;
     //char time_now[50];
-    while(1)
+    while(!isShutDown)
     {
         t =time(NULL);//Now Time
         p=localtime(&t);
@@ -31,8 +31,9 @@ DWORD WINAPI CheckUserSceneCmd()
 #endif // MemPool
         Sleep(1000*5);
     }
+    return 1;
 }
-void StartCheckUserScene()
+HANDLE StartCheckUserScene()
 {
-    CreateThread(NULL,0,(LPTHREAD_START_ROUTINE)CheckUserSceneCmd,NULL,0,NULL);
+    return CreateThread(NULL,0,(LPTHREAD_START_ROUTINE)CheckUserSceneCmd,NULL,0,NULL);
 }

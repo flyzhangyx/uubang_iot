@@ -27,7 +27,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
     CLN* ARG_CONN = NULL;
     LPPER_IO_DATA PerIoData = NULL;
     UserPacketInterface RecBuff;
-    while(1)
+    while(!isShutDown)
     {
         CONNHANDLE = NULL;
         lpOverlapped = NULL;

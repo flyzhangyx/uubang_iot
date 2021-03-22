@@ -29,7 +29,7 @@ int AcceptClient()
     }
 
     listen(server_sockfd,10);///等待客户端连接请求到达
-    while(1)
+    while(!isShutDown)
     {
         CLN* CONNHANDLE = (CLN*)malloc(sizeof(CLN));
         if(CONNHANDLE==NULL)
@@ -80,4 +80,5 @@ int AcceptClient()
         DWORD Flags = 0;
         WSARecv(CONNHANDLE->remote_socket, &(PerIoData->WSADATABUF), 1, &RecvBytes, &Flags, &(PerIoData->overlapped), NULL);
     }
+    return 1;
 }

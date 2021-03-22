@@ -3,6 +3,7 @@ int initServer(int port)
 {
     int scan;
     ManualCtrl = 0;
+    isShutDown = 0;
     CLN_num=0;
     strcpy(CHECK,"ZY");
     strcpy(SIGN_IN,"SI");//µÇÂ½Âë

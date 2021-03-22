@@ -2,7 +2,7 @@
 DWORD WINAPI CreateDailyMsgdbThread()
 {
     int flag = 0;
-    while(1)
+    while(!isShutDown)
     {
         struct tm *p;
         time_t t,t1;
@@ -47,8 +47,9 @@ DWORD WINAPI CreateDailyMsgdbThread()
         }
         Sleep(1000*60);
     }
+    return 1;
 }
-void CreateDailyMsgdb()
+HANDLE CreateDailyMsgdb()
 {
-    CreateThread(NULL,0,(LPTHREAD_START_ROUTINE)CreateDailyMsgdbThread,NULL,0,NULL);
+    return CreateThread(NULL,0,(LPTHREAD_START_ROUTINE)CreateDailyMsgdbThread,NULL,0,NULL);
 }

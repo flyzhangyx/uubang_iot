@@ -69,7 +69,7 @@ DWORD WINAPI ReceiveMsgFromTopServer()
     char buf[sizeof(UserPacketInterface)] = "";
     int len;
     UserPacketInterface pack;
-    while(1)
+    while(!isShutDown)
     {
         CLN *CONNHANDLE = (CLN*)malloc(sizeof(CLN));
         memset(buf,0,sizeof(UserPacketInterface));
@@ -93,6 +93,7 @@ DWORD WINAPI ReceiveMsgFromTopServer()
 #endif
         }
     }
+    return 1;
 }
 void ConnectToTopServer()
 {
@@ -109,7 +110,7 @@ void ConnectToTopServer()
     memset(&addr, 0, sizeof(addr)); //初始化addr
     addr.sin_family = AF_INET;
     addr.sin_port = htons(4000);
-    addr.sin_addr.s_addr = inet_addr("127.0.0.1");// 你连接需要服务端的ip
+    addr.sin_addr.s_addr = inet_addr("47.106.207.241");// 你连接需要服务端的ip
     int addrlen = sizeof(addr);
     int ret = connect(LocalSocket, (struct sockaddr *)&addr, addrlen);//实现连接服务端
     if(ret<0)
@@ -117,7 +118,7 @@ void ConnectToTopServer()
         log_error("Connect To TopServer Error!");
         return;
     }
-    CreateThread(NULL,0,(LPTHREAD_START_ROUTINE)ReceiveMsgFromTopServer,NULL,0,NULL);
+    CloseHandle(CreateThread(NULL,0,(LPTHREAD_START_ROUTINE)ReceiveMsgFromTopServer,NULL,0,NULL));
     isConnected = 1;
 }
 int Send2OnlineUserViaTopServer(CLN a)

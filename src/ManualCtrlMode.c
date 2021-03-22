@@ -14,7 +14,7 @@ void EnterManualCtrlMode()
 {
     int selectMode;
     int isExit;
-    while(1)
+    while(!isShutDown)
     {
         isExit = 0;
         getch();
@@ -36,11 +36,14 @@ void EnterManualCtrlMode()
             case '3':
                 PrintAllUserAndIotDevice();
                 break;
-                case '4':
+            case '4':
                 FindOnlineUserOrIot(123,NULL,0);
                 break;
             case '5':
                 isExit = 1;
+                break;
+            case '6':
+                isShutDown = 1;
                 break;
             default:
                 printf("Input Err");

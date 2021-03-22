@@ -131,6 +131,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="MemoryPool/memorypool.h" />
+		<Unit filename="NewDialog.h" />
 		<Unit filename="head/SERVER.h" />
 		<Unit filename="head/libThreadPool.h" />
 		<Unit filename="head/sqlpool.h">
@@ -313,6 +314,9 @@
 		</Unit>
 		<Extensions>
 			<lib_finder disable_auto="1" />
+			<wxsmith version="1">
+				<gui name="wxWidgets" src="" main="" init_handlers="necessary" language="CPP" />
+			</wxsmith>
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

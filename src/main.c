@@ -7,9 +7,9 @@ int main(int argc,char**argv)
     ConnectToTopServer();
     log_info("服务器初始化成功,端口:%d",atoi(argv[1]));
     ///*******************************
-    CreateThread(NULL,0,(LPTHREAD_START_ROUTINE)EnterManualCtrlMode,NULL,0,NULL);
+    CloseHandle(CreateThread(NULL,0,(LPTHREAD_START_ROUTINE)EnterManualCtrlMode,NULL,0,NULL));
     ///*******************************
-    CreateDailyMsgdb();//New Daily DB Thread
+    CloseHandle(CreateDailyMsgdb());//New Daily DB Thread
     StartCheckUserScene();//
     ///9999999999999999999999999999999999999999999999999999999
     time_t now_time;
@@ -29,8 +29,11 @@ int main(int argc,char**argv)
     //log_info("%s",a.data);
     //NewUserSceneCmdStore(&a,"",0,0,2,"23:00:00","1111111");
     //ReadOrDeleteUserScene(&a,"tvVmreNKu8R",2,1);
-    ///88888888888888888888888888888888888888888888888888
+    ///*****************************************************************
     AcceptClient();
+    Sleep(5000);
+    ///*****************************************************************
+    log_info("Program End Manually");
     fclose(loginfo);
     pthread_mutex_destroy(&(RegistedIotHead->mute));
     pthread_mutex_destroy(&(RegistedUserHead->mute));
