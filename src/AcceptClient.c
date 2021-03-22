@@ -1,9 +1,5 @@
 #include"../head/SERVER.h"
 int AcceptClientNum = 0;
-static void task_err_handler(struct sttask *ptask, long reasons)
-{
-    log_error("**ERR: '%s' (%lx)",ptask->task_name, reasons);
-}
 void Add2MallocConnList(CLN* CONNHANDLE,LPPER_IO_DATA PerIoData)
 {
     Con2FreeArg *ConnMalloc = (Con2FreeArg*)malloc(sizeof(Con2FreeArg));
@@ -38,7 +34,7 @@ int AcceptClient()
         CLN* CONNHANDLE = (CLN*)malloc(sizeof(CLN));
         if(CONNHANDLE==NULL)
         {
-            sleep(1);
+            Sleep(1000);
             continue;
         }
         memset(CONNHANDLE,0,sizeof(CLN));

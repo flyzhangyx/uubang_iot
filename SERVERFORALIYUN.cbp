@@ -25,6 +25,7 @@
 					<Add directory="MYSQL/include" />
 					<Add directory="MYSQL/include/mysql" />
 					<Add directory="libstpool" />
+					<Add directory="MemoryPool" />
 				</Compiler>
 				<Linker>
 					<Add option="-static-libstdc++" />
@@ -35,7 +36,7 @@
 					<Add library="MYSQL/lib/libmysql.lib" />
 					<Add library="wsock2Lib/WS2_32.LIB" />
 					<Add library="libstpool/libstpool.a" />
-					<Add library="wsock2Lib/libMD5Utils.a" />
+					<Add library="libmd5utils/libMD5Utils.a" />
 					<Add directory="MYSQL/lib" />
 				</Linker>
 			</Target>
@@ -57,6 +58,7 @@
 					<Add directory="MYSQL/include" />
 					<Add directory="MYSQL/include/mysql" />
 					<Add directory="libstpool" />
+					<Add directory="MemoryPool" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -68,7 +70,7 @@
 					<Add library="MYSQL/lib/libmysql.lib" />
 					<Add library="wsock2Lib/WS2_32.LIB" />
 					<Add library="libstpool/libstpool.a" />
-					<Add library="wsock2Lib/libMD5Utils.a" />
+					<Add library="libmd5utils/libMD5Utils.a" />
 					<Add directory="MYSQL/lib" />
 					<Add directory="libstpool/stpool_win_proj/Release" />
 				</Linker>
@@ -131,7 +133,10 @@
 		<Unit filename="MemoryPool/memorypool.h" />
 		<Unit filename="head/SERVER.h" />
 		<Unit filename="head/libThreadPool.h" />
-		<Unit filename="head/md5.h" />
+		<Unit filename="head/sqlpool.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="libmd5utils/md5.h" />
 		<Unit filename="libstpool/stpool.h" />
 		<Unit filename="libstpool/stpool_caps.h" />
 		<Unit filename="libstpool/stpool_group.h" />

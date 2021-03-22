@@ -16,8 +16,8 @@ int talk(LPVOID b)
     int len;
     UserPacketInterface SendDataStruct;
     char sendbuf[721]="";
-    IotPacketInterface IotSendDataStruct;
-    char Iotsendbuf[200]="";
+//    IotPacketInterface IotSendDataStruct;
+//    char Iotsendbuf[200]="";
 #ifdef STPOOL
     if(ptask->task_arg==NULL)
     {

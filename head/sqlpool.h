@@ -6,7 +6,7 @@
 #define DBUSER_LEN  64
 #define PASSWD_LEN  64
 #define POOL_MAX_NUMBER 30
-
+#include "mysql.h"
 
 typedef struct _SQL_NODE SQL_NODE;                /*连接节点*/
 typedef struct _SQL_CONN_POOL SQL_CONN_POOL;      /*连接池*/

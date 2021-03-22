@@ -9,17 +9,24 @@
 #include <pthread.h>
 #include <direct.h>
 #include <time.h>
-#include "mysql.h"
 #include <malloc.h>
+
+#ifdef STPOOL
 #include "stpool.h"
-#include "../head/libThreadPool.h"
-#include "../MemoryPool/memorypool.h"
+#else
+#include "libThreadPool.h"
+#endif // STPOOL
+
+#include "memorypool.h"
 #include "sqlpool.h"
+#include "mysql.h"
+
+
 #define msleep Sleep
 #define BUFSIZE 512
 //封装带颜色打印接口
 #ifdef DEBUG_PRINT
-    #define log_debug(format, args...)     do{ SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_GREEN);\
+#define log_debug(format, args...)     do{ SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_GREEN);\
                                             time_t now_time;\
                                             time(&now_time);\
                                             char time_now[50];\
@@ -147,7 +154,7 @@ typedef struct
 {
     CLN* Conn;
     LPPER_IO_DATA PerIoData;
-}Con2FreeArg;
+} Con2FreeArg;
 ///*****************************
 ///*******函数声明**************
 #ifdef STPOOL
@@ -222,10 +229,12 @@ int addConnMemWait4Free(struct sttask *ptask);
 void freeConnMemWait4Free();
 int addConnMemWait4Ping(Con2FreeArg*);
 void PingMallocConnList();
+#ifdef MemPool
 int InitMemPool(int MemPoolSize,int MallocNodeSize );
 void *mallocNode(int *flag/*sup user a index which mem is providing */);
 void freeNode(int flag,void *node);
 void freeMemPool();
+#endif // MemPool
 ///*****************************
 ///***************各类标志码**********************
 char CHECK[3];///应用进入时登陆检测是否已经注册

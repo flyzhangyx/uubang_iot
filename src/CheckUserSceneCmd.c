@@ -5,8 +5,7 @@ DWORD WINAPI CheckUserSceneCmd()
     struct pool_stat temp;
     struct tm *p;
     time_t t,t1;
-    char time_now[50];
-    Sleep(5000);
+    //char time_now[50];
     while(1)
     {
         t =time(NULL);//Now Time

@@ -1,12 +1,12 @@
 #include"../head/SERVER.h"
-#include "../head/md5.h"
+#include "../libmd5utils/md5.h"
 #ifdef STPOOL
 int talk(struct sttask *ptask)
 #else
 int talk(LPVOID b)
 #endif
 {
-    int len,signIN=0,creat_check_alive=0;
+    int len,signIN=0;
 #ifdef STPOOL
     if(ptask->task_arg==NULL)
     {
@@ -112,8 +112,10 @@ int talk(LPVOID b)
         }
         else
         {
-            char cmd[200]="";
-            sprintf(cmd,"%s %s %s","cmd.exe /c \"PINSend.bat\"",a->data,a->Pin);
+            char cmd[500]="";
+            char email[50]="";
+            memcpy(email,a->data,50);
+            sprintf(cmd,"%s %s %s","cmd.exe /c \"PINSend.bat\"",email,a->Pin);
             log_info("%s",cmd);
             system(cmd);
         }
@@ -331,7 +333,6 @@ int talk(LPVOID b)
         }
         delete_out_user(a);
         a->info[0] = 'N';
-        creat_check_alive = 0;
     }
     break;
     case 72270: //UPD
