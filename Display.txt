@@ -2,7 +2,7 @@
 #                                                     #
 #  1.ConnectToTopServer       2.UpdateAppVersion      #
 #                                                     #
-#  3.PrintAllUserAndIotDev   4.PrintOnlineUser        #
+#  3.PrintAllUserAndIotDev    4.PrintOnlineUser       #
 #                                                     #
 #  5.ExitManualCtrlMode                               #
 #                                                     #

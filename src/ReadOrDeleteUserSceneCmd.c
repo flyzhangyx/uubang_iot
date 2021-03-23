@@ -64,12 +64,12 @@ int ReadOrDeleteUserScene(CLN *a,char* UserId,int CmdGroupId,int del)
             strcpy(RecDataStruct.TalktoID,Temp->USERID);
             strcpy(RecDataStruct.USERID,a->USERID);
             sprintf(RecDataStruct.DATA,"%s|%s|%s|%s|%s|%s|%s",row[2],row[3],row[4],row[5],row[6],row[7],row[8]);
-            RecDataStruct.save[99]='\n';
+            RecDataStruct.save[99]=_HC_;
             memcpy(sendbuf,&RecDataStruct,sizeof(RecDataStruct));
-            len=send(a->remote_socket,sendbuf,sizeof(UserPacketInterface),0);
+            len=send(a->SOCKET,sendbuf,sizeof(UserPacketInterface),0);
             if(len==SOCKET_ERROR||len==0)
             {
-                closesocket(a->remote_socket);
+                closesocket(a->SOCKET);
                 release_node(MySqlConnPool, temmp);
                 mysql_free_result(res);
                 return 0;

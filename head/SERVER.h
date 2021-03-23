@@ -23,18 +23,20 @@
 
 #define msleep Sleep
 #define BUFSIZE 512
-
+#define _HC_ '\n'
 #include "../src/log_print.c"
 ///**************在线用户节点****************
 
 struct user
 {
-    SOCKET USER_socket;
-    SOCKADDR_IN USER_socket_udp;
+    SOCKET USER_SOCKET;
+    SOCKADDR_IN USER_ADDR;
     char USERID[12];
     int USERKEY_ID;
     char USERPASSWORD[33];
     char info[100];
+    pthread_mutex_t mutex;
+    int isReconnect;
     struct user *next;
 };
 typedef struct user * USER;
@@ -76,7 +78,7 @@ typedef struct
 ///********函数接口*************
 typedef struct cln
 {
-    SOCKET remote_socket;
+    SOCKET SOCKET;
     SOCKADDR_IN ADDR;
     char USERID[12];
     int USERKEY_ID;

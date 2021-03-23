@@ -89,18 +89,36 @@ int addConnMemWait4Ping(Con2FreeArg* arg)
 void PingMallocConnList()
 {
     char HBA[4]="HBA";
-    HBA[3]='\n';
+    HBA[3]=_HC_;
     CLN_LINK* cursor=&MallocHead;
-    log_info("CONN2BEPING %d",cursor->time);
+    //log_info("CONN2BEPING %d",cursor->time);
     int len = 0;
+    USER temp ;
     while(cursor->next!=NULL)
     {
         if(cursor->next->CONNHANDLE!=NULL)
         {
-            len = send(cursor->next->CONNHANDLE->remote_socket,HBA,4,0);
-            if(len==SOCKET_ERROR||len==0)
+            temp=FindOnlineUserOrIot(0,cursor->next->CONNHANDLE->USERID,0);
+            temp = temp?temp:FindOnlineUserOrIot(10,cursor->next->CONNHANDLE->USERID,0);//IOT
+            if(temp!=NULL)
             {
-                cursor->next->time++;
+                if(!pthread_mutex_trylock(&(temp->mutex)))
+                {
+                    len = send(cursor->next->CONNHANDLE->SOCKET,HBA,4,0);
+                    if(len==SOCKET_ERROR||len==0)
+                    {
+                        cursor->next->time++;
+                    }
+                    pthread_mutex_unlock(&(temp->mutex));
+                }
+            }
+            else
+            {
+                len = send(cursor->next->CONNHANDLE->SOCKET,HBA,4,0);
+                if(len==SOCKET_ERROR||len==0)
+                {
+                    cursor->next->time++;
+                }
             }
         }
         else
@@ -132,15 +150,31 @@ void PingMallocConnList()
     }
 }
 
+int checkUserInMemWait4FreeList(char *USERID)
+{
+    CLN_LINK* cursor=&Head;
+    while(cursor->next!=NULL)
+    {
+        if(!strcmp(cursor->CONNHANDLE->USERID,USERID))
+        {
+            return 1;
+        }
+        else
+        {
+            cursor = cursor->next;
+        }
+    }
+    return 0;
+}
 void freeConnMemWait4Free()
 {
     if(WAIT_TIMEOUT==WaitForSingleObject(Con2FreeLink_mutex, 0))
     {
-        log_info("LOCK CONN2BEFREE_LINK FAIL");
+        //log_info("LOCK CONN2BEFREE_LINK FAIL");
         return;
     }
     CLN_LINK* cursor=&Head;
-    log_info("CONN2BEFREE %d",cursor->time);
+    //log_info("CONN2BEFREE %d",cursor->time);
     while(cursor->next!=NULL)
     {
         if(cursor->next->CONNHANDLE!=NULL)
@@ -148,9 +182,9 @@ void freeConnMemWait4Free()
             if((cursor->next->time==1&&cursor->next->CONNHANDLE->info[2]==0)||(cursor->next->left_time>=200))
             {
                 pthread_mutex_destroy(&(cursor->next->CONNHANDLE->t));
-                log_debug("Free Conn :%I64d  MemAddr :0x%x",cursor->next->CONNHANDLE->remote_socket,cursor->next->CONNHANDLE);
+                log_debug("Free Conn :%I64d  MemAddr :0x%x",cursor->next->CONNHANDLE->SOCKET,cursor->next->CONNHANDLE);
                 delete_out_user(cursor->next->CONNHANDLE);
-                closesocket(cursor->next->CONNHANDLE->remote_socket);
+                closesocket(cursor->next->CONNHANDLE->SOCKET);
                 free(cursor->next->CONNHANDLE);
                 cursor->next->CONNHANDLE=NULL;
                 if(cursor->next->PERIODATA!=NULL)
@@ -182,7 +216,7 @@ void freeConnMemWait4Free()
         }
         else
         {
-            log_debug("CON2BEFREE_NULL");
+            log_debug("CON2BEFREE_NULL_CHKOUT_BY_RECONNECT");
             CLN_LINK *temp = cursor->next;
             cursor->next=cursor->next->next;
             free(temp);

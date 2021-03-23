@@ -7,21 +7,30 @@ int delete_out_user(CLN *a)
     }
     if(strlen(a->USERID)>=11)
     {
+        pthread_mutex_lock(&(onlineUserHead->mute));
         USER Tag= onlineUserHead->next;
         if(Tag==NULL)
         {
-            //log_info("在线用户列表中无此用户%s,请检查服务器",a->USERID);
+            pthread_mutex_unlock(&(onlineUserHead->mute));
             return 0;
         }
         else
         {
             if(!strcmp(a->USERID,Tag->USERID))
             {
+                if(Tag->isReconnect==1)//RECONNECT
+                {
+                    Tag->isReconnect = 0;
+                    pthread_mutex_unlock(&(onlineUserHead->mute));
+                    return 0;
+                }
                 onlineUserHead->next=Tag->next;
+                pthread_mutex_destroy(&(Tag->mutex));
                 free(Tag);
-                //log_info("已从在线列表中删除该用户%s",a->USERID);
                 onlineUserHead->OnlineUserNum--;
+                pthread_mutex_unlock(&(onlineUserHead->mute));
                 return 1;
+
             }
             else
             {
@@ -29,10 +38,17 @@ int delete_out_user(CLN *a)
                 {
                     if(!strcmp(a->USERID,Tag->next->USERID))
                     {
+                        if(Tag->next->isReconnect==1)//RECONNECT
+                        {
+                            Tag->next->isReconnect = 0;
+                            pthread_mutex_unlock(&(onlineUserHead->mute));
+                            return 0;
+                        }
                         Tag->next=Tag->next->next;
+                        pthread_mutex_destroy(&(Tag->next->mutex));
                         free(Tag->next);
-                        //log_info("已从在线列表中删除该用户%s",a->USERID);
                         onlineUserHead->OnlineUserNum--;
+                        pthread_mutex_unlock(&(onlineUserHead->mute));
                         return 1;
                     }
                     else
@@ -40,17 +56,18 @@ int delete_out_user(CLN *a)
                         Tag=Tag->next;
                     }
                 }
+                pthread_mutex_unlock(&(onlineUserHead->mute));
+                return 0;
             }
         }
-        //log_info("在线用户列表中无此用户%s,请检查服务器",a->USERID);
-        return 0;
     }
     else
     {
+        pthread_mutex_lock(&(onlineIotHead->mute));
         USER Tag= onlineIotHead->next;
         if(Tag==NULL)
         {
-            //log_info("在线用户列表中无此设备%s,请检查服务器",a->USERID);
+            pthread_mutex_unlock(&(onlineIotHead->mute));
             return 0;
         }
         else
@@ -58,9 +75,10 @@ int delete_out_user(CLN *a)
             if(!strcmp(a->USERID,Tag->USERID))
             {
                 onlineIotHead->next=Tag->next;
+                pthread_mutex_destroy(&(Tag->mutex));
                 free(Tag);
-                //log_info("已从在线列表中删除该设备%s",a->USERID);
                 onlineIotHead->OnlineUserNum--;
+                pthread_mutex_unlock(&(onlineIotHead->mute));
                 return 1;
             }
             else
@@ -70,9 +88,10 @@ int delete_out_user(CLN *a)
                     if(!strcmp(a->USERID,Tag->next->USERID))
                     {
                         Tag->next=Tag->next->next;
+                        pthread_mutex_destroy(&(Tag->next->mutex));
                         free(Tag->next);
-                        //log_info("已从在线列表中删除该设备%s",a->USERID);
                         onlineIotHead->OnlineUserNum--;
+                        pthread_mutex_unlock(&(onlineIotHead->mute));
                         return 1;
                     }
                     else
@@ -80,9 +99,9 @@ int delete_out_user(CLN *a)
                         Tag=Tag->next;
                     }
                 }
+                pthread_mutex_unlock(&(onlineIotHead->mute));
+                return 0;
             }
         }
-        //log_info("在线用户列表中无此设备%s,请检查服务器",a->USERID);
-        return 0;
     }
 }

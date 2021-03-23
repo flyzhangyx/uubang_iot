@@ -4,7 +4,7 @@ int IoTtalk(CLN* b)
     char str[100]="test";
     //GetUpdateTimeStamp(0,1,str);
     Sleep(50);
-    send(b->remote_socket,str,strlen(str)+1,0);
+    send(b->SOCKET,str,strlen(str)+1,0);
     return 1;
 }
 ///*
@@ -14,7 +14,7 @@ int IoTtalk(CLN* b)
 //    char IoTdata[30]="";
 //    int len,signIN=0;
 //    CLN* a=(CLN*)b;
-//    SOCKET c=a->remote_socket;
+//    SOCKET c=a->SOCKET;
 //    sendbag RecDataStruct;
 //    char sendbuf[sizeof(sendbag)]= {0};
 //    char tag[4];
@@ -88,18 +88,18 @@ int IoTtalk(CLN* b)
 //                {
 //                    memset(sendbuf,0,sizeof(sendbag));
 //                    strcpy(RecDataStruct.checkcode,"TAI");
-//                    RecDataStruct.save[99]='\n';
+//                    RecDataStruct.save[99]=_HC_;
 //                    char temp[12]= {0};
 //                    strcpy(temp,RecDataStruct.USERID);
 //                    log_info("%s",temp);
 //                    strcpy(RecDataStruct.USERID,RecDataStruct.TalktoID);
 //                    strcpy(RecDataStruct.TalktoID,a->USERID);
 //                    memcpy(sendbuf,&RecDataStruct,sizeof(RecDataStruct));
-//                    len=send(talktouser->USER_socket,sendbuf,sizeof(sendbag),0);
+//                    len=send(talktouser->USER_SOCKET,sendbuf,sizeof(sendbag),0);
 //                    if(len==SOCKET_ERROR||len==0)
 //                    {
 //                        log_info("连接%I64d退出",c);
-//                        closesocket(talktouser->USER_socket);
+//                        closesocket(talktouser->USER_SOCKET);
 //                        return 0;
 //                    }
 //                    strcpy(IoTdata,"TAS");
@@ -141,7 +141,7 @@ int IoTtalk(CLN* b)
 //            strcpy(mes->TalktoID,RecDataStruct.TalktoID);
 //            strcpy(mes->USERID,a->USERID);
 //
-//            RecDataStruct.save[99]='\n';
+//            RecDataStruct.save[99]=_HC_;
 //            memset(mes,0,sizeof(contact));
 //            strcpy(mes->checkcode,"RCI");///****物联网设备添加成功
 //            strcpy(mes->TalktoID,a->USERID);

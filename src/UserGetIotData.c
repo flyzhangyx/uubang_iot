@@ -29,13 +29,13 @@ int UserGetIotData(CLN *a)
     {
         memset(sendbuf,0,sizeof(UserPacketInterface));
         strcpy(RecDataStruct.save,row[4]);//UpdateDate
-        RecDataStruct.save[99]='\n';
+        RecDataStruct.save[99]=_HC_;
         sprintf(RecDataStruct.DATA,"%d+%d+%s",atoi(row[1]),atoi(row[2]),row[3]);
         memcpy(sendbuf,&RecDataStruct,sizeof(RecDataStruct));
-        int len=send(a->remote_socket,sendbuf,sizeof(UserPacketInterface),0);
+        int len=send(a->SOCKET,sendbuf,sizeof(UserPacketInterface),0);
         if(len==SOCKET_ERROR||len==0)
         {
-            closesocket(a->remote_socket);
+            closesocket(a->SOCKET);
             release_node(MySqlConnPool, temmp);
             mysql_free_result(res);
             return 0;

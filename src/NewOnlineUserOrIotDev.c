@@ -16,8 +16,8 @@ int newOnlineUserOrIotDev(CLN *a)
     }
     strcpy(newuser->USERID,a->USERID);
     strcpy(newuser->USERPASSWORD,a->USERPASSWORD);
-    newuser->USER_socket_udp=a->ADDR;
-    newuser->USER_socket=a->remote_socket;
+    newuser->USER_ADDR=a->ADDR;
+    newuser->USER_SOCKET=a->SOCKET;
     newuser->USERKEY_ID=a->USERKEY_ID;
     if(strlen(a->USERID)<11)
     {
@@ -25,6 +25,7 @@ int newOnlineUserOrIotDev(CLN *a)
         newuser->next=onlineIotHead->next;
         strcpy(newuser->info,a->info);
         onlineIotHead->next=newuser;
+        pthread_mutex_init(&(newuser->mutex),NULL);
         pthread_mutex_unlock(&(onlineIotHead->mute));
         onlineIotHead->OnlineUserNum++;
     }
@@ -34,6 +35,7 @@ int newOnlineUserOrIotDev(CLN *a)
         newuser->next=onlineUserHead->next;
         strcpy(newuser->info,a->info);
         onlineUserHead->next=newuser;
+        pthread_mutex_init(&(newuser->mutex),NULL);
         pthread_mutex_unlock(&(onlineUserHead->mute));
         onlineUserHead->OnlineUserNum++;
     }

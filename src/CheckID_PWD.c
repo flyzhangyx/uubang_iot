@@ -1,5 +1,5 @@
 #include"../head/SERVER.h"
-int Check_Id_Pwd(int n,CLN *a)
+int Check_Id_Pwd(int n,CLN *a)//0 SIGN 1 REG
 {
     if(!(strlen(a->USERID)<11))
     {

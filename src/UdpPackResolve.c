@@ -14,7 +14,7 @@ DWORD WINAPI UdpPackResolve(LPVOID qn)
         ///一切完成后回包告知进行下一步
         strcpy(rec->checkcode,"UDP");
         memset(sendbuf,0,sizeof(UserPacketInterface));
-        rec->save[99]='\n';
+        rec->save[99]=_HC_;
         memcpy(sendbuf,rec,sizeof(*rec));
         USER talkuser=FindOnlineUserOrIot(0,rec->USERID,0);
         if(talkuser!=NULL)

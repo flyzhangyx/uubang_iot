@@ -1,5 +1,6 @@
 #include"../head/SERVER.h"
 SOCKET LocalSocket;
+int isConnected;
 #ifdef STPOOL
 void task_err_handler1(struct sttask *ptask, long reasons)
 {
@@ -28,7 +29,36 @@ int talk(LPVOID b)
 #else
     CLN* a = (CLN*)b;
 #endif
-    log_error("%s",a->data);
+    char tag[4];
+    memset(tag,0,4);
+    memcpy(tag,a->checkcode,3);
+    /*******************************/
+    switch (DJBHash(tag, 3))
+    {
+    case 70235://STO
+    {
+        USER temp = FindOnlineUserOrIot(0,a->TalktoID,0);
+        if(temp==NULL)
+            return;
+        memset(&SendDataStruct, 0, sizeof(UserPacketInterface));
+        memset(sendbuf, 0, sizeof(UserPacketInterface));
+        strcpy(SendDataStruct.checkcode, "STO");
+        SendDataStruct.save[99] = _HC_;
+        memcpy(sendbuf, &SendDataStruct, sizeof(SendDataStruct));
+        len = send(temp->USER_SOCKET, sendbuf, sizeof(UserPacketInterface), 0);
+        if (len == SOCKET_ERROR || len == 0)
+        {
+            closesocket(temp->USER_SOCKET);
+            return;
+        }
+        CLN a;
+        sprintf(a.USERID,"%s",temp->USERID);
+        delete_out_user(&a);
+        break;
+    }
+    case 12333:
+        break;
+    }
     if(strlen(a->TalktoID)<11)
     {
         USER Temp = FindOnlineUserOrIot(10,a->TalktoID,0);
@@ -51,12 +81,12 @@ int talk(LPVOID b)
             sprintf(SendDataStruct.USERID, "%s",a->USERID);
             sprintf(SendDataStruct.USERPASSWORD, "%s",a->USERPASSWORD);
             sprintf(SendDataStruct.checkcode, "%s",a->checkcode);
-            SendDataStruct.save[99] = '\n';
+            SendDataStruct.save[99] = _HC_;
             memcpy(sendbuf, &SendDataStruct, sizeof(SendDataStruct));
-            len = send(Temp->USER_socket, sendbuf, sizeof(UserPacketInterface), 0);
+            len = send(Temp->USER_SOCKET, sendbuf, sizeof(UserPacketInterface), 0);
             if (len == SOCKET_ERROR || len == 0)
             {
-                closesocket(Temp->USER_socket);
+                closesocket(Temp->USER_SOCKET);
             }
         }
     }
@@ -69,17 +99,26 @@ DWORD WINAPI ReceiveMsgFromTopServer()
     char buf[sizeof(UserPacketInterface)] = "";
     int len;
     UserPacketInterface pack;
-    while(!isShutDown)
+    CLN *CONNHANDLE;
+    while(!isShutDown&&isConnected)
     {
-        CLN *CONNHANDLE = (CLN*)malloc(sizeof(CLN));
+        CONNHANDLE = (CLN*)malloc(sizeof(CLN));
         memset(buf,0,sizeof(UserPacketInterface));
         len = recv(LocalSocket,buf,sizeof(UserPacketInterface),0);
         if(len<0)
         {
-            log_info("Receive From TopServer Error!");
-            send(LocalSocket,"123",3,0);
-            Sleep(1000);
-            continue;
+            log_error("Receive From TopServer Error!");
+            len = send(LocalSocket,"HBA",3,0);
+            if(len==0||len==SOCKET_ERROR)
+            {
+                closesocket(LocalSocket);
+                isConnected = 0;
+            }
+            else
+            {
+                Sleep(1000);
+                continue;
+            }
         }
         else
         {
@@ -97,7 +136,6 @@ DWORD WINAPI ReceiveMsgFromTopServer()
 }
 void ConnectToTopServer()
 {
-    static int isConnected = 0;
     if(isConnected)
         return;
     struct sockaddr_in addr;
@@ -130,7 +168,7 @@ int Send2OnlineUserViaTopServer(CLN a)
     sprintf(SendBuf.DATA,"%s",a.data);
     sprintf(SendBuf.REUSERPASSWORD,"%s",a.REUSERPASSWORD);
     sprintf(SendBuf.save,"%s",a.info);
-    SendBuf.save[99]='\n';
+    SendBuf.save[99]=_HC_;
     sprintf(SendBuf.TalktoID,"%s",a.TalktoID);
     sprintf(SendBuf.USERID,"%s",a.USERID);
     sprintf(SendBuf.USERPASSWORD,"%s",a.USERPASSWORD);

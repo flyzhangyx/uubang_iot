@@ -25,7 +25,7 @@ DWORD WINAPI fun(LPVOID qn)
                     talktouser->USER_socket_udp=remoteAddr;///存入相应链表
                     strcpy(RecDataStruct_udp.checkcode,"UDP");///
                     memset(sendbuf,0,sizeof(UserPacketInterface));
-                    RecDataStruct_udp.save[99]='\n';
+                    RecDataStruct_udp.save[99]=_HC_;
                     memcpy(sendbuf,&RecDataStruct_udp,sizeof(RecDataStruct_udp));
                     //log_info("qwqw");
                     sendto(server_sockfd_udp, sendbuf, sizeof(RecDataStruct_udp), 0, (SOCKADDR *)&remoteAddr, nAddrLen);
@@ -34,7 +34,7 @@ DWORD WINAPI fun(LPVOID qn)
                 {
                     strcpy(RecDataStruct_udp.checkcode,"udp");///小写表示连接失败
                     memset(sendbuf,0,sizeof(UserPacketInterface));
-                    RecDataStruct_udp.save[99]='\n';
+                    RecDataStruct_udp.save[99]=_HC_;
                     memcpy(sendbuf,&RecDataStruct_udp,sizeof(RecDataStruct_udp));
                     sendto(server_sockfd_udp, sendbuf, sizeof(RecDataStruct_udp), 0, (SOCKADDR *)&remoteAddr, nAddrLen);
                 }

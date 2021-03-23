@@ -48,7 +48,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                 else
                 {
                     log_debug("CLOSE BY PEER");//Client close (MITM)
-                    closesocket(CONNHANDLE->remote_socket);
+                    closesocket(CONNHANDLE->SOCKET);
                     continue;
                 }
             }
@@ -64,12 +64,12 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
             if(PerIoData==NULL)
             {
                 log_error("Recv Success, but PerIoData is Null");
-                closesocket(CONNHANDLE->remote_socket);
+                closesocket(CONNHANDLE->SOCKET);
                 continue;
             }
             if(0 == BytesTransferred||BytesTransferred>721)
             {
-                closesocket(CONNHANDLE->remote_socket);
+                closesocket(CONNHANDLE->SOCKET);
                 continue;
             }
             else if(BytesTransferred>10&&BytesTransferred<105)
@@ -82,7 +82,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
 #endif
                 if(ARG_CONN==NULL)
                 {
-                    send(CONNHANDLE->remote_socket,"OOE",4,0);//OUTOFMEM
+                    send(CONNHANDLE->SOCKET,"OOE",4,0);//OUTOFMEM
                     log_error("OOE");
                 }
                 else
@@ -107,7 +107,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
 #endif
                 if(ARG_CONN==NULL)
                 {
-                    send(CONNHANDLE->remote_socket,"OOE",4,0);//OUTOFMEM
+                    send(CONNHANDLE->SOCKET,"OOE",4,0);//OUTOFMEM
                     log_error("OOE");
                 }
                 else
@@ -139,13 +139,13 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                 {
                     //OLD VERSION
                     char tempBuf[721]="UPD";
-                    send(CONNHANDLE->remote_socket,tempBuf,721,0);
+                    send(CONNHANDLE->SOCKET,tempBuf,721,0);
                 }
             }
             if(CONNHANDLE->info[1]!='Y')
             {
-                log_info("[Illegal User] %s:%d , Con = %I64d ",inet_ntoa((CONNHANDLE->ADDR.sin_addr)),CONNHANDLE->ADDR.sin_port,CONNHANDLE->remote_socket);
-                closesocket(CONNHANDLE->remote_socket);
+                log_info("[Illegal User] %s:%d , Con = %I64d ",inet_ntoa((CONNHANDLE->ADDR.sin_addr)),CONNHANDLE->ADDR.sin_port,CONNHANDLE->SOCKET);
+                closesocket(CONNHANDLE->SOCKET);
                 //AddToFreeThread(CONNHANDLE,PerIoData);
 #ifdef MemPool
                 freeNode(ARG_CONN->MemMark,ARG_CONN);
@@ -165,7 +165,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
             }
             else
             {
-                send(CONNHANDLE->remote_socket,"OOM",4,0);//OUTOFMEM
+                send(CONNHANDLE->SOCKET,"OOM",4,0);//OUTOFMEM
 #ifdef MemPool
                 freeNode(ARG_CONN->MemMark,ARG_CONN);
 #else
@@ -178,7 +178,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
             PerIoData->OpCode= 0;// read
             DWORD RecvBytes;
             DWORD Flags = 0;
-            WSARecv(CONNHANDLE->remote_socket, &(PerIoData->WSADATABUF), 1, &RecvBytes, &Flags, &(PerIoData->overlapped), NULL);
+            WSARecv(CONNHANDLE->SOCKET, &(PerIoData->WSADATABUF), 1, &RecvBytes, &Flags, &(PerIoData->overlapped), NULL);
         }
     }
     return 0;

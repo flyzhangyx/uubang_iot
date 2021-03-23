@@ -1,9 +1,11 @@
 #include"../head/SERVER.h"
+extern int isConnected;
 int initServer(int port)
 {
     int scan;
     ManualCtrl = 0;
     isShutDown = 0;
+    isConnected = 0;
     CLN_num=0;
     strcpy(CHECK,"ZY");
     strcpy(SIGN_IN,"SI");//登陆码
@@ -41,7 +43,7 @@ int initServer(int port)
     PINREQ_HASH = DJBHash("PIN",3);
     log_info("PIN%d",PINREQ_HASH);
     IOTCFM_HASH = DJBHash("IOC",3);
-    log_info("IOC%d",IOTCFM_HASH);
+    log_info("IOC%d",IOTCFM_HASH);//iot cfm add friend cmd
 #endif // HASH_CODE
     ///***********socket初始化***********************
     WSADATA wsaData;
@@ -89,14 +91,14 @@ int initServer(int port)
     /** 创建线程池 */
     ThreadPool_ExecuteMsg = stpool_create("MSG_EXE_POOL", /** 线程池名                      */
                                           eCAPs,    /** 期望libstpool提供的的功能特性 */
-                                          800,	   /** 线程池中运行的最大线程数目    */
-                                          100,	   /** 预启动提供服务的的线程数目    */
+                                          35,	   /** 线程池中运行的最大线程数目    */
+                                          20,	   /** 预启动提供服务的的线程数目    */
                                           0,	   /** 保持线程池创建后调度任务状态  */
                                           1		   /** 优先级队列数目                */
                                          );
     ThreadPool_ExecuteTask = stpool_create("EXE_TASK_POOL", /** 线程池名                      */
                                            eCAPs,    /** 期望libstpool提供的的功能特性 */
-                                           10,	   /** 线程池中运行的最大线程数目    */
+                                           20,	   /** 线程池中运行的最大线程数目    */
                                            5,	   /** 预启动提供服务的的线程数目    */
                                            0,	   /** 保持线程池创建后调度任务状态  */
                                            1		   /** 优先级队列数目                */

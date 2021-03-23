@@ -82,10 +82,10 @@ int UserRequestMessage(CLN *a,int Direction,char *DateFirst,char *DateLast,struc
         strcpy(RecDataStruct.DATA,row[2]);//content
         strcpy(RecDataStruct.save,row[3]);//date
         memcpy(sendbuf,&RecDataStruct,sizeof(RecDataStruct));
-        len=send(a->remote_socket,sendbuf,sizeof(UserPacketInterface),0);
+        len=send(a->SOCKET,sendbuf,sizeof(UserPacketInterface),0);
         if(len==SOCKET_ERROR||len==0)
         {
-            closesocket(a->remote_socket);
+            closesocket(a->SOCKET);
             release_node(MySqlConnPool, temmp);
             mysql_free_result(res);
             return 0;

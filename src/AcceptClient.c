@@ -50,8 +50,8 @@ int AcceptClient()
             free(CONNHANDLE);
             continue;
         }
-        CONNHANDLE->remote_socket = accept(server_sockfd, (struct sockaddr*)&(CONNHANDLE->ADDR), &RemoteLen);
-        if(SOCKET_ERROR == CONNHANDLE->remote_socket) 	// 接收客户端失败
+        CONNHANDLE->SOCKET = accept(server_sockfd, (struct sockaddr*)&(CONNHANDLE->ADDR), &RemoteLen);
+        if(SOCKET_ERROR == CONNHANDLE->SOCKET) 	// 接收客户端失败
         {
             log_error("Accept Socket Error" );
             pthread_mutex_destroy(&(CONNHANDLE->t));
@@ -61,7 +61,7 @@ int AcceptClient()
         LPPER_IO_DATA PerIoData = (LPPER_IO_DATA)malloc(sizeof(PER_IO_DATA));//Per IO operation exchange data use this struct,put it in the WSARecv func to Rec something
          if(PerIoData==NULL)
         {
-            closesocket(CONNHANDLE ->remote_socket);
+            closesocket(CONNHANDLE ->SOCKET);
             pthread_mutex_destroy(&(CONNHANDLE->t));
             free(CONNHANDLE);
             log_error("Malloc PerIOData Fail");
@@ -69,8 +69,8 @@ int AcceptClient()
         }
         Add2MallocConnList(CONNHANDLE,PerIoData);
         AcceptClientNum++;
-        log_debug("Accept %I64d , MemAddr 0x%x",CONNHANDLE->remote_socket,CONNHANDLE);
-        CreateIoCompletionPort((HANDLE)(CONNHANDLE ->remote_socket), completionPort, (ULONG_PTR)CONNHANDLE, 0);//Create relation between CONNHANDLE and COmpletionPort
+        log_debug("Accept %I64d , MemAddr 0x%x",CONNHANDLE->SOCKET,CONNHANDLE);
+        CreateIoCompletionPort((HANDLE)(CONNHANDLE ->SOCKET), completionPort, (ULONG_PTR)CONNHANDLE, 0);//Create relation between CONNHANDLE and COmpletionPort
         memset(PerIoData,0, sizeof(PER_IO_DATA));
         memset(&(PerIoData -> overlapped),0, sizeof(OVERLAPPED));
         PerIoData->WSADATABUF.len = sizeof(UserPacketInterface);
@@ -78,7 +78,7 @@ int AcceptClient()
         PerIoData->OpCode= 0;	// read
         DWORD RecvBytes;
         DWORD Flags = 0;
-        WSARecv(CONNHANDLE->remote_socket, &(PerIoData->WSADATABUF), 1, &RecvBytes, &Flags, &(PerIoData->overlapped), NULL);
+        WSARecv(CONNHANDLE->SOCKET, &(PerIoData->WSADATABUF), 1, &RecvBytes, &Flags, &(PerIoData->overlapped), NULL);
     }
     return 1;
 }

@@ -131,7 +131,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="MemoryPool/memorypool.h" />
-		<Unit filename="NewDialog.h" />
 		<Unit filename="head/SERVER.h" />
 		<Unit filename="head/libThreadPool.h" />
 		<Unit filename="head/sqlpool.h">
