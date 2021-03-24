@@ -12,10 +12,10 @@ int MemPoolAvailable;
 int MallocNodesize;
 int InitMemPool(int MemPoolSize,int MallocNodeSize)
 {
-    MemPoolList = (void**)malloc(sizeof(void*)*MemPoolSize);
-    PoolMutexList = (MemPoolMutex*)malloc(sizeof(MemPoolMutex)*MemPoolSize);
-    MallocNodesize = MallocNodeSize;
-    int i = 10000;
+//    MemPoolList = (void**)malloc(sizeof(void*)*MemPoolSize);
+//    PoolMutexList = (MemPoolMutex*)malloc(sizeof(MemPoolMutex)*MemPoolSize);
+//    MallocNodesize = MallocNodeSize;
+//    int i = 10000;
 //    int i = 0;
 //    while(i<MemPoolSize)
 //    {
@@ -27,8 +27,8 @@ int InitMemPool(int MemPoolSize,int MallocNodeSize)
 //        }
 //        i++;
 //    }
-    MemPoolListSize=i;
-    MemPoolAvailable=i;
+//    MemPoolListSize=i;
+//    MemPoolAvailable=i;
     return MemPoolSize;
 }
 
@@ -56,20 +56,20 @@ void *mallocNode(int *flag/*sup user a index which mem is providing */)
 //        }
 //    }
     *flag = -1;
-    return (void*)malloc(MallocNodesize);
+    return (void*)malloc(sizeof(CLN));
 }
 
 void freeNode(int flag,void *node)
 {
-    if(node==NULL&&flag>=MemPoolListSize&&flag<-1)
-    {
-        log_error("Free Overflow MemPool");
-        return;
-    }
+//    if(node==NULL&&flag>=MemPoolListSize&&flag<-1)
+//    {
+//        log_error("Free Overflow MemPool");
+//        return;
+//    }
     //if(flag==-1)
-    {
+//    {
         free(node);
-    }
+        //   }
 //    else
 //    {
 //        pthread_mutex_unlock(&(PoolMutexList[flag].mutex));
@@ -79,12 +79,12 @@ void freeNode(int flag,void *node)
 
 void freeMemPool()
 {
-    int i = 0;
-    while(i++<MemPoolListSize)
-    {
-        free(MemPoolList[i-1]);
-        pthread_mutex_destroy(&(PoolMutexList[i-1].mutex));
-    }
-    free(MemPoolList);
-    free(PoolMutexList);
+//    int i = 0;
+//    while(i++<MemPoolListSize)
+//    {
+//        free(MemPoolList[i-1]);
+//        pthread_mutex_destroy(&(PoolMutexList[i-1].mutex));
+//    }
+//    free(MemPoolList);
+//    free(PoolMutexList);
 }

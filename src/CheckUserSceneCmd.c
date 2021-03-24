@@ -35,7 +35,7 @@ DWORD WINAPI CheckUserSceneCmd()
             log_debug("CONN2BEFREE_THREAD/TASK:[%d/%d]",temp.curthreads_active,temp.curtasks_pending);
             stpool_stat(ThreadPool_ExecuteMsg, &temp);
 #ifdef MemPool
-            log_info("ONLINE_USER:[%d] ONLINE_IOT:[%d] THREAD/TASK:[%d/%d] ",onlineUserHead->OnlineUserNum,onlineIotHead->OnlineUserNum,temp.curthreads_active,temp.curtasks_pending);
+            log_info("ONLINE_USER:[%d] ONLINE_IOT:[%d] THREAD/TASK:[%d/%d] %s",onlineUserHead->OnlineUserNum,onlineIotHead->OnlineUserNum,temp.curthreads_active,temp.curtasks_pending,isConnected?"CONNECT":"DISCONNECT");
 #else
             log_info("ONLINE_USER:[%d] ONLINE_IOT:[%d] THREAD/TASK:[%d/%d] MEM_POOL:[%.2f%%] %s",onlineUserHead->OnlineUserNum,onlineIotHead->OnlineUserNum,temp.curthreads_active,temp.curtasks_pending,MemoryPoolGetUsage(mp)*100,isConnected?"CONNECT":"DISCONNECT");
 #endif // MemPool
