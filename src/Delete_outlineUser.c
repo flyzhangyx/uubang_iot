@@ -20,7 +20,7 @@ int delete_out_user(CLN *a)
             {
                 onlineUserHead->next=Tag->next;
                 free(Tag);
-                onlineUserHead->OnlineUserNum--;
+                InterlockedDecrement((LPLONG) &(onlineUserHead->OnlineUserNum));
                 pthread_mutex_unlock(&(onlineUserHead->mute));
                 return 1;
             }
@@ -32,7 +32,7 @@ int delete_out_user(CLN *a)
                     {
                         Tag->next=Tag->next->next;
                         free(Tag->next);
-                        onlineUserHead->OnlineUserNum--;
+                        InterlockedDecrement((LPLONG) &(onlineUserHead->OnlineUserNum));
                         pthread_mutex_unlock(&(onlineUserHead->mute));
                         return 1;
                     }
@@ -62,7 +62,7 @@ int delete_out_user(CLN *a)
             {
                 onlineIotHead->next=Tag->next;
                 free(Tag);
-                onlineIotHead->OnlineUserNum--;
+                InterlockedDecrement((LPLONG) &(onlineIotHead->OnlineUserNum));
                 pthread_mutex_unlock(&(onlineIotHead->mute));
                 return 1;
             }
@@ -74,7 +74,7 @@ int delete_out_user(CLN *a)
                     {
                         Tag->next=Tag->next->next;
                         free(Tag->next);
-                        onlineIotHead->OnlineUserNum--;
+                        InterlockedDecrement((LPLONG) &(onlineIotHead->OnlineUserNum));
                         pthread_mutex_unlock(&(onlineIotHead->mute));
                         return 1;
                     }

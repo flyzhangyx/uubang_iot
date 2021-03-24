@@ -45,7 +45,7 @@ struct OnlineUserHead
     char TIME[18];
     char info[100];
     pthread_mutex_t mute;
-    int OnlineUserNum;
+    volatile int OnlineUserNum;
     USER  next;
 };
 ///*******************************************

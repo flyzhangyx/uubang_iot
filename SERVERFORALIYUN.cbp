@@ -46,7 +46,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="3566" />
+				<Option parameters="3566 123456" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-m64" />

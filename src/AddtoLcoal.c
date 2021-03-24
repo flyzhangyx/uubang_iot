@@ -23,14 +23,14 @@ int AddtoLocal(CLN *a)
         newuser->next=RegistedIotHead->next;
         strcpy(newuser->info,a->info);
         RegistedIotHead->next=newuser;
-        RegistedIotHead->OnlineUserNum++;
+        InterlockedIncrement((LPLONG) &(RegistedIotHead->OnlineUserNum));
     }
     else
     {
         newuser->next=RegistedUserHead->next;
         RegistedUserHead->next=newuser;
         strcpy(newuser->info,a->info);
-        RegistedUserHead->OnlineUserNum++;
+        InterlockedIncrement((LPLONG) &(RegistedUserHead->OnlineUserNum));
     }
     return 1;
 

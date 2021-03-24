@@ -1,4 +1,30 @@
 #include"../head/SERVER.h"
+#define RELEASE_ONLINE_REG_NODE() do{\
+    USER temp = RegistedIotHead->next;\
+    while(temp!=NULL)\
+    {\
+        free(temp);\
+        temp = temp->next;\
+    }\
+    temp = RegistedUserHead->next;\
+    while(temp!=NULL)\
+    {\
+        free(temp);\
+        temp = temp->next;\
+    }\
+    temp = onlineIotHead->next;\
+    while(temp!=NULL)\
+    {\
+        free(temp);\
+        temp = temp->next;\
+    }\
+    temp = onlineUserHead->next;\
+    while(temp!=NULL)\
+    {\
+        free(temp);\
+        temp = temp->next;\
+    }}while(0)
+
 int main(int argc,char**argv)
 {
     SetConsoleTitleA("IotServer");
@@ -49,6 +75,7 @@ int main(int argc,char**argv)
     libThreadPool_destroy(ThreadPool_ExecuteMsg);
     libThreadPool_destroy(ThreadPool_ExecuteTask);
 #endif
+    RELEASE_ONLINE_REG_NODE();
     return 0;
 }
 

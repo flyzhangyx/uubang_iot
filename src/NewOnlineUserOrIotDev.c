@@ -26,7 +26,7 @@ int newOnlineUserOrIotDev(CLN *a)
         strcpy(newuser->info,a->info);
         onlineIotHead->next=newuser;
         pthread_mutex_unlock(&(onlineIotHead->mute));
-        onlineIotHead->OnlineUserNum++;
+        InterlockedIncrement((LPLONG) &(onlineIotHead->OnlineUserNum));
     }
     else
     {
@@ -35,7 +35,7 @@ int newOnlineUserOrIotDev(CLN *a)
         strcpy(newuser->info,a->info);
         onlineUserHead->next=newuser;
         pthread_mutex_unlock(&(onlineUserHead->mute));
-        onlineUserHead->OnlineUserNum++;
+        InterlockedIncrement((LPLONG) &(onlineUserHead->OnlineUserNum));
     }
     return 1;
 }
