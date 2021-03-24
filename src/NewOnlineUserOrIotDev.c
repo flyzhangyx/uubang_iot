@@ -25,7 +25,6 @@ int newOnlineUserOrIotDev(CLN *a)
         newuser->next=onlineIotHead->next;
         strcpy(newuser->info,a->info);
         onlineIotHead->next=newuser;
-        pthread_mutex_init(&(newuser->mutex),NULL);
         pthread_mutex_unlock(&(onlineIotHead->mute));
         onlineIotHead->OnlineUserNum++;
     }
@@ -35,7 +34,6 @@ int newOnlineUserOrIotDev(CLN *a)
         newuser->next=onlineUserHead->next;
         strcpy(newuser->info,a->info);
         onlineUserHead->next=newuser;
-        pthread_mutex_init(&(newuser->mutex),NULL);
         pthread_mutex_unlock(&(onlineUserHead->mute));
         onlineUserHead->OnlineUserNum++;
     }

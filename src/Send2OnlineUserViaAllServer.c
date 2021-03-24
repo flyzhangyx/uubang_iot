@@ -1,4 +1,18 @@
 #include"../head/SERVER.h"
+#define SEND_STO() do{memset(&SendDataStruct, 0, sizeof(UserPacketInterface));\
+        memset(sendbuf, 0, sizeof(UserPacketInterface));\
+        strcpy(SendDataStruct.checkcode, "STO");\
+        SendDataStruct.save[99] = _HC_;\
+        memcpy(sendbuf, &SendDataStruct, sizeof(SendDataStruct));\
+        len = send(temp->USER_SOCKET, sendbuf, sizeof(UserPacketInterface), 0);\
+        if (len == SOCKET_ERROR || len == 0)\
+        {\
+            closesocket(temp->USER_SOCKET);\
+            return;\
+        }\
+        }while(0)
+
+
 SOCKET LocalSocket;
 int isConnected;
 #ifdef STPOOL
@@ -32,6 +46,7 @@ int talk(LPVOID b)
     char tag[4];
     memset(tag,0,4);
     memcpy(tag,a->checkcode,3);
+    CLN ReUseCLN;
     /*******************************/
     switch (DJBHash(tag, 3))
     {
@@ -40,25 +55,16 @@ int talk(LPVOID b)
         USER temp = FindOnlineUserOrIot(0,a->TalktoID,0);
         if(temp==NULL)
             return;
-        memset(&SendDataStruct, 0, sizeof(UserPacketInterface));
-        memset(sendbuf, 0, sizeof(UserPacketInterface));
-        strcpy(SendDataStruct.checkcode, "STO");
-        SendDataStruct.save[99] = _HC_;
-        memcpy(sendbuf, &SendDataStruct, sizeof(SendDataStruct));
-        len = send(temp->USER_SOCKET, sendbuf, sizeof(UserPacketInterface), 0);
-        if (len == SOCKET_ERROR || len == 0)
-        {
-            closesocket(temp->USER_SOCKET);
-            return;
-        }
-        CLN a;
-        sprintf(a.USERID,"%s",temp->USERID);
-        delete_out_user(&a);
+        SEND_STO();
+        ReUseCLN.SOCKET = temp->USER_SOCKET;//delete user by ID&SOCKET
+        sprintf(ReUseCLN.USERID,"%s",temp->USERID);
+        delete_out_user(&ReUseCLN);
         break;
     }
     case 12333:
         break;
     }
+
     if(strlen(a->TalktoID)<11)
     {
         USER Temp = FindOnlineUserOrIot(10,a->TalktoID,0);

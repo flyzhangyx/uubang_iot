@@ -28,7 +28,7 @@ int InitMemPool(int MemPoolSize,int MallocNodeSize)
 //        i++;
 //    }
 //    MemPoolListSize=i;
-//    MemPoolAvailable=i;
+    MemPoolAvailable=0;
     return MemPoolSize;
 }
 
@@ -56,6 +56,7 @@ void *mallocNode(int *flag/*sup user a index which mem is providing */)
 //        }
 //    }
     *flag = -1;
+    InterlockedIncrement((LPLONG) &(MemPoolAvailable));
     return (void*)malloc(sizeof(CLN));
 }
 
@@ -69,6 +70,7 @@ void freeNode(int flag,void *node)
     //if(flag==-1)
 //    {
         free(node);
+        InterlockedDecrement((LPLONG) &(MemPoolAvailable));
         //   }
 //    else
 //    {

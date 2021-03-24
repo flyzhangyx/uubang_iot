@@ -42,11 +42,9 @@ int AcceptClient()
         CONNHANDLE->info[1] = 'N';
         CONNHANDLE->info[0] = 'N';
         CONNHANDLE->info[2] = 0;
-        pthread_mutex_init(&(CONNHANDLE->t),NULL);
         if(AcceptClientNum>=10000)
         {
             log_debug("Accept Num Exceed 10000");
-            pthread_mutex_destroy(&(CONNHANDLE->t));
             free(CONNHANDLE);
             continue;
         }
@@ -54,7 +52,6 @@ int AcceptClient()
         if(SOCKET_ERROR == CONNHANDLE->SOCKET) 	// 接收客户端失败
         {
             log_error("Accept Socket Error" );
-            pthread_mutex_destroy(&(CONNHANDLE->t));
             free(CONNHANDLE);
             continue;
         }
@@ -62,7 +59,6 @@ int AcceptClient()
          if(PerIoData==NULL)
         {
             closesocket(CONNHANDLE ->SOCKET);
-            pthread_mutex_destroy(&(CONNHANDLE->t));
             free(CONNHANDLE);
             log_error("Malloc PerIOData Fail");
             continue;

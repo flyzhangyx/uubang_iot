@@ -35,8 +35,6 @@ struct user
     int USERKEY_ID;
     char USERPASSWORD[33];
     char info[100];
-    pthread_mutex_t mutex;
-    int isReconnect;
     struct user *next;
 };
 typedef struct user * USER;
@@ -130,7 +128,7 @@ DWORD WINAPI CreateDailyMsgdbThread();
 DWORD WINAPI ServerWorkThread(LPVOID lpParam);
 int StartThread(CLN* );
 int AcceptClient();
-int initServer(int);
+int initServer(int,char*);
 int newOnlineUserOrIotDev(CLN*);
 int delete_out_user(CLN*);
 USER FindOnlineUserOrIot(int,char*,int);
@@ -196,6 +194,9 @@ void freeNode(int flag,void *node);
 void freeMemPool();
 #endif // MemPool
 void EnterManualCtrlMode();
+int getAppVersion();
+void CreateServerInfoInSQL();
+int UpdateServerRunInfo(int CpuRate,int Mem,int TaskNum,int OnlineUserNum,int OnlineIotNum);
 ///*****************************
 ///***************各类标志码**********************
 char CHECK[3];///应用进入时登陆检测是否已经注册
@@ -246,5 +247,6 @@ char app_version[20];
 char NetIP[20];
 MemoryPool* mp ;
 int isShutDown;
+char ServerID[10];
 ///**********************************
 #endif // SERVER_H_INCLUDED

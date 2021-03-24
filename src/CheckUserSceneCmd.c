@@ -26,19 +26,25 @@ DWORD WINAPI CheckUserSceneCmd()
         {
 
         }
-        if(printCount==23)
+        if(printCount==10||printCount==23)
+        {
             PingMallocConnList();
-        freeConnMemWait4Free();
+            freeConnMemWait4Free();
+        }
         if(printCount==24)
         {
             stpool_stat(ThreadPool_ExecuteTask, &temp);
             log_debug("CONN2BEFREE_THREAD/TASK:[%d/%d]",temp.curthreads_active,temp.curtasks_pending);
             stpool_stat(ThreadPool_ExecuteMsg, &temp);
 #ifdef MemPool
-            log_info("ONLINE_USER:[%d] ONLINE_IOT:[%d] THREAD/TASK:[%d/%d] %s",onlineUserHead->OnlineUserNum,onlineIotHead->OnlineUserNum,temp.curthreads_active,temp.curtasks_pending,isConnected?"CONNECT":"DISCONNECT");
+            float UsedMem = (float)MemPoolAvailable*sizeof(CLN)/(1024*1024);
+            log_info("ONLINE_USER:[%d] ONLINE_IOT:[%d] THREAD/TASK:[%d/%d] MEM_POOL:[%.2fMB] %s",onlineUserHead->OnlineUserNum,onlineIotHead->OnlineUserNum,temp.curthreads_active,temp.curtasks_pending,UsedMem,isConnected?"CONNECT":"DISCONNECT");
 #else
+            float UsedMem = MemoryPoolGetUsage(mp)*100*500;
             log_info("ONLINE_USER:[%d] ONLINE_IOT:[%d] THREAD/TASK:[%d/%d] MEM_POOL:[%.2f%%] %s",onlineUserHead->OnlineUserNum,onlineIotHead->OnlineUserNum,temp.curthreads_active,temp.curtasks_pending,MemoryPoolGetUsage(mp)*100,isConnected?"CONNECT":"DISCONNECT");
 #endif // MemPool
+            if(printCount%10==0)
+                UpdateServerRunInfo(GetCPUUseRate(),UsedMem,temp.curtasks_pending,onlineUserHead->OnlineUserNum,onlineIotHead->OnlineUserNum);
         }
         Sleep(200);
     }

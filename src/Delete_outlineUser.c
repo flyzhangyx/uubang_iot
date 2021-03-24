@@ -16,36 +16,21 @@ int delete_out_user(CLN *a)
         }
         else
         {
-            if(!strcmp(a->USERID,Tag->USERID))
+            if(!strcmp(a->USERID,Tag->USERID)&&(a->SOCKET==Tag->USER_SOCKET))
             {
-                if(Tag->isReconnect==1)//RECONNECT
-                {
-                    Tag->isReconnect = 0;
-                    pthread_mutex_unlock(&(onlineUserHead->mute));
-                    return 0;
-                }
                 onlineUserHead->next=Tag->next;
-                pthread_mutex_destroy(&(Tag->mutex));
                 free(Tag);
                 onlineUserHead->OnlineUserNum--;
                 pthread_mutex_unlock(&(onlineUserHead->mute));
                 return 1;
-
             }
             else
             {
                 while(Tag->next!=NULL)
                 {
-                    if(!strcmp(a->USERID,Tag->next->USERID))
+                    if(!strcmp(a->USERID,Tag->next->USERID)&&(a->SOCKET==Tag->next->USER_SOCKET))
                     {
-                        if(Tag->next->isReconnect==1)//RECONNECT
-                        {
-                            Tag->next->isReconnect = 0;
-                            pthread_mutex_unlock(&(onlineUserHead->mute));
-                            return 0;
-                        }
                         Tag->next=Tag->next->next;
-                        pthread_mutex_destroy(&(Tag->next->mutex));
                         free(Tag->next);
                         onlineUserHead->OnlineUserNum--;
                         pthread_mutex_unlock(&(onlineUserHead->mute));
@@ -63,6 +48,7 @@ int delete_out_user(CLN *a)
     }
     else
     {
+        return -1;/////////////////For alpha test
         pthread_mutex_lock(&(onlineIotHead->mute));
         USER Tag= onlineIotHead->next;
         if(Tag==NULL)
@@ -75,7 +61,6 @@ int delete_out_user(CLN *a)
             if(!strcmp(a->USERID,Tag->USERID))
             {
                 onlineIotHead->next=Tag->next;
-                pthread_mutex_destroy(&(Tag->mutex));
                 free(Tag);
                 onlineIotHead->OnlineUserNum--;
                 pthread_mutex_unlock(&(onlineIotHead->mute));
@@ -88,7 +73,6 @@ int delete_out_user(CLN *a)
                     if(!strcmp(a->USERID,Tag->next->USERID))
                     {
                         Tag->next=Tag->next->next;
-                        pthread_mutex_destroy(&(Tag->next->mutex));
                         free(Tag->next);
                         onlineIotHead->OnlineUserNum--;
                         pthread_mutex_unlock(&(onlineIotHead->mute));

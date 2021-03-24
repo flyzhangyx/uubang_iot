@@ -3,7 +3,7 @@ int main(int argc,char**argv)
 {
     SetConsoleTitleA("IotServer");
     srand((unsigned int)time(NULL));
-    initServer(atoi(argv[1]));
+    initServer(atoi(argv[1]),argv[2]);
     ConnectToTopServer();
     log_info("服务器初始化成功,端口:%d",atoi(argv[1]));
     ///*******************************
@@ -11,7 +11,7 @@ int main(int argc,char**argv)
     ///*******************************
     CloseHandle(CreateDailyMsgdb());//New Daily DB Thread
     StartCheckUserScene();//
-    ///9999999999999999999999999999999999999999999999999999999
+    ///*********************************
     time_t now_time;
     time(&now_time);
     char time_now[50];
@@ -23,12 +23,6 @@ int main(int argc,char**argv)
     strcpy(a.checkcode,"123");
     sprintf(a.data,"%s","12345678901");
     Send2OnlineUserViaTopServer(a);
-    char cmd[100]="123";
-    //NewIotCmdToBeExecute(&a,cmd,1,0,time_now);
-    //IotReadCmd(&a,1,0);
-    //log_info("%s",a.data);
-    //NewUserSceneCmdStore(&a,"",0,0,2,"23:00:00","1111111");
-    //ReadOrDeleteUserScene(&a,"tvVmreNKu8R",2,1);
     ///*****************************************************************
     AcceptClient();
     Sleep(5000);

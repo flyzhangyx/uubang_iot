@@ -21,7 +21,7 @@ int talk(LPVOID b)
     if(strstr(a->checkcode,"te"))//IotDev
     {
         IoTtalk(a);
-        a->conn->info[2]--;
+        InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
         freeNode(a->MemMark,a);
 #else
@@ -55,7 +55,7 @@ int talk(LPVOID b)
         {
             closesocket(c);
             //pthread_mutex_unlock(&(a->t));
-            a->conn->info[2]--;
+            InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
             freeNode(a->MemMark,a);
 #else
@@ -82,7 +82,7 @@ int talk(LPVOID b)
             log_info("连接%I64d退出",c);
             closesocket(c);
             //pthread_mutex_unlock(&(a->t));
-            a->conn->info[2]--;
+            InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
             freeNode(a->MemMark,a);
 #else
@@ -127,7 +127,7 @@ int talk(LPVOID b)
             log_info("连接%I64d退出",c);
             closesocket(c);
             //pthread_mutex_unlock(&(a->t));
-            a->conn->info[2]--;
+            InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
             freeNode(a->MemMark,a);
 #else
@@ -165,7 +165,7 @@ int talk(LPVOID b)
             {
                 closesocket(c);
                 //pthread_mutex_unlock(&(a->t));
-                a->conn->info[2]--;
+                InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
                 freeNode(a->MemMark,a);
 #else
@@ -186,7 +186,7 @@ int talk(LPVOID b)
             {
                 closesocket(c);
                 //pthread_mutex_unlock(&(a->t));
-                a->conn->info[2]--;
+                InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
                 freeNode(a->MemMark,a);
 #else
@@ -214,7 +214,7 @@ int talk(LPVOID b)
             {
                 closesocket(c);
                 //pthread_mutex_unlock(&(a->t));
-                a->conn->info[2]--;
+                InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
                 freeNode(a->MemMark,a);
 #else
@@ -239,7 +239,7 @@ int talk(LPVOID b)
             {
                 closesocket(c);
                 //pthread_mutex_unlock(&(a->t));
-                a->conn->info[2]--;
+                InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
                 freeNode(a->MemMark,a);
 #else
@@ -260,7 +260,7 @@ int talk(LPVOID b)
             {
                 closesocket(c);
                 //pthread_mutex_unlock(&(a->t));
-                a->conn->info[2]--;
+                InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
                 freeNode(a->MemMark,a);
 #else
@@ -283,7 +283,7 @@ int talk(LPVOID b)
         if (find == NULL)
         {
             //pthread_mutex_unlock(&(a->t));
-            a->conn->info[2]--;
+            InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
             freeNode(a->MemMark,a);
 #else
@@ -302,7 +302,7 @@ int talk(LPVOID b)
         {
             closesocket(c);
             //pthread_mutex_unlock(&(a->t));
-            a->conn->info[2]--;
+            InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
             freeNode(a->MemMark,a);
 #else
@@ -324,7 +324,7 @@ int talk(LPVOID b)
         {
             closesocket(c);
             //pthread_mutex_unlock(&(a->t));
-            a->conn->info[2]--;
+            InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
             freeNode(a->MemMark,a);
 #else
@@ -353,7 +353,7 @@ int talk(LPVOID b)
         USER find = FindRegisterUserOrIotNode(0, a->TalktoID, 0);
         if (find == NULL)
         {
-            a->conn->info[2]--;
+            InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
             freeNode(a->MemMark,a);
 #else
@@ -371,7 +371,7 @@ int talk(LPVOID b)
         if (len == SOCKET_ERROR || len == 0)
         {
             closesocket(c);
-            a->conn->info[2]--;
+            InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
             freeNode(a->MemMark,a);
 #else
@@ -402,7 +402,7 @@ int talk(LPVOID b)
         {
             closesocket(c);
             //pthread_mutex_unlock(&(a->t));
-            a->conn->info[2]--;
+            InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
             freeNode(a->MemMark,a);
 #else
@@ -449,7 +449,7 @@ int talk(LPVOID b)
             {
                 closesocket(c);
                 //pthread_mutex_unlock(&(a->t));
-                a->conn->info[2]--;
+                InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
                 freeNode(a->MemMark,a);
 #else
@@ -470,7 +470,7 @@ int talk(LPVOID b)
             {
                 closesocket(c);
                 //pthread_mutex_unlock(&(a->t));
-                a->conn->info[2]--;
+                InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
                 freeNode(a->MemMark,a);
 #else
@@ -487,7 +487,7 @@ int talk(LPVOID b)
     }
     }
     //pthread_mutex_unlock(&(a->t));
-    a->conn->info[2]--;
+    InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
     freeNode(a->MemMark,a);
 #else

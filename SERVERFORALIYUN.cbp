@@ -22,6 +22,7 @@
 					<Add option="-DPRINT_LOG" />
 					<Add option="-DINFO_PRINT" />
 					<Add option="-D_Z_MEMORYPOOL_THREAD_" />
+					<Add option="-DMemPool" />
 					<Add directory="MYSQL/include" />
 					<Add directory="MYSQL/include/mysql" />
 					<Add directory="libstpool" />
@@ -55,6 +56,7 @@
 					<Add option="-DPRINT_LOG" />
 					<Add option="-DINFO_PRINT" />
 					<Add option="-D_Z_MEMORYPOOL_THREAD_" />
+					<Add option="-DMemPool" />
 					<Add directory="MYSQL/include" />
 					<Add directory="MYSQL/include/mysql" />
 					<Add directory="libstpool" />
@@ -181,6 +183,9 @@
 		<Unit filename="src/GenerateRandStr.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="src/GetAppVersion.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="src/GetCpuLoad.cpp" />
 		<Unit filename="src/GetInternetPublicIp.c">
 			<Option compilerVar="CC" />
@@ -265,6 +270,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/UpdateRegiterIotAndUser.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/UpdateServerRunInfo.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/UpdateSqlInfoTimestamp.c">

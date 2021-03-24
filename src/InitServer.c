@@ -1,11 +1,12 @@
 #include"../head/SERVER.h"
 extern int isConnected;
-int initServer(int port)
+int initServer(int port,char *ServerId)
 {
     int scan;
     ManualCtrl = 0;
     isShutDown = 0;
     isConnected = 0;
+    sprintf(ServerID,"%s", ServerId);
     CLN_num=0;
     strcpy(CHECK,"ZY");
     strcpy(SIGN_IN,"SI");//登陆码
@@ -213,23 +214,12 @@ int initServer(int port)
     log_info("Local Database IotDevices Get %d",RegistedIotHead->OnlineUserNum);
     log_info("Local Database Users Get %d",RegistedUserHead->OnlineUserNum);
     release_node(MySqlConnPool, temmp);
-    FILE* updversion=fopen("update","r");
-    if(updversion)
-    {
-        fgets(app_version,4,updversion);
-        fclose(updversion);
-        app_version[3]=0;
-        log_info("APP版本-%s",app_version);
-    }
-    else
-    {
-        log_error("更新文件读取失败!");
-        return -1;
-    }
+    getAppVersion();
     memset(NetIP,0,20);
     getNetIp(NetIP);
     Initialize();//init CPU Load
     Con2FreeLink_mutex = CreateMutex(NULL, FALSE, NULL);
+    CreateServerInfoInSQL();
     ///*************************************
     return 1;
 }

@@ -29,15 +29,22 @@ void EnterManualCtrlMode()
             {
             case '1':
                 ConnectToTopServer();
+                printf("Cmd Down\n");
                 break;
             case '2':
-                gets(app_version);
+                if(!getAppVersion())
+                {
+                    printf("Input App Version:");
+                    gets(app_version);
+                    system("cls");
+                    printf("\nNow App Version is %s",app_version);
+                }
                 break;
             case '3':
                 PrintAllUserAndIotDevice();
                 break;
             case '4':
-                FindOnlineUserOrIot(123,NULL,0);
+                FindOnlineUserOrIot(111,NULL,0);
                 break;
             case '5':
                 isExit = 1;

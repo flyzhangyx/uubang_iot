@@ -156,7 +156,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
             }
             if(CONNHANDLE->info[2]<120&&ARG_CONN!=NULL)
             {
-                CONNHANDLE->info[2]++;//Task num ++
+                InterlockedIncrement((LPLONG) &(CONNHANDLE->info[2]));//Task num ++
 #ifdef STPOOL
                 stpool_add_routine(ThreadPool_ExecuteMsg,"ExcuteMsg",(void*)(struct sttask*)talk,task_err_handler,ARG_CONN,NULL);
 #else
