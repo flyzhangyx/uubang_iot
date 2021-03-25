@@ -92,6 +92,7 @@ typedef struct cln
     pthread_mutex_t t;
     struct cln* conn;
     int MemMark;
+    char SeqNum;
 } CLN;
 typedef struct
 {
@@ -106,7 +107,7 @@ typedef struct
 {
     char opCode[3];
     char SeqNum[2];
-    char payLoad[100];//Max
+    char payLoad[200];//Max
 } IotPacketInterface;
 
 typedef struct
@@ -197,6 +198,7 @@ void EnterManualCtrlMode();
 int getAppVersion();
 void CreateServerInfoInSQL();
 int UpdateServerRunInfo(int CpuRate,int Mem,int TaskNum,int OnlineUserNum,int OnlineIotNum);
+int IotReadSelfSceneCmd(CLN *,int);
 ///*****************************
 ///***************各类标志码**********************
 char CHECK[3];///应用进入时登陆检测是否已经注册

@@ -4,7 +4,12 @@ int IoTtalk(CLN* b)
     char str[100]="test";
     //GetUpdateTimeStamp(0,1,str);
     Sleep(50);
-    send(b->SOCKET,str,strlen(str)+1,0);
+    sprintf(b->USERID,"%s","123456");
+    USER iot = FindRegisterUserOrIotNode(10,"123456",0);
+    if(iot==NULL)
+        return 0;
+    IotReadSelfSceneCmd(b,iot->USERKEY_ID);
+    //send(b->SOCKET,str,strlen(str)+1,0);
     return 1;
 }
 ///*

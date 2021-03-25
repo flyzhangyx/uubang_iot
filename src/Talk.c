@@ -18,7 +18,7 @@ int talk(LPVOID b)
     CLN* a = (CLN*)b;
 #endif
     log_debug("%s",a->checkcode);
-    if(strstr(a->checkcode,"te"))//IotDev
+    if(strlen(a->checkcode)<3)//IotDev
     {
         IoTtalk(a);
         InterlockedDecrement((LPLONG) &(a->conn->info[2]));
