@@ -10,7 +10,7 @@ int Register(CLN *a,int method)
     {
         if(method==1)
         {
-            if(IotRegister(a,0)==-1)
+            if(IotRegister(a,(int)a->info[3])==-1)
             {
                 log_info("IOTDEV:%s Registed Fail !",a->USERID);
                 return -1;

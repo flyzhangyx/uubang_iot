@@ -20,9 +20,12 @@ int IotRegister(CLN* a,int DevClass)
     MYSQL *mysql=&(temmp->fd);
     if(mysql_real_query(mysql,insert,strlen(insert)))
     {
-        release_node(MySqlConnPool, temmp);
-        log_error("MySQL ERR :%s",mysql_error(mysql));
-        return -1;
+        if(!strstr(mysql_error(mysql),"Duplicate"))
+        {
+            release_node(MySqlConnPool, temmp);
+            log_error("MySQL ERR :%s",mysql_error(mysql));
+            return -1;
+        }
     }
     release_node(MySqlConnPool, temmp);
     return 1;

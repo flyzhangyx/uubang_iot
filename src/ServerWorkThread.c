@@ -27,6 +27,10 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
     CLN* ARG_CONN = NULL;
     LPPER_IO_DATA PerIoData = NULL;
     UserPacketInterface RecBuff;
+    char OOM[5] = "";
+    sprintf(OOM,"%s%c","OOM",_HC_);
+    char UPD[5] = "";
+    sprintf(UPD,"%s%c","UPD",_HC_);
     while(!isShutDown)
     {
         CONNHANDLE = NULL;
@@ -72,7 +76,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                 closesocket(CONNHANDLE->SOCKET);
                 continue;
             }
-            else if(BytesTransferred>10&&BytesTransferred<105)
+            else if(BytesTransferred>10&&BytesTransferred<=205)
             {
 #ifdef MemPool
                 int NodeSeq = 0 ;
@@ -82,7 +86,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
 #endif
                 if(ARG_CONN==NULL)
                 {
-                    send(CONNHANDLE->SOCKET,"OOE",4,0);//OUTOFMEM
+                    send(CONNHANDLE->SOCKET,OOM,5,0);//OUTOFMEM
                     log_error("OOE");
                 }
                 else
@@ -107,7 +111,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
 #endif
                 if(ARG_CONN==NULL)
                 {
-                    send(CONNHANDLE->SOCKET,"OOE",4,0);//OUTOFMEM
+                    send(CONNHANDLE->SOCKET,OOM,5,0);//OUTOFMEM
                     log_error("OOE");
                 }
                 else
@@ -138,8 +142,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                 else
                 {
                     //OLD VERSION
-                    char tempBuf[721]="UPD";
-                    send(CONNHANDLE->SOCKET,tempBuf,721,0);
+                    send(CONNHANDLE->SOCKET,UPD,5,0);
                 }
             }
             if(CONNHANDLE->info[1]!='Y')
@@ -165,7 +168,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
             }
             else
             {
-                send(CONNHANDLE->SOCKET,"OOM",4,0);//OUTOFMEM
+                send(CONNHANDLE->SOCKET,OOM,5,0);//OUTOFMEM
 #ifdef MemPool
                 freeNode(ARG_CONN->MemMark,ARG_CONN);
 #else

@@ -27,12 +27,12 @@ int IotReadSelfSceneCmd(CLN *a,int Iot_key)
         memset(&RecDataStruct,0,sizeof(IotPacketInterface));
         memset(sendbuf,0,sizeof(IotPacketInterface));
         strcpy(RecDataStruct.opCode,"SC");//SCE
-        sprintf(RecDataStruct.payLoad,"%s_%s_%s_%s_%s_%s_%s",row[2],row[3],row[4],row[5],row[6],row[7],row[8]);//devclass_cmdcontent_status_cmdTime_Exedate_cmdgroup_fromUserid
-        RecDataStruct.SeqNum[0] = a->conn->SeqNum;
+        sprintf(RecDataStruct.payLoad,"%s_%s_%s_%s_%s_%s_%s_",row[2],row[3],row[4],row[5],row[6],row[7],row[8]);//devclass_cmdcontent_status_cmdTime_Exedate_cmdgroup_fromUserid
         InterlockedIncrement((LPLONG) &(a->conn->SeqNum));
+        RecDataStruct.SeqNum[0] = a->conn->SeqNum;
         if(a->conn->SeqNum==127)
         {
-            a->conn->SeqNum = 0;
+            a->conn->SeqNum = 1;
         }
         memcpy(sendbuf,&RecDataStruct,sizeof(RecDataStruct));
         sendbuf[sizeof(IotPacketInterface)-1] = _HC_;

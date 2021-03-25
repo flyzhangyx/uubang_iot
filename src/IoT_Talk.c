@@ -1,15 +1,99 @@
 #include"../head/SERVER.h"
-int IoTtalk(CLN* b)
+#include"../libmd5utils/md5.h"
+int IoTtalk(CLN* a)
 {
-    char str[100]="test";
-    //GetUpdateTimeStamp(0,1,str);
-    Sleep(50);
-    sprintf(b->USERID,"%s","123456");
-    USER iot = FindRegisterUserOrIotNode(10,"123456",0);
-    if(iot==NULL)
-        return 0;
-    IotReadSelfSceneCmd(b,iot->USERKEY_ID);
-    //send(b->SOCKET,str,strlen(str)+1,0);
+//    char str[100]="test";
+//    //GetUpdateTimeStamp(0,1,str);
+//    Sleep(50);
+//    sprintf(b->USERID,"%s","123456");
+//    USER iot = FindRegisterUserOrIotNode(10,"123456",0);
+//    if(iot==NULL)
+//        return 0;
+//    IotReadSelfSceneCmd(b,iot->USERKEY_ID);
+//    //send(b->SOCKET,str,strlen(str)+1,0);
+//    //return 1;
+    int len = 0;
+    IotPacketInterface SendStruct;
+    char SendBuf[sizeof(IotPacketInterface)] = "";
+    memset(SendBuf,0,sizeof(IotPacketInterface));
+    memset(&SendStruct,0,sizeof(IotPacketInterface));
+    switch(atoi(a->checkcode))
+    {
+    case 1://RSA
+        InitRSA(&(a->key));//Create RSAKey, need srand(time(NULL)) first
+        InitRSA(&(a->key));//twice ,it is a bug left to be fixed
+        a->conn->key = a->key;
+        log_debug("Public Key (%d,%d) | Private Key (%d,%d)",a->key.publicKey,a->key.commonKey,a->key.privateKey,a->key.commonKey);
+        memset(SendBuf,0,sizeof(IotPacketInterface));
+        memset(&SendStruct,0,sizeof(IotPacketInterface));
+        strcpy(SendStruct.opCode,"01");
+        sprintf(SendStruct.payLoad,"%d_%d_%d_",a->key.publicKey,a->key.commonKey,a->key.encryptBlockBytes);
+        InterlockedIncrement((LPLONG) &(a->conn->SeqNum));
+        SendStruct.SeqNum[0] = a->conn->SeqNum;
+        if(a->conn->SeqNum==127)
+        {
+            a->conn->SeqNum = 1;
+        }
+        memcpy(SendBuf,&SendStruct,sizeof(IotPacketInterface));
+        SendBuf[sizeof(IotPacketInterface)-1] = _HC_;
+        len=send(a->SOCKET,SendBuf,sizeof(IotPacketInterface),0);
+        if(len==SOCKET_ERROR||len==0)
+        {
+            closesocket(a->SOCKET);
+            return 0;
+        }
+        break;
+    case 2://PIN
+        if(a->key.encryptBlockBytes==0)
+        {
+            return 0;
+        }
+        generateRandIntStr(a->Pin,6);
+        log_info("%s",a->Pin);
+        memcpy(a->conn->Pin,a->Pin,7);
+        memset(&SendStruct,0,sizeof(IotPacketInterface));
+        memset(SendBuf,0,sizeof(IotPacketInterface));
+        int encodedCrypto[100]= {0};
+        memcpy(encodedCrypto,a->data,sizeof(int)*6*a->key.encryptBlockBytes);
+        encodeMessage(6, a->key.encryptBlockBytes,a->Pin,encodedCrypto,a->key.privateKey, a->key.commonKey);
+        char encodedCryptoByte[100];
+        memcpy(encodedCryptoByte,encodedCrypto,6*a->key.encryptBlockBytes*sizeof(INT32));
+        a->Pin[6]=0;
+        char MD5Temp[33]="";
+        Compute_string_md5((unsigned char *)MD5Temp,32,a->Pin);
+        strcpy(SendStruct.opCode,"02");
+        sprintf(SendStruct.payLoad,"%s_%s_",encodedCryptoByte,MD5Temp);
+        InterlockedIncrement((LPLONG) &(a->conn->SeqNum));
+        SendStruct.SeqNum[0] = a->conn->SeqNum;
+        if(a->conn->SeqNum==127)
+        {
+            a->conn->SeqNum = 1;
+        }
+        memcpy(SendBuf,&SendStruct,sizeof(IotPacketInterface));
+        SendBuf[sizeof(IotPacketInterface)-1] = _HC_;
+        len=send(a->SOCKET,SendBuf,sizeof(IotPacketInterface),0);
+        if(len==SOCKET_ERROR||len==0)
+        {
+            closesocket(a->SOCKET);
+            return 0;
+        }
+        break;
+    case 3://REG_SIGN
+
+        Register(a,1);
+
+        break;
+    case 4://UPDATE DATA
+        break;
+    case 5://READ CMD
+        break;
+    case 6://READ SCENE CMD
+        break;
+    case 7:
+        break;
+    default:
+        break;
+    }
     return 1;
 }
 ///*
@@ -21,7 +105,7 @@ int IoTtalk(CLN* b)
 //    CLN* a=(CLN*)b;
 //    SOCKET c=a->SOCKET;
 //    sendbag RecDataStruct;
-//    char sendbuf[sizeof(sendbag)]= {0};
+//    char SendBuf[sizeof(sendbag)]= {0};
 //    char tag[4];
 //    ///*************IoT*************
 //    while(1)
@@ -91,7 +175,7 @@ int IoTtalk(CLN* b)
 //                }
 //                else
 //                {
-//                    memset(sendbuf,0,sizeof(sendbag));
+//                    memset(SendBuf,0,sizeof(sendbag));
 //                    strcpy(RecDataStruct.checkcode,"TAI");
 //                    RecDataStruct.save[99]=_HC_;
 //                    char temp[12]= {0};
@@ -99,8 +183,8 @@ int IoTtalk(CLN* b)
 //                    log_info("%s",temp);
 //                    strcpy(RecDataStruct.USERID,RecDataStruct.TalktoID);
 //                    strcpy(RecDataStruct.TalktoID,a->USERID);
-//                    memcpy(sendbuf,&RecDataStruct,sizeof(RecDataStruct));
-//                    len=send(talktouser->USER_SOCKET,sendbuf,sizeof(sendbag),0);
+//                    memcpy(SendBuf,&RecDataStruct,sizeof(RecDataStruct));
+//                    len=send(talktouser->USER_SOCKET,SendBuf,sizeof(sendbag),0);
 //                    if(len==SOCKET_ERROR||len==0)
 //                    {
 //                        log_info("Á¬½Ó%I64dÍË³ö",c);
@@ -141,7 +225,7 @@ int IoTtalk(CLN* b)
 //
 //            Contact mes=(Contact)malloc(sizeof(struct contact));
 //            memset(mes,0,sizeof(contact));
-//            memset(sendbuf,0,sizeof(sendbag));
+//            memset(SendBuf,0,sizeof(sendbag));
 //            strcpy(mes->checkcode,"RCO");
 //            strcpy(mes->TalktoID,RecDataStruct.TalktoID);
 //            strcpy(mes->USERID,a->USERID);

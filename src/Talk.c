@@ -94,6 +94,8 @@ int talk(LPVOID b)
     break;
     case 66604://PIN
     {
+        if(a->key.encryptBlockBytes==0)
+            return 0;
         generateRandIntStr(a->Pin,6);
         memcpy(a->conn->Pin,a->Pin,7);
         memset(&SendDataStruct,0,sizeof(UserPacketInterface));
@@ -103,16 +105,17 @@ int talk(LPVOID b)
         if(signIN==1)
         {
             int encodedCrypto[100]= {0};
-            memcpy(encodedCrypto,a->data,sizeof(int)*6*a->key.encryptBlockBytes);
-            decodeMessage(6, a->key.encryptBlockBytes, encodedCrypto,a->Pin,a->key.privateKey, a->key.commonKey);
+            encodeMessage(6, a->key.encryptBlockBytes, a->Pin,encodedCrypto,a->key.privateKey, a->key.commonKey);
+            char encodedCryptoByte[100]="";
+            memcpy(encodedCryptoByte,encodedCrypto,sizeof(INT32)*6*a->key.encryptBlockBytes);
             a->Pin[6]=0;
             char MD5Temp[33]="";
             Compute_string_md5((unsigned char *)MD5Temp,32,a->Pin);
-            sprintf(SendDataStruct.DATA,"%s",MD5Temp);
+            sprintf(SendDataStruct.DATA,"%s_%s_",encodedCryptoByte,MD5Temp);
         }
         else
         {
-            char cmd[500]="";
+            char cmd[100]="";
             char email[50]="";
             memcpy(email,a->data,50);
             sprintf(cmd,"%s %s %s","cmd.exe /c \"PINSend.bat\"",email,a->Pin);
@@ -164,7 +167,6 @@ int talk(LPVOID b)
             if (len == SOCKET_ERROR || len == 0)
             {
                 closesocket(c);
-                //pthread_mutex_unlock(&(a->t));
                 InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
                 freeNode(a->MemMark,a);
@@ -185,7 +187,6 @@ int talk(LPVOID b)
             if (len == SOCKET_ERROR || len == 0)
             {
                 closesocket(c);
-                //pthread_mutex_unlock(&(a->t));
                 InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
                 freeNode(a->MemMark,a);
@@ -202,7 +203,7 @@ int talk(LPVOID b)
         UpdateLocalRegUserAndIotlist();
         char PinMd5[33]="";
         Compute_string_md5((unsigned char *)a->Pin,6,PinMd5);
-        if(!strcmp(PinMd5,a->USERPASSWORD))
+        if(strcmp(PinMd5,a->USERPASSWORD))
         {
             memset(&SendDataStruct, 0, sizeof(UserPacketInterface));
             memset(sendbuf, 0, sizeof(UserPacketInterface));
@@ -226,6 +227,7 @@ int talk(LPVOID b)
         int encodedCrypto[96]= {0};
         memcpy(encodedCrypto,a->data,32*a->key.encryptBlockBytes*sizeof(int));
         decodeMessage(32, a->key.encryptBlockBytes, encodedCrypto,a->USERPASSWORD,a->key.privateKey, a->key.commonKey);//RSA Decrypt Password
+        a->USERPASSWORD[32] = 0;
         Decrypt(a->USERPASSWORD,32,a->Pin,a->USERPASSWORD);//Kaisa Decrypt
         if (Register(a, 0) == 1)
         {
@@ -483,6 +485,23 @@ int talk(LPVOID b)
     break;
     default:
     {
+        memset(&SendDataStruct, 0, sizeof(UserPacketInterface));
+        memset(sendbuf, 0, sizeof(UserPacketInterface));
+        strcpy(SendDataStruct.checkcode, "ERR");//OPCODE ERR
+        SendDataStruct.save[99] = _HC_;
+        memcpy(sendbuf, &SendDataStruct, sizeof(SendDataStruct));
+        len = send(c, sendbuf, sizeof(UserPacketInterface), 0);
+        if (len == SOCKET_ERROR || len == 0)
+        {
+            closesocket(c);
+            InterlockedDecrement((LPLONG) &(a->conn->info[2]));
+#ifdef MemPool
+            freeNode(a->MemMark,a);
+#else
+            MemoryPoolFree(mp, a);
+#endif
+            return 0;
+        }
         break;
     }
     }
