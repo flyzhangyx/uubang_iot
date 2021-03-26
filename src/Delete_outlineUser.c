@@ -48,7 +48,6 @@ int delete_out_user(CLN *a)
     }
     else
     {
-        return -1;/////////////////For alpha test
         pthread_mutex_lock(&(onlineIotHead->mute));
         USER Tag= onlineIotHead->next;
         if(Tag==NULL)
@@ -58,7 +57,7 @@ int delete_out_user(CLN *a)
         }
         else
         {
-            if(!strcmp(a->USERID,Tag->USERID))
+            if(!strcmp(a->USERID,Tag->USERID)&&(a->SOCKET==Tag->USER_SOCKET))
             {
                 onlineIotHead->next=Tag->next;
                 free(Tag);
@@ -70,7 +69,7 @@ int delete_out_user(CLN *a)
             {
                 while(Tag->next!=NULL)
                 {
-                    if(!strcmp(a->USERID,Tag->next->USERID))
+                    if(!strcmp(a->USERID,Tag->next->USERID)&&(a->SOCKET==Tag->next->USER_SOCKET))
                     {
                         Tag->next=Tag->next->next;
                         free(Tag->next);

@@ -30,7 +30,7 @@ int getAppVersion()
     }
     else
     {
-        sprintf(app_version,"%s",row[0]);
+        //sprintf(app_version,"%s",row[0]);
         app_version[3]=0;
         log_info("APP°æ±¾-%s",app_version);
         return 1;

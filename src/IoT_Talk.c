@@ -20,6 +20,7 @@ int IoTtalk(CLN* a)
     switch(atoi(a->checkcode))
     {
     case 1://RSA
+    {
         InitRSA(&(a->key));//Create RSAKey, need srand(time(NULL)) first
         InitRSA(&(a->key));//twice ,it is a bug left to be fixed
         a->conn->key = a->key;
@@ -42,8 +43,10 @@ int IoTtalk(CLN* a)
             closesocket(a->SOCKET);
             return 0;
         }
-        break;
+    }
+    break;
     case 2://PIN
+    {
         if(a->key.encryptBlockBytes==0)
         {
             return 0;
@@ -77,12 +80,80 @@ int IoTtalk(CLN* a)
             closesocket(a->SOCKET);
             return 0;
         }
-        break;
+    }
+    break;
     case 3://REG_SIGN
-
+    {
+        int OutStrSize = 0;
+        char** outStr = StrSplit(a->data,&OutStrSize,'_');
+        sprintf(a->USERID,"%s", outStr[0]);
+        sprintf(a->USERPASSWORD,"%s",outStr[1]);
         Register(a,1);
-
-        break;
+        if(a->conn->info[0]!='Y')
+        {
+            if(SIGNIN(a)==1)
+            {
+                a->info[0] = 'Y';
+                a->conn->info[0] = 'Y';
+                sprintf(a->conn->USERID,"%s", outStr[0]);
+                if(FindRegisterUserOrIotNode(0,a->USERID,0)!=NULL)
+                {
+                    a->USERKEY_ID = FindRegisterUserOrIotNode(0,a->USERID,0)->USERKEY_ID;
+                    a->conn->USERKEY_ID = a->USERKEY_ID;
+                }
+                strcpy(SendStruct.opCode,"03");
+                InterlockedIncrement((LPLONG) &(a->conn->SeqNum));
+                SendStruct.SeqNum[0] = a->conn->SeqNum;
+                if(a->conn->SeqNum==127)
+                {
+                    a->conn->SeqNum = 1;
+                }
+                memcpy(SendBuf,&SendStruct,sizeof(IotPacketInterface));
+                SendBuf[sizeof(IotPacketInterface)-1] = _HC_;
+                len=send(a->SOCKET,SendBuf,sizeof(IotPacketInterface),0);
+                if(len==SOCKET_ERROR||len==0)
+                {
+                    closesocket(a->SOCKET);
+                }
+            }
+            else
+            {
+                strcpy(SendStruct.opCode,"23");
+                InterlockedIncrement((LPLONG) &(a->conn->SeqNum));
+                SendStruct.SeqNum[0] = a->conn->SeqNum;
+                if(a->conn->SeqNum==127)
+                {
+                    a->conn->SeqNum = 1;
+                }
+                memcpy(SendBuf,&SendStruct,sizeof(IotPacketInterface));
+                SendBuf[sizeof(IotPacketInterface)-1] = _HC_;
+                len=send(a->SOCKET,SendBuf,sizeof(IotPacketInterface),0);
+                if(len==SOCKET_ERROR||len==0)
+                {
+                    closesocket(a->SOCKET);
+                }
+            }
+        }
+        else
+        {
+            strcpy(SendStruct.opCode,"23");
+            InterlockedIncrement((LPLONG) &(a->conn->SeqNum));
+            SendStruct.SeqNum[0] = a->conn->SeqNum;
+            if(a->conn->SeqNum==127)
+            {
+                a->conn->SeqNum = 1;
+            }
+            memcpy(SendBuf,&SendStruct,sizeof(IotPacketInterface));
+            SendBuf[sizeof(IotPacketInterface)-1] = _HC_;
+            len=send(a->SOCKET,SendBuf,sizeof(IotPacketInterface),0);
+            if(len==SOCKET_ERROR||len==0)
+            {
+                closesocket(a->SOCKET);
+            }
+        }
+        releaseStr(outStr,OutStrSize);
+    }
+    break;
     case 4://UPDATE DATA
         break;
     case 5://READ CMD

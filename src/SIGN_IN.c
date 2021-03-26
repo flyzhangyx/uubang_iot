@@ -55,14 +55,13 @@ int SIGNIN(CLN *a)
     }
     else
     {
-        SOCKET asocket=a->SOCKET;
         int check=Check_Id_Pwd(0,a);
         USER checkuser= FindOnlineUserOrIot(10,a->USERID,0);
         if(check==-1)
         {
             return -1;
         }
-        else if(checkuser==NULL)
+        if(checkuser==NULL)
         {
             USER temp = FindRegisterUserOrIotNode(10,a->USERID,0);
             if(temp!=NULL)
@@ -76,13 +75,6 @@ int SIGNIN(CLN *a)
             newOnlineUserOrIotDev(a);
             return 1;
         }
-        else//ONLINE
-        {
-            SOCKET temp = checkuser->USER_SOCKET;
-            checkuser->USER_SOCKET=asocket;
-            checkuser->USER_ADDR=a->ADDR;
-            closesocket(temp);
-            return 1;
-        }
+        return -1;
     }
 }
