@@ -1,5 +1,20 @@
 #include"../head/SERVER.h"
 #include"../libmd5utils/md5.h"
+#define SEND_OP_BACK(str) do{strcpy(SendStruct.opCode,str);\
+                InterlockedIncrement((LPLONG) &(a->conn->SeqNum));\
+                SendStruct.SeqNum[0] = a->conn->SeqNum;\
+                if(a->conn->SeqNum==127)\
+                {\
+                    a->conn->SeqNum = 1;\
+                }\
+                memcpy(SendBuf,&SendStruct,sizeof(IotPacketInterface));\
+                SendBuf[sizeof(IotPacketInterface)-1] = _HC_;\
+                len=send(a->SOCKET,SendBuf,sizeof(IotPacketInterface),0);\
+                if(len==SOCKET_ERROR||len==0)\
+                {\
+                    closesocket(a->SOCKET);\
+                }}while(0)
+
 int IoTtalk(CLN* a)
 {
 //    char str[100]="test";
@@ -27,22 +42,8 @@ int IoTtalk(CLN* a)
         log_debug("Public Key (%d,%d) | Private Key (%d,%d)",a->key.publicKey,a->key.commonKey,a->key.privateKey,a->key.commonKey);
         memset(SendBuf,0,sizeof(IotPacketInterface));
         memset(&SendStruct,0,sizeof(IotPacketInterface));
-        strcpy(SendStruct.opCode,"01");
         sprintf(SendStruct.payLoad,"%d_%d_%d_",a->key.publicKey,a->key.commonKey,a->key.encryptBlockBytes);
-        InterlockedIncrement((LPLONG) &(a->conn->SeqNum));
-        SendStruct.SeqNum[0] = a->conn->SeqNum;
-        if(a->conn->SeqNum==127)
-        {
-            a->conn->SeqNum = 1;
-        }
-        memcpy(SendBuf,&SendStruct,sizeof(IotPacketInterface));
-        SendBuf[sizeof(IotPacketInterface)-1] = _HC_;
-        len=send(a->SOCKET,SendBuf,sizeof(IotPacketInterface),0);
-        if(len==SOCKET_ERROR||len==0)
-        {
-            closesocket(a->SOCKET);
-            return 0;
-        }
+        SEND_OP_BACK("01");
     }
     break;
     case 2://PIN
@@ -64,33 +65,22 @@ int IoTtalk(CLN* a)
         a->Pin[6]=0;
         char MD5Temp[33]="";
         Compute_string_md5((unsigned char *)MD5Temp,32,a->Pin);
-        strcpy(SendStruct.opCode,"02");
         sprintf(SendStruct.payLoad,"%s_%s_",encodedCryptoByte,MD5Temp);
-        InterlockedIncrement((LPLONG) &(a->conn->SeqNum));
-        SendStruct.SeqNum[0] = a->conn->SeqNum;
-        if(a->conn->SeqNum==127)
-        {
-            a->conn->SeqNum = 1;
-        }
-        memcpy(SendBuf,&SendStruct,sizeof(IotPacketInterface));
-        SendBuf[sizeof(IotPacketInterface)-1] = _HC_;
-        len=send(a->SOCKET,SendBuf,sizeof(IotPacketInterface),0);
-        if(len==SOCKET_ERROR||len==0)
-        {
-            closesocket(a->SOCKET);
-            return 0;
-        }
+        SEND_OP_BACK("02");
     }
     break;
     case 3://REG_SIGN
     {
-        int OutStrSize = 0;
-        char** outStr = StrSplit(a->data,&OutStrSize,'_');
-        sprintf(a->USERID,"%s", outStr[0]);
-        sprintf(a->USERPASSWORD,"%s",outStr[1]);
-        Register(a,1);
-        if(a->conn->info[0]!='Y')
+        if(a->conn->info[0]!='Y'&&a->key.encryptBlockBytes!=0)
         {
+            int OutStrSize = 0;
+            char** outStr = StrSplit(a->data,&OutStrSize,'_');
+            int encodedCrypto[100]= {0};
+            memcpy(encodedCrypto,outStr[1],sizeof(int)*32*a->key.encryptBlockBytes);
+            decodeMessage(32, a->key.encryptBlockBytes, encodedCrypto,a->USERPASSWORD,a->key.privateKey, a->key.commonKey);
+            a->USERPASSWORD[32]=0;
+            sprintf(a->USERID,"%s", outStr[0]);
+            Register(a,1);
             if(SIGNIN(a)==1)
             {
                 a->info[0] = 'Y';
@@ -101,67 +91,48 @@ int IoTtalk(CLN* a)
                     a->USERKEY_ID = FindRegisterUserOrIotNode(0,a->USERID,0)->USERKEY_ID;
                     a->conn->USERKEY_ID = a->USERKEY_ID;
                 }
-                strcpy(SendStruct.opCode,"03");
-                InterlockedIncrement((LPLONG) &(a->conn->SeqNum));
-                SendStruct.SeqNum[0] = a->conn->SeqNum;
-                if(a->conn->SeqNum==127)
-                {
-                    a->conn->SeqNum = 1;
-                }
-                memcpy(SendBuf,&SendStruct,sizeof(IotPacketInterface));
-                SendBuf[sizeof(IotPacketInterface)-1] = _HC_;
-                len=send(a->SOCKET,SendBuf,sizeof(IotPacketInterface),0);
-                if(len==SOCKET_ERROR||len==0)
-                {
-                    closesocket(a->SOCKET);
-                }
+                SEND_OP_BACK("03");
             }
             else
             {
-                strcpy(SendStruct.opCode,"23");
-                InterlockedIncrement((LPLONG) &(a->conn->SeqNum));
-                SendStruct.SeqNum[0] = a->conn->SeqNum;
-                if(a->conn->SeqNum==127)
-                {
-                    a->conn->SeqNum = 1;
-                }
-                memcpy(SendBuf,&SendStruct,sizeof(IotPacketInterface));
-                SendBuf[sizeof(IotPacketInterface)-1] = _HC_;
-                len=send(a->SOCKET,SendBuf,sizeof(IotPacketInterface),0);
-                if(len==SOCKET_ERROR||len==0)
-                {
-                    closesocket(a->SOCKET);
-                }
+                SEND_OP_BACK("23");
             }
+            releaseStr(outStr,OutStrSize);
         }
         else
         {
-            strcpy(SendStruct.opCode,"23");
-            InterlockedIncrement((LPLONG) &(a->conn->SeqNum));
-            SendStruct.SeqNum[0] = a->conn->SeqNum;
-            if(a->conn->SeqNum==127)
-            {
-                a->conn->SeqNum = 1;
-            }
-            memcpy(SendBuf,&SendStruct,sizeof(IotPacketInterface));
-            SendBuf[sizeof(IotPacketInterface)-1] = _HC_;
-            len=send(a->SOCKET,SendBuf,sizeof(IotPacketInterface),0);
-            if(len==SOCKET_ERROR||len==0)
-            {
-                closesocket(a->SOCKET);
-            }
+            SEND_OP_BACK("23");
         }
-        releaseStr(outStr,OutStrSize);
     }
     break;
     case 4://UPDATE DATA
-        break;
+    {
+        ///Multi data format to resolve
+    }
+    break;
     case 5://READ CMD
-        break;
+    {
+        IotReadCmd(a,0,0);
+        IotReadCmd(a,0,1);//After Read  Deletion
+        sprintf(SendStruct.payLoad,"%s",a->data);
+        SEND_OP_BACK("05");
+    }
+    break;
     case 6://READ SCENE CMD
-        break;
-    case 7:
-        break;
+    {
+        IotReadSelfSceneCmd(a,a->USERKEY_ID);
+    }
+    break;
+    case 7://READ IOT DATA
+    {
+
+    }
+    break;
+    case 8://SEND CMD TO OTHER DEV
+    {
+
+    }
+    break;
     default:
         break;
     }

@@ -88,8 +88,14 @@ int addConnMemWait4Ping(Con2FreeArg* arg)
 
 void PingMallocConnList()
 {
-    char HBA[4]="HBA";
-    HBA[3]=_HC_;
+    char HBA[100]="HBA";
+    time_t now_time;
+    time(&now_time);
+    char time_now[20];
+    strftime(time_now,80,"%Y-%m-%d %X",localtime(&now_time));
+    strcat(HBA,time_now);
+    int HBAlen = strlen(HBA);
+    HBA[HBAlen+1]=_HC_;
     CLN_LINK* cursor=&MallocHead;
     //log_info("CONN2BEPING %d",cursor->time);
     int len = 0;
@@ -97,7 +103,7 @@ void PingMallocConnList()
     {
         if(cursor->next->CONNHANDLE!=NULL)
         {
-            len = send(cursor->next->CONNHANDLE->SOCKET,HBA,4,0);
+            len = send(cursor->next->CONNHANDLE->SOCKET,HBA,HBAlen+2,0);
             if(len==SOCKET_ERROR||len==0)
             {
                 cursor->next->time++;

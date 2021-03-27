@@ -1,5 +1,5 @@
 #include "../head/SERVER.h"
-int NewUserMsgStorage(CLN *a,int ToId)
+int NewUserMsgStorage(CLN *a/* key_id,data*/,int ToId)
 {
     time_t now_time;
     time(&now_time);

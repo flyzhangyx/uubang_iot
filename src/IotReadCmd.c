@@ -1,5 +1,5 @@
 #include "../head/SERVER.h"
-int IotReadCmd(CLN *a,int Devclass,int del)
+int IotReadCmd(CLN *a/*key_id*/,int Devclass,int del)
 {
     if(del==0)
     {
