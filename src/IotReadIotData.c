@@ -1,33 +1,33 @@
-#include"../head/SERVER.h"
-int IotReadSelfSceneCmd(CLN *a,int Iot_key)
+#include "../head/SERVER.h"
+int IotGetIotData(CLN *a,int ReadIotId)
 {
-    IotPacketInterface RecDataStruct;
-    int len=0;
-    char sendbuf[sizeof(IotPacketInterface)]= {0};
-    char find[100] = "";
     MYSQL_RES *res;
     MYSQL_ROW row;
-    sprintf(find, "%s%d", "SELECT * FROM `userscenecmd` WHERE `iotid` = ", Iot_key);
+    IotPacketInterface RecDataStruct;
+    char sendbuf[sizeof(IotPacketInterface)]= {0};
+    char find[100]="";
+    sprintf(find,"%s%d","SELECT * FROM `iotevtcache` WHERE `iotId` =",ReadIotId);
     SQL_NODE *temmp;
     if((temmp=get_db_connect(MySqlConnPool))==NULL)
     {
-        log_error("SQL NODE NULL");
         return 0;
     }
     MYSQL *mysql=&(temmp->fd);
-    if (mysql_real_query(mysql, find, strlen(find)))//No
+    if(mysql_real_query(mysql,find,strlen(find)))
     {
-        log_error(" SQL ERR (REQ USER SCENE):%s",mysql_error(mysql));
         release_node(MySqlConnPool, temmp);
+        log_error(" SQL ERR (IOTGETIOTDATA):%s",mysql_error(mysql));
         return 0;
     }
+    memset(&RecDataStruct,0,sizeof(IotPacketInterface));
     res = mysql_store_result(mysql);
+    int len = 0;
     while ((row = mysql_fetch_row(res)))
     {
         memset(&RecDataStruct,0,sizeof(IotPacketInterface));
         memset(sendbuf,0,sizeof(IotPacketInterface));
-        strcpy(RecDataStruct.opCode,"06");//SCE
-        sprintf(RecDataStruct.payLoad,"%s_%s_%s_%s_%s_%s_%s_",row[2],row[3],row[4],row[5],row[6],row[7],row[8]);//devclass_cmdcontent_status_cmdTime_Exedate_cmdgroup_fromUserid
+        strcpy(RecDataStruct.opCode,"07");
+        sprintf(RecDataStruct.payLoad,"%d_%d_%s_%s_",atoi(row[1]),atoi(row[2]),row[3],row[4]);//
         InterlockedIncrement((LPLONG) &(a->conn->SeqNum));
         RecDataStruct.SeqNum[0] = a->conn->SeqNum;
         if(a->conn->SeqNum==127)
@@ -36,7 +36,7 @@ int IotReadSelfSceneCmd(CLN *a,int Iot_key)
         }
         memcpy(sendbuf,&RecDataStruct,sizeof(RecDataStruct));
         sendbuf[sizeof(IotPacketInterface)-1] = _HC_;
-        len=send(a->SOCKET,sendbuf,sizeof(IotPacketInterface),0);
+        len = send(a->SOCKET,sendbuf,sizeof(IotPacketInterface),0);
         if(len==SOCKET_ERROR||len==0)
         {
             closesocket(a->SOCKET);
@@ -45,7 +45,7 @@ int IotReadSelfSceneCmd(CLN *a,int Iot_key)
             return 0;
         }
     }
-    mysql_free_result(res);
     release_node(MySqlConnPool, temmp);
+    mysql_free_result(res);
     return 1;
 }

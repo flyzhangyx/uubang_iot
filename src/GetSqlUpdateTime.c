@@ -7,11 +7,10 @@ char* GetUpdateTimeStamp(int UserId,int index,char *ret_row)
     MYSQL_ROW row;
     sprintf(find, "%s%d", "SELECT * FROM `iotserverinfo` WHERE `userId` = ", UserId);
     SQL_NODE *temmp;
-    while((temmp=get_db_connect(MySqlConnPool))==NULL)
+    if((temmp=get_db_connect(MySqlConnPool))==NULL)
     {
-        Sleep(50);
         log_error("SQL NODE NULL");
-        continue;
+        return 0;
     }
     //release_node(MySqlConnPool, temmp);
     //return NULL;

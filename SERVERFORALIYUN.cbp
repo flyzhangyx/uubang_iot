@@ -206,6 +206,9 @@
 		<Unit filename="src/IotReadCmd.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="src/IotReadIotData.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="src/IotReadSceneCmd.c">
 			<Option compilerVar="CC" />
 		</Unit>

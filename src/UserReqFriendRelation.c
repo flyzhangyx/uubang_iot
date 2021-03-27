@@ -9,10 +9,10 @@ int UserReqFriendRel(CLN *a)
     MYSQL_ROW row;
     sprintf(find, "%s%d", "SELECT * FROM `userrelationship` WHERE `userId` = ", a->USERKEY_ID);
     SQL_NODE *temmp;
-    while((temmp=get_db_connect(MySqlConnPool))==NULL)
+    if((temmp=get_db_connect(MySqlConnPool))==NULL)
     {
-        Sleep(50);
-        continue;
+        log_error("SQL NODE NULL");
+        return 0;
     }
     MYSQL *mysql=&(temmp->fd);
     if (mysql_real_query(mysql, find, strlen(find)))//No devices bonded

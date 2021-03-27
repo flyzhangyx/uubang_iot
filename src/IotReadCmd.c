@@ -11,11 +11,11 @@ int IotReadCmd(CLN *a/*key_id*/,int Devclass,int del)
                 Devclass,
                 "'");
         SQL_NODE *temmp;
-        while((temmp=get_db_connect(MySqlConnPool))==NULL)
-        {
-            Sleep(50);
-            continue;
-        }
+    if((temmp=get_db_connect(MySqlConnPool))==NULL)
+    {
+        log_error("SQL NODE NULL");
+        return 0;
+    }
         MYSQL *mysql=&(temmp->fd);
         if(mysql_real_query(mysql,read,strlen(read)))
         {
@@ -39,11 +39,11 @@ int IotReadCmd(CLN *a/*key_id*/,int Devclass,int del)
                 Devclass,
                 "'");
         SQL_NODE *temmp;
-        while((temmp=get_db_connect(MySqlConnPool))==NULL)
-        {
-            Sleep(50);
-            continue;
-        }
+    if((temmp=get_db_connect(MySqlConnPool))==NULL)
+    {
+        log_error("SQL NODE NULL");
+        return 0;
+    }
         MYSQL *mysql=&(temmp->fd);
         if(mysql_real_query(mysql,del,strlen(del)))
         {

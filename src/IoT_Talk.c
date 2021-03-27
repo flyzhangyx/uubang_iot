@@ -108,24 +108,81 @@ int IoTtalk(CLN* a)
     case 4://UPDATE DATA
     {
         ///Multi data format to resolve
+        int OutStrSize = 0;
+        int i = 0;
+        char** outStr = StrSplit(a->data,&OutStrSize,'_');
+        a->USERKEY_ID = 1;
+        while(i<OutStrSize)
+        {
+            switch (atoi(outStr[i]))
+            {
+            case 0://Open_close
+            {
+                sprintf(a->data,"%s","status");
+                if(IotUpdateStatus(a,0,atoi(outStr[i+1])))
+                {
+                    SEND_OP_BACK("04");
+                }
+                else
+                {
+                    SEND_OP_BACK("24");
+                }
+            }
+            break;
+            case 1://tempture
+            {
+                sprintf(a->data,"%s",outStr[i+1]);
+                if(IotUpdateStatus(a,1,0))
+                {
+                    SEND_OP_BACK("04");
+                }
+                else
+                {
+                    SEND_OP_BACK("24");
+                }
+            }
+            case 2:
+            {
+
+
+            }
+            break;
+            default:
+                break;
+            }
+            i+=2;
+        }
+        releaseStr(outStr,OutStrSize);
     }
     break;
     case 5://READ CMD
     {
         IotReadCmd(a,0,0);
         IotReadCmd(a,0,1);//After Read  Deletion
-        sprintf(SendStruct.payLoad,"%s",a->data);
+        Stringcut(a->data,0,199,SendStruct.payLoad);
         SEND_OP_BACK("05");
     }
     break;
     case 6://READ SCENE CMD
     {
+        if(a->info[0]!='Y')
+        {
+            SEND_OP_BACK("26");
+            return 0;
+        }
         IotReadSelfSceneCmd(a,a->USERKEY_ID);
     }
     break;
     case 7://READ IOT DATA
     {
-
+        int OutStrSize = 0;
+        int i = 0;
+        char** outStr = StrSplit(a->data,&OutStrSize,'_');
+        while(i++<OutStrSize)
+        {
+            IotGetIotData(a,atoi(outStr[i-1]));
+        }
+        releaseStr(outStr,OutStrSize);
     }
     break;
     case 8://SEND CMD TO OTHER DEV

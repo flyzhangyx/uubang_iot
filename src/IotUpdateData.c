@@ -31,10 +31,10 @@ int IotUpdateStatus(CLN *a,int EvtClass,int status)
             " AND `iotevtcache`.`evtClass` =  ",
             EvtClass);
     SQL_NODE *temmp;
-    while((temmp=get_db_connect(MySqlConnPool))==NULL)
+    if((temmp=get_db_connect(MySqlConnPool))==NULL)
     {
-        Sleep(50);
-        continue;
+        log_error("SQL NODE NULL");
+        return 0;
     }
     MYSQL *mysql=&(temmp->fd);
     if(mysql_real_query(mysql,insert,strlen(insert)))
@@ -48,11 +48,11 @@ int IotUpdateStatus(CLN *a,int EvtClass,int status)
         else
         {
             SQL_NODE *temmp;
-            while((temmp=get_db_connect(MySqlConnPool))==NULL)
-            {
-                Sleep(50);
-                continue;
-            }
+    if((temmp=get_db_connect(MySqlConnPool))==NULL)
+    {
+        log_error("SQL NODE NULL");
+        return 0;
+    }
             MYSQL *mysql=&(temmp->fd);
             mysql_real_query(mysql,update,strlen(update));
             if(mysql_affected_rows(mysql)==0)

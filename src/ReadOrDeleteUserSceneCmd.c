@@ -11,11 +11,11 @@ int ReadOrDeleteUserScene(CLN *a,char* UserId,int CmdGroupId,int del)
                 FindRegisterUserOrIotNode(0,UserId,0)->USERKEY_ID,
                 "'");
         SQL_NODE *temmp;
-        while((temmp=get_db_connect(MySqlConnPool))==NULL)
-        {
-            Sleep(50);
-            continue;
-        }
+    if((temmp=get_db_connect(MySqlConnPool))==NULL)
+    {
+        log_error("SQL NODE NULL");
+        return 0;
+    }
         MYSQL *mysql=&(temmp->fd);
         if(mysql_real_query(mysql,dele,strlen(dele)))
         {
@@ -36,11 +36,11 @@ int ReadOrDeleteUserScene(CLN *a,char* UserId,int CmdGroupId,int del)
         MYSQL_ROW row;
         sprintf(find, "%s%d", "SELECT * FROM `userscenecmd` WHERE `fromUserId` = ", FindRegisterUserOrIotNode(0,UserId,0)->USERKEY_ID);
         SQL_NODE *temmp;
-        while((temmp=get_db_connect(MySqlConnPool))==NULL)
-        {
-            Sleep(50);
-            continue;
-        }
+    if((temmp=get_db_connect(MySqlConnPool))==NULL)
+    {
+        log_error("SQL NODE NULL");
+        return 0;
+    }
         MYSQL *mysql=&(temmp->fd);
         if (mysql_real_query(mysql, find, strlen(find)))//No
         {

@@ -23,7 +23,7 @@ void CreateServerInfoInSQL()
     SQL_NODE *temmp;
     if((temmp=get_db_connect(MySqlConnPool))==NULL)
     {
-        log_error("SQL_NODE NULL UPDATE SERVER RUNINFO");
+        log_error("SQL NODE NULL");
         return;
     }
     MYSQL *mysql=&(temmp->fd);
@@ -63,6 +63,7 @@ int UpdateServerRunInfo(int CpuRate,int Mem,int TaskNum,int OnlineUserNum,int On
     SQL_NODE *temmp;
     if((temmp=get_db_connect(MySqlConnPool))==NULL)
     {
+        log_error("SQL NODE NULL");
         return 0;
     }
     MYSQL *mysql=&(temmp->fd);

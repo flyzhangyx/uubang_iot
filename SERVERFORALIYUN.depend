@@ -521,7 +521,7 @@
 1616749183 source:c:\users\bescd\desktop\test\uubang_iot\src\main.c
 	"../head/SERVER.h"
 
-1616749171 c:\users\bescd\desktop\test\uubang_iot\head\server.h
+1616828050 c:\users\bescd\desktop\test\uubang_iot\head\server.h
 	<stdio.h>
 	<WinSock2.h>
 	<windows.h>
@@ -578,7 +578,7 @@
 	<pthread.h>
 	<signal.h>
 
-1616574542 source:c:\users\bescd\desktop\test\uubang_iot\src\initserver.c
+1616827505 source:c:\users\bescd\desktop\test\uubang_iot\src\initserver.c
 	"../head/SERVER.h"
 
 1616557785 source:c:\users\bescd\desktop\test\uubang_iot\src\acceptclient.c
@@ -620,14 +620,14 @@
 1616398582 source:c:\users\bescd\desktop\test\uubang_iot\src\hash.c
 	"../head/SERVER.h"
 
-1616819997 source:c:\users\bescd\desktop\test\uubang_iot\src\iot_talk.c
+1616831928 source:c:\users\bescd\desktop\test\uubang_iot\src\iot_talk.c
 	"../head/SERVER.h"
 	"../libmd5utils/md5.h"
 
-1616665271 source:c:\users\bescd\desktop\test\uubang_iot\src\iotdevregister.c
+1616827505 source:c:\users\bescd\desktop\test\uubang_iot\src\iotdevregister.c
 	"../head/SERVER.h"
 
-1616398582 source:c:\users\bescd\desktop\test\uubang_iot\src\iotupdatedata.c
+1616827505 source:c:\users\bescd\desktop\test\uubang_iot\src\iotupdatedata.c
 	"../head/SERVER.h"
 
 1616398582 source:c:\users\bescd\desktop\test\uubang_iot\src\libthreadpool.c
@@ -643,16 +643,16 @@
 1616588450 source:c:\users\bescd\desktop\test\uubang_iot\src\newonlineuseroriotdev.c
 	"../head/SERVER.h"
 
-1616398582 source:c:\users\bescd\desktop\test\uubang_iot\src\newuserfriend.c
+1616827505 source:c:\users\bescd\desktop\test\uubang_iot\src\newuserfriend.c
 	"../head/SERVER.h"
 
-1616398582 source:c:\users\bescd\desktop\test\uubang_iot\src\newuseriot.c
+1616827505 source:c:\users\bescd\desktop\test\uubang_iot\src\newuseriot.c
 	"../head/SERVER.h"
 
-1616814881 source:c:\users\bescd\desktop\test\uubang_iot\src\newusermsgstorge.c
+1616827505 source:c:\users\bescd\desktop\test\uubang_iot\src\newusermsgstorge.c
 	"../head/SERVER.h"
 
-1616398582 source:c:\users\bescd\desktop\test\uubang_iot\src\newusermsgtalbleinsql.c
+1616827505 source:c:\users\bescd\desktop\test\uubang_iot\src\newusermsgtalbleinsql.c
 	"../head/SERVER.h"
 
 1616410324 source:c:\users\bescd\desktop\test\uubang_iot\src\printalluserandiotdevice.c
@@ -691,37 +691,37 @@
 1614592866 source:c:\users\bescd\desktop\test\uubang_iot\src\udppackresolve.c
 	"../head/SERVER.h"
 
-1616663596 source:c:\users\bescd\desktop\test\uubang_iot\src\usergetiotdata.c
+1616827505 source:c:\users\bescd\desktop\test\uubang_iot\src\usergetiotdata.c
 	"../head/SERVER.h"
 
-1616384391 source:c:\users\bescd\desktop\test\uubang_iot\src\userregister.c
+1616827505 source:c:\users\bescd\desktop\test\uubang_iot\src\userregister.c
 	"../head/SERVER.h"
 
 1612758695 source:c:\users\bescd\desktop\test\uubang_iot\src\userrename.c
 	"../head/SERVER.h"
 
-1616555454 source:c:\users\bescd\desktop\test\uubang_iot\src\userreqfriendrelation.c
+1616827505 source:c:\users\bescd\desktop\test\uubang_iot\src\userreqfriendrelation.c
 	"../head/SERVER.h"
 
-1616555454 source:c:\users\bescd\desktop\test\uubang_iot\src\userreqiotrel.c
+1616827505 source:c:\users\bescd\desktop\test\uubang_iot\src\userreqiotrel.c
 	"../head/SERVER.h"
 
-1616555454 source:c:\users\bescd\desktop\test\uubang_iot\src\userrequestmessage.c
+1616827504 source:c:\users\bescd\desktop\test\uubang_iot\src\userrequestmessage.c
 	"../head/SERVER.h"
 
 1616655280 source:c:\users\bescd\desktop\test\uubang_iot\src\serverworkthread.c
 	"../head/SERVER.h"
 
-1616398582 source:c:\users\bescd\desktop\test\uubang_iot\src\userrepwd.c
+1616827505 source:c:\users\bescd\desktop\test\uubang_iot\src\userrepwd.c
 	"../head/SERVER.h"
 
-1616398582 source:c:\users\bescd\desktop\test\uubang_iot\src\getsqlupdatetime.c
+1616827505 source:c:\users\bescd\desktop\test\uubang_iot\src\getsqlupdatetime.c
 	"../head/SERVER.h"
 
-1616398582 source:c:\users\bescd\desktop\test\uubang_iot\src\updatesqlinfotimestamp.c
+1616827505 source:c:\users\bescd\desktop\test\uubang_iot\src\updatesqlinfotimestamp.c
 	"../head/SERVER.h"
 
-1616385117 source:c:\users\bescd\desktop\test\uubang_iot\src\updateregiteriotanduser.c
+1616827505 source:c:\users\bescd\desktop\test\uubang_iot\src\updateregiteriotanduser.c
 	"../head/SERVER.h"
 
 1616398582 source:c:\users\bescd\desktop\test\uubang_iot\src\kaisaencrypt.c
@@ -740,7 +740,7 @@
 1614242236 source:c:\users\bescd\desktop\test\uubang_iot\src\usernewiotcmd.c
 	"../head/SERVER.h"
 
-1616817540 source:c:\users\bescd\desktop\test\uubang_iot\src\iotreadcmd.c
+1616827505 source:c:\users\bescd\desktop\test\uubang_iot\src\iotreadcmd.c
 	"../head/SERVER.h"
 
 1616398582 source:c:\users\bescd\desktop\test\uubang_iot\src\mysqlconncheck.c
@@ -752,13 +752,13 @@
 1616576842 source:c:\users\bescd\desktop\test\uubang_iot\src\checkuserscenecmd.c
 	"../head/SERVER.h"
 
-1616398582 source:c:\users\bescd\desktop\test\uubang_iot\src\newiotcmdtobeexecute.c
+1616827505 source:c:\users\bescd\desktop\test\uubang_iot\src\newiotcmdtobeexecute.c
 	"../head/SERVER.h"
 
-1616398582 source:c:\users\bescd\desktop\test\uubang_iot\src\newuserscenecmd.c
+1616827505 source:c:\users\bescd\desktop\test\uubang_iot\src\newuserscenecmd.c
 	"../head/SERVER.h"
 
-1616663607 source:c:\users\bescd\desktop\test\uubang_iot\src\readordeleteuserscenecmd.c
+1616827505 source:c:\users\bescd\desktop\test\uubang_iot\src\readordeleteuserscenecmd.c
 	"../head/SERVER.h"
 
 1616560693 source:c:\users\bescd\desktop\test\uubang_iot\src\send2onlineuserviaallserver.c
@@ -1047,15 +1047,18 @@
 1616571910 source:c:\users\bescd\desktop\test\uubang_iot\src\manualctrlmode.c
 	"../head/SERVER.h"
 
-1616575304 source:c:\users\bescd\desktop\test\uubang_iot\src\updateserverruninfo.c
+1616827519 source:c:\users\bescd\desktop\test\uubang_iot\src\updateserverruninfo.c
 	"../head/SERVER.h"
 
 1616748570 source:c:\users\bescd\desktop\test\uubang_iot\src\getappversion.c
 	"../head/SERVER.h"
 
-1616817939 source:c:\users\bescd\desktop\test\uubang_iot\src\iotreadscenecmd.c
+1616827505 source:c:\users\bescd\desktop\test\uubang_iot\src\iotreadscenecmd.c
 	"../head/SERVER.h"
 
 1616750905 source:c:\users\bescd\desktop\test\uubang_iot\src\strsplit.c
+	"../head/SERVER.h"
+
+1616827793 source:c:\users\bescd\desktop\test\uubang_iot\src\iotreadiotdata.c
 	"../head/SERVER.h"
 

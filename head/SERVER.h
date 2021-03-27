@@ -201,6 +201,7 @@ int UpdateServerRunInfo(int CpuRate,int Mem,int TaskNum,int OnlineUserNum,int On
 int IotReadSelfSceneCmd(CLN *,int);
 char** StrSplit(char*,int*,char);
 void releaseStr(char**,int);
+int IotGetIotData(CLN*,int);
 ///*****************************
 ///***************各类标志码**********************
 char CHECK[3];///应用进入时登陆检测是否已经注册
