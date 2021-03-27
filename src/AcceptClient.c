@@ -49,9 +49,11 @@ int AcceptClient()
             continue;
         }
         CONNHANDLE->SOCKET = accept(server_sockfd, (struct sockaddr*)&(CONNHANDLE->ADDR), &RemoteLen);
+        pthread_mutex_init(&(CONNHANDLE->t),NULL);
         if(SOCKET_ERROR == CONNHANDLE->SOCKET) 	// 接收客户端失败
         {
             log_error("Accept Socket Error" );
+            pthread_mutex_destroy(&(CONNHANDLE->t));
             free(CONNHANDLE);
             continue;
         }
@@ -59,6 +61,7 @@ int AcceptClient()
          if(PerIoData==NULL)
         {
             closesocket(CONNHANDLE ->SOCKET);
+            pthread_mutex_destroy(&(CONNHANDLE->t));
             free(CONNHANDLE);
             log_error("Malloc PerIOData Fail");
             continue;

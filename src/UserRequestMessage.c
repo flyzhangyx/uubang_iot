@@ -82,7 +82,7 @@ int UserRequestMessage(CLN *a,int Direction,char *DateFirst,char *DateLast,struc
         strcpy(RecDataStruct.DATA,row[2]);//content
         strcpy(RecDataStruct.save,row[3]);//date
         memcpy(sendbuf,&RecDataStruct,sizeof(RecDataStruct));
-        len=send(a->SOCKET,sendbuf,sizeof(UserPacketInterface),0);
+        len=SyncSend(a->SOCKET,sendbuf,sizeof(UserPacketInterface),0);
         if(len==SOCKET_ERROR||len==0)
         {
             closesocket(a->SOCKET);

@@ -86,7 +86,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
 #endif
                 if(ARG_CONN==NULL)
                 {
-                    send(CONNHANDLE->SOCKET,OOM,5,0);//OUTOFMEM
+                    SyncSend(CONNHANDLE->SOCKET,OOM,5,0);//OUTOFMEM
                     log_error("OOE");
                 }
                 else
@@ -111,7 +111,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
 #endif
                 if(ARG_CONN==NULL)
                 {
-                    send(CONNHANDLE->SOCKET,OOM,5,0);//OUTOFMEM
+                    SyncSend(CONNHANDLE->SOCKET,OOM,5,0);//OUTOFMEM
                     log_error("OOE");
                 }
                 else
@@ -142,7 +142,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                 else
                 {
                     //OLD VERSION
-                    send(CONNHANDLE->SOCKET,UPD,5,0);
+                    SyncSend(CONNHANDLE->SOCKET,UPD,5,0);
                 }
             }
             if(CONNHANDLE->info[1]!='Y')
@@ -168,7 +168,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
             }
             else
             {
-                send(CONNHANDLE->SOCKET,OOM,5,0);//OUTOFMEM
+                SyncSend(CONNHANDLE->SOCKET,OOM,5,0);//OUTOFMEM
 #ifdef MemPool
                 freeNode(ARG_CONN->MemMark,ARG_CONN);
 #else

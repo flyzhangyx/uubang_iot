@@ -1,5 +1,14 @@
 #include"../head/SERVER.h"
 #include "../libmd5utils/md5.h"
+
+int SyncSend(SOCKET socket,char *buf,int buflen,pthread_mutex_t *t)
+{
+    int len = 0;
+    pthread_mutex_lock(t);
+    len = send(socket,buf,buflen,0);
+    pthread_mutex_unlock(t);
+    return len;
+}
 #ifdef STPOOL
 int talk(struct sttask *ptask)
 #else

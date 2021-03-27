@@ -9,7 +9,7 @@
                 }\
                 memcpy(SendBuf,&SendStruct,sizeof(IotPacketInterface));\
                 SendBuf[sizeof(IotPacketInterface)-1] = _HC_;\
-                len=send(a->SOCKET,SendBuf,sizeof(IotPacketInterface),0);\
+                len=SyncSend(a->SOCKET,SendBuf,sizeof(IotPacketInterface),0);\
                 if(len==SOCKET_ERROR||len==0)\
                 {\
                     closesocket(a->SOCKET);\
@@ -25,7 +25,7 @@ int IoTtalk(CLN* a)
 //    if(iot==NULL)
 //        return 0;
 //    IotReadSelfSceneCmd(b,iot->USERKEY_ID);
-//    //send(b->SOCKET,str,strlen(str)+1,0);
+//    //SyncSend(b->SOCKET,str,strlen(str)+1,0);
 //    //return 1;
     int len = 0;
     IotPacketInterface SendStruct;
@@ -263,7 +263,7 @@ int IoTtalk(CLN* a)
 //                    free(mes);
 //                    strcpy(IoTdata,"TAN");
 //                    strcat(IoTdata,RecDataStruct.TalktoID);
-//                    len=send(c,IoTdata,30*sizeof(char),0);
+//                    len=SyncSend(c,IoTdata,30*sizeof(char),0);
 //                    if(len==SOCKET_ERROR||len==0)
 //                    {
 //                        log_info("连接%I64d退出",c);
@@ -283,7 +283,7 @@ int IoTtalk(CLN* a)
 //                    strcpy(RecDataStruct.USERID,RecDataStruct.TalktoID);
 //                    strcpy(RecDataStruct.TalktoID,a->USERID);
 //                    memcpy(SendBuf,&RecDataStruct,sizeof(RecDataStruct));
-//                    len=send(talktouser->USER_SOCKET,SendBuf,sizeof(sendbag),0);
+//                    len=SyncSend(talktouser->USER_SOCKET,SendBuf,sizeof(sendbag),0);
 //                    if(len==SOCKET_ERROR||len==0)
 //                    {
 //                        log_info("连接%I64d退出",c);
@@ -292,7 +292,7 @@ int IoTtalk(CLN* a)
 //                    }
 //                    strcpy(IoTdata,"TAS");
 //                    strcat(IoTdata,RecDataStruct.USERID);
-//                    len=send(c,IoTdata,30*sizeof(char),0);
+//                    len=SyncSend(c,IoTdata,30*sizeof(char),0);
 //                    if(len==SOCKET_ERROR||len==0)
 //                    {
 //                        log_info("连接%I64d退出",c);
@@ -307,7 +307,7 @@ int IoTtalk(CLN* a)
 //                log_info("用户%s不存在",RecDataStruct.TalktoID);
 //                strcpy(IoTdata,"Taa");
 //                strcat(IoTdata,RecDataStruct.TalktoID);
-//                len=send(c,IoTdata,30*sizeof(char),0);
+//                len=SyncSend(c,IoTdata,30*sizeof(char),0);
 //                if(len==SOCKET_ERROR||len==0)
 //                {
 //                    log_info("连接%I64d退出",c);
@@ -346,7 +346,7 @@ int IoTtalk(CLN* a)
 //            fclose(ss);
 //            strcpy(IoTdata,"ADS");
 //            strcat(IoTdata,RecDataStruct.TalktoID);
-//            len=send(c,IoTdata,30*sizeof(char),0);
+//            len=SyncSend(c,IoTdata,30*sizeof(char),0);
 //            if(len==SOCKET_ERROR||len==0)
 //            {
 //                log_info("连接%I64d退出",c);
@@ -361,7 +361,7 @@ int IoTtalk(CLN* a)
 //            timenow=ctime(&t);
 //            strcpy(IoTdata,"HBI");
 //            strncat(IoTdata,timenow,24);
-//            len=send(c,IoTdata,30*sizeof(char),0);
+//            len=SyncSend(c,IoTdata,30*sizeof(char),0);
 //            log_info("HBI");
 //            if(len==SOCKET_ERROR||len==0)
 //            {

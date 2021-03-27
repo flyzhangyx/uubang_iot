@@ -103,10 +103,14 @@ void PingMallocConnList()
     {
         if(cursor->next->CONNHANDLE!=NULL)
         {
-            len = send(cursor->next->CONNHANDLE->SOCKET,HBA,HBAlen+2,0);
-            if(len==SOCKET_ERROR||len==0)
+            if(!pthread_mutex_trylock(&(cursor->next->CONNHANDLE->t)))
             {
-                cursor->next->time++;
+                len = send(cursor->next->CONNHANDLE->SOCKET,HBA,HBAlen+2,0);
+                if(len==SOCKET_ERROR||len==0)
+                {
+                    cursor->next->time++;
+                }
+                pthread_mutex_unlock(&(cursor->next->CONNHANDLE->t));
             }
         }
         else
@@ -156,6 +160,7 @@ void freeConnMemWait4Free()
                 log_debug("Free Conn :%I64d  MemAddr :0x%x",cursor->next->CONNHANDLE->SOCKET,cursor->next->CONNHANDLE);
                 delete_out_user(cursor->next->CONNHANDLE);
                 closesocket(cursor->next->CONNHANDLE->SOCKET);
+                pthread_mutex_destroy(&(cursor->next->CONNHANDLE->t));
                 free(cursor->next->CONNHANDLE);
                 cursor->next->CONNHANDLE=NULL;
                 if(cursor->next->PERIODATA!=NULL)

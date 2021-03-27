@@ -202,6 +202,7 @@ int IotReadSelfSceneCmd(CLN *,int);
 char** StrSplit(char*,int*,char);
 void releaseStr(char**,int);
 int IotGetIotData(CLN*,int);
+int SyncSend(SOCKET socket,char *buf,int buflen,pthread_mutex_t *t);
 ///*****************************
 ///***************各类标志码**********************
 char CHECK[3];///应用进入时登陆检测是否已经注册
