@@ -39,7 +39,7 @@ int UserReqIotRel(CLN *a)
         strcpy(RecDataStruct.save,row[2]);//RelationCreateDate
         RecDataStruct.save[99]=_HC_;
         memcpy(sendbuf,&RecDataStruct,sizeof(RecDataStruct));
-        len=SyncSend(a->SOCKET,sendbuf,sizeof(UserPacketInterface),0);
+        len=SyncSend(a->SOCKET,sendbuf,sizeof(UserPacketInterface),&(a->t));
         if(len==SOCKET_ERROR||len==0)
         {
             closesocket(a->SOCKET);

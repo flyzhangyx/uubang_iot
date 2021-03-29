@@ -36,7 +36,7 @@ int IotReadSelfSceneCmd(CLN *a,int Iot_key)
         }
         memcpy(sendbuf,&RecDataStruct,sizeof(RecDataStruct));
         sendbuf[sizeof(IotPacketInterface)-1] = _HC_;
-        len=SyncSend(a->SOCKET,sendbuf,sizeof(IotPacketInterface),0);
+        len=SyncSend(a->SOCKET,sendbuf,sizeof(IotPacketInterface),&(a->t));
         if(len==SOCKET_ERROR||len==0)
         {
             closesocket(a->SOCKET);

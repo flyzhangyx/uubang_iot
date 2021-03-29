@@ -32,7 +32,7 @@ int UserGetIotData(CLN *a)
         RecDataStruct.save[99]=_HC_;
         sprintf(RecDataStruct.DATA,"%d_%d_%s_%s_",atoi(row[1]),atoi(row[2]),row[3],row[4]);
         memcpy(sendbuf,&RecDataStruct,sizeof(RecDataStruct));
-        int len=SyncSend(a->SOCKET,sendbuf,sizeof(UserPacketInterface),0);
+        int len=SyncSend(a->SOCKET,sendbuf,sizeof(UserPacketInterface),&(a->t));
         if(len==SOCKET_ERROR||len==0)
         {
             closesocket(a->SOCKET);

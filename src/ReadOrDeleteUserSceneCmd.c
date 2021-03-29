@@ -66,7 +66,7 @@ int ReadOrDeleteUserScene(CLN *a,char* UserId,int CmdGroupId,int del)
             sprintf(RecDataStruct.DATA,"%s_%s_%s_%s_%s_%s_%s_",row[2],row[3],row[4],row[5],row[6],row[7],row[8]);//devclass_cmdcontent_status_cmdTime_Exedate_cmdgroup_fromUserid
             RecDataStruct.save[99]=_HC_;
             memcpy(sendbuf,&RecDataStruct,sizeof(RecDataStruct));
-            len=SyncSend(a->SOCKET,sendbuf,sizeof(UserPacketInterface),0);
+            len=SyncSend(a->SOCKET,sendbuf,sizeof(UserPacketInterface),&(a->t));
             if(len==SOCKET_ERROR||len==0)
             {
                 closesocket(a->SOCKET);

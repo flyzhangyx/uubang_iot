@@ -95,7 +95,7 @@ void PingMallocConnList()
     strftime(time_now,80,"%Y-%m-%d %X",localtime(&now_time));
     strcat(HBA,time_now);
     int HBAlen = strlen(HBA);
-    HBA[HBAlen+1]=_HC_;
+    HBA[HBAlen]=_HC_;
     CLN_LINK* cursor=&MallocHead;
     //log_info("CONN2BEPING %d",cursor->time);
     int len = 0;
@@ -105,7 +105,7 @@ void PingMallocConnList()
         {
             if(!pthread_mutex_trylock(&(cursor->next->CONNHANDLE->t)))
             {
-                len = send(cursor->next->CONNHANDLE->SOCKET,HBA,HBAlen+2,0);
+                len = send(cursor->next->CONNHANDLE->SOCKET,HBA,HBAlen+1,0);
                 if(len==SOCKET_ERROR||len==0)
                 {
                     cursor->next->time++;

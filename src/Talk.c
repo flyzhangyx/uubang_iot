@@ -3,6 +3,8 @@
 
 int SyncSend(SOCKET socket,char *buf,int buflen,pthread_mutex_t *t)
 {
+    if(t==NULL)
+        return -1;
     int len = 0;
     pthread_mutex_lock(t);
     len = send(socket,buf,buflen,0);

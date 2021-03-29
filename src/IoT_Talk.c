@@ -9,7 +9,7 @@
                 }\
                 memcpy(SendBuf,&SendStruct,sizeof(IotPacketInterface));\
                 SendBuf[sizeof(IotPacketInterface)-1] = _HC_;\
-                len=SyncSend(a->SOCKET,SendBuf,sizeof(IotPacketInterface),0);\
+                len=SyncSend(a->SOCKET,SendBuf,sizeof(IotPacketInterface),&(a->t));\
                 if(len==SOCKET_ERROR||len==0)\
                 {\
                     closesocket(a->SOCKET);\
@@ -25,7 +25,7 @@ int IoTtalk(CLN* a)
 //    if(iot==NULL)
 //        return 0;
 //    IotReadSelfSceneCmd(b,iot->USERKEY_ID);
-//    //SyncSend(b->SOCKET,str,strlen(str)+1,0);
+//    //SyncSend(b->SOCKET,str,strlen(str)+1,a->t);
 //    //return 1;
     int len = 0;
     IotPacketInterface SendStruct;
