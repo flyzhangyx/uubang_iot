@@ -61,7 +61,7 @@ static void * admin_thread(void *threadpool)
     threadPool_t *pool = (threadPool_t *)threadpool;
     while (!pool->shutdown)
     {
-        //log_info("admin -----------------");
+        //log_debug("admin -----------------");
         sleep(DEFAULT_CHECK_INTERVAL);               /*隔一段时间再管理*/
         pthread_mutex_lock(&(pool->lock));               /*加锁*/
         g_queue_size = pool->queue_size;               /*任务数*/
@@ -73,8 +73,8 @@ static void * admin_thread(void *threadpool)
         if(PrintTime++>=0)
         {
             PrintTime = 0;
-            log_info([THREAD POOL] BUSY: %d | LIVE: %d , g_busy_thr_num, g_live_thr_num);
-           // log_info(");
+            log_debug([THREAD POOL] BUSY: %d | LIVE: %d , g_busy_thr_num, g_live_thr_num);
+           // log_debug(");
         }
         /*创建新线程 实际任务数量大于 最小正在等待的任务数量，存活线程数小于最大线程数*/
         if (g_queue_size >= MIN_WAIT_TASK_NUM && g_live_thr_num <= pool->max_thr_num)
@@ -83,7 +83,7 @@ static void * admin_thread(void *threadpool)
             int add=0;
             /*一次增加 DEFAULT_THREAD_NUM 个线程*/
             if(pool->live_thr_num < pool->max_thr_num)
-            log_info("[THREAD POOL] %d NEW THREADS CREATE",DEFAULT_THREAD_NUM);
+            log_debug("[THREAD POOL] %d NEW THREADS CREATE",DEFAULT_THREAD_NUM);
             for (i=0; i<pool->max_thr_num && add<DEFAULT_THREAD_NUM
                  && pool->live_thr_num < pool->max_thr_num; i++)
             {
@@ -100,7 +100,7 @@ static void * admin_thread(void *threadpool)
         /*销毁多余的线程 忙线程x2 都小于 存活线程，并且存活的大于最小线程数*/
         if ((g_busy_thr_num*2) < g_live_thr_num  &&  g_live_thr_num > pool->min_thr_num)
         {
-            // log_info("admin busy --%d--%d----", busy_thr_num, live_thr_num);
+            // log_debug("admin busy --%d--%d----", busy_thr_num, live_thr_num);
             /*一次销毁DEFAULT_THREAD_NUM个线程*/
             pthread_mutex_lock(&(pool->lock));
             pool->wait_exit_thr_num = DEFAULT_THREAD_NUM;
@@ -111,7 +111,7 @@ static void * admin_thread(void *threadpool)
                 //通知正在处于空闲的线程，自杀
                 pthread_cond_signal(&(pool->queue_not_empty));
             }
-            log_info("[THREAD POOL] RELEASE %d REDUNDANT THREADS ",DEFAULT_THREAD_NUM);
+            log_debug("[THREAD POOL] RELEASE %d REDUNDANT THREADS ",DEFAULT_THREAD_NUM);
         }
     }
     return NULL;
@@ -166,7 +166,7 @@ void *work_thread(void *threadpool)
         /* 无任务则阻塞在 “queue_not_emperty” 上，有任务则跳出 */
         while ((pool->queue_size == 0) && (!pool->shutdown))
         {
-            //log_info("thread 0x%x is waiting ", (unsigned int)pthread_self());
+            //log_debug("thread 0x%x is waiting ", (unsigned int)pthread_self());
             pthread_cond_wait(&(pool->queue_not_empty), &(pool->lock));
 
             /* 判断是否需要清除线程,自杀功能 */
@@ -176,7 +176,7 @@ void *work_thread(void *threadpool)
                 /* 判断线程池中的线程数是否大于最小线程数，是则结束当前线程 */
                 if (pool->live_thr_num > pool->min_thr_num)
                 {
-                    //log_info("[THREAD POOL] thread 0x%x is exiting ", (unsigned int)pthread_self());
+                    //log_debug("[THREAD POOL] thread 0x%x is exiting ", (unsigned int)pthread_self());
                     pool->live_thr_num--;
                     pthread_mutex_unlock(&(pool->lock));
                     pthread_exit(NULL);//结束线程
@@ -188,7 +188,7 @@ void *work_thread(void *threadpool)
         if (pool->shutdown) //关闭线程池
         {
             pthread_mutex_unlock(&(pool->lock));
-            log_info("[THREAD POOL] thread 0x%x is exiting ", (unsigned int)pthread_self());
+            log_debug("[THREAD POOL] thread 0x%x is exiting ", (unsigned int)pthread_self());
             pthread_exit(NULL); //线程自己结束自己
         }
 
@@ -207,7 +207,7 @@ void *work_thread(void *threadpool)
         pthread_mutex_unlock(&(pool->lock));
 
         //执行刚才取出的任务
-        //log_info("thread 0x%x start working ", (unsigned int)pthread_self());
+        //log_debug("thread 0x%x start working ", (unsigned int)pthread_self());
         pthread_mutex_lock(&(pool->thread_counter));            //锁住忙线程变量
         pool->busy_thr_num++;
         pthread_mutex_unlock(&(pool->thread_counter));
@@ -215,7 +215,7 @@ void *work_thread(void *threadpool)
        (*(task.task_func))(task.arg);                           //执行任务
 
         //任务结束处理
-        //log_info("thread 0x%x end working ", (unsigned int)pthread_self());
+        //log_debug("thread 0x%x end working ", (unsigned int)pthread_self());
         pthread_mutex_lock(&(pool->thread_counter));
         pool->busy_thr_num--;
         pthread_mutex_unlock(&(pool->thread_counter));
@@ -230,14 +230,14 @@ int libThreadPool_TaskAdd(threadPool_t *pool, task_func function, void *arg)
 
     /*如果队列满了,调用wait阻塞*/
     while ((pool->queue_size >= pool->queue_max_size) && (!pool->shutdown)){
-        //log_info("[THREAD POOL] QUEUE IS FULL %p,%d",arg,pool->queue_size);
+        //log_debug("[THREAD POOL] QUEUE IS FULL %p,%d",arg,pool->queue_size);
         pthread_cond_wait(&(pool->queue_not_full), &(pool->lock));
     }
 
     /*如果线程池处于关闭状态*/
     if (pool->shutdown)
     {
-        log_info("[THREAD POOL] THREAD POOL WILL BE SHUTDOWN");
+        log_debug("[THREAD POOL] THREAD POOL WILL BE SHUTDOWN");
         pthread_mutex_unlock(&(pool->lock));
         return -1;
     }
@@ -313,7 +313,7 @@ threadPool_t * libThreadPool_Init(int min_thr_num, int max_thr_num, int queue_ma
             pthread_cond_init(&(pool->queue_not_empty), NULL) !=0  ||
             pthread_cond_init(&(pool->queue_not_full), NULL) !=0)
         {
-            log_info("[THREAD POOL] INIT MUTEX OR COND FALSE");
+            log_debug("[THREAD POOL] INIT MUTEX OR COND FALSE");
             break;
         }
 
@@ -322,7 +322,7 @@ threadPool_t * libThreadPool_Init(int min_thr_num, int max_thr_num, int queue_ma
         {
             /* pool指向当前线程池  threadPool_thread函数在后面讲解 */
             pthread_create(&(pool->threads[i]), NULL, work_thread, (void *)pool);
-            //log_info("start thread num %d...0x%x ",i, (unsigned int)pool->threads[i]);
+            //log_debug("start thread num %d...0x%x ",i, (unsigned int)pool->threads[i]);
         }
         /* 管理者线程 admin_thread函数在后面讲解 */
         pthread_create(&(pool->admin_tid), NULL, admin_thread, (void *)pool);

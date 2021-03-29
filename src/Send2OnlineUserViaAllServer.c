@@ -89,14 +89,13 @@ int talk(LPVOID b)
             sprintf(SendDataStruct.checkcode, "%s",a->checkcode);
             SendDataStruct.save[99] = _HC_;
             memcpy(sendbuf, &SendDataStruct, sizeof(SendDataStruct));
-            len = send(Temp->USER_SOCKET, sendbuf, sizeof(UserPacketInterface), 0);
+            len = SyncSend(Temp->USER_SOCKET, sendbuf, sizeof(UserPacketInterface), &(Temp->CONNHANDLE->t));
             if (len == SOCKET_ERROR || len == 0)
             {
                 closesocket(Temp->USER_SOCKET);
             }
         }
     }
-
     free(a);
 }
 #endif // STPOOL

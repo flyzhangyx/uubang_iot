@@ -40,10 +40,10 @@ void getNetIp(char *ip)
 
     //向服务器发送数据
     if(send(sock,szBuffer,strlen (szBuffer),0) == SOCKET_ERROR)
-        log_info("send error\n");
+        log_debug("send error\n");
     //从服务器获得数据
     if(recv(sock,szBuffer,1024,0) == SOCKET_ERROR)
-        log_info("recv error\n");
+        log_debug("recv error\n");
     //output
     char *p = szBuffer;
     flag = 0;
@@ -60,7 +60,7 @@ void getNetIp(char *ip)
         p++;
     }
     temp[i]=0;
-    log_info("Net Ip address is:%s",temp);
+    log_debug("Net Ip address is:%s",temp);
     closesocket(sock);
     if(ip!=NULL)
     {

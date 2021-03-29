@@ -18,33 +18,33 @@ int initServer(int port,char *ServerId)
     ///FIll the Three CHAR full With A ：TA + A = TAA
 #ifdef HASH_CODE
     CHECK_HASH = DJBHash("ZYX",3);///应用进入时登陆检测是否已经注册
-    log_info("ZYX%d",CHECK_HASH);
+    log_debug("ZYX%d",CHECK_HASH);
     SIGN_IN_HASH = DJBHash("SIA",3);///登陆码
-    log_info("SIA%d",SIGN_IN_HASH);
+    log_debug("SIA%d",SIGN_IN_HASH);
     REGISTER_HASH = DJBHash("REA",3);///注册码
-    log_info("REA%d",REGISTER_HASH);
+    log_debug("REA%d",REGISTER_HASH);
     MESSAGE_HASH = DJBHash("RME",3);///信息发送码
-    log_info("RME%d",MESSAGE_HASH);
+    log_debug("RME%d",MESSAGE_HASH);
     TALK_TO_HASH = DJBHash("TAA",3);///通信目标地址码
-    log_info("TAA%d",TALK_TO_HASH);
+    log_debug("TAA%d",TALK_TO_HASH);
     SIGN_OUT_HASH = DJBHash("STO",3);///注销
-    log_info("STO%d",SIGN_OUT_HASH);
+    log_debug("STO%d",SIGN_OUT_HASH);
     CONTACT_HASH = DJBHash("RCO",3);///联系人码
-    log_info("RCO%d",CONTACT_HASH);
+    log_debug("RCO%d",CONTACT_HASH);
     REPWD_HASH = DJBHash("RPA",3);
-    log_info("RPA%d",REPWD_HASH);
+    log_debug("RPA%d",REPWD_HASH);
     VERUPD_HASH = DJBHash("UPD",3);
-    log_info("UPD%d",VERUPD_HASH);
+    log_debug("UPD%d",VERUPD_HASH);
     ADDUSER_HASH = DJBHash("ADD",3);
-    log_info("ADD%d",ADDUSER_HASH);
+    log_debug("ADD%d",ADDUSER_HASH);
     READDU_HASH = DJBHash("ADS",3);
-    log_info("ADS%d",READDU_HASH);
+    log_debug("ADS%d",READDU_HASH);
     HEARTBEAT_HASH = DJBHash("HBA",3);
-    log_info("HBA%d",HEARTBEAT_HASH);
+    log_debug("HBA%d",HEARTBEAT_HASH);
     PINREQ_HASH = DJBHash("PIN",3);
-    log_info("PIN%d",PINREQ_HASH);
+    log_debug("PIN%d",PINREQ_HASH);
     IOTCFM_HASH = DJBHash("IOC",3);
-    log_info("IOC%d",IOTCFM_HASH);//iot cfm add friend cmd
+    log_debug("IOC%d",IOTCFM_HASH);//iot cfm add friend cmd
 #endif // HASH_CODE
     ///***********socket初始化***********************
     WSADATA wsaData;
@@ -52,12 +52,12 @@ int initServer(int port,char *ServerId)
     {
         if(!WSAStartup(MAKEWORD(2,2),&wsaData) )
         {
-            log_info("SOCKET ESTABLISHED SUCCESS!");
+            log_debug("SOCKET ESTABLISHED SUCCESS!");
             break;
         }
         else
         {
-            log_info("socket not established! If continue to establish? Yes press 1;No press 0");
+            log_error("socket not established! If continue to establish? Yes press 1;No press 0");
             scanf("%d",&scan);
             if(scan==0)
                 exit(0);
@@ -104,9 +104,9 @@ int initServer(int port,char *ServerId)
                                            0,	   /** 保持线程池创建后调度任务状态  */
                                            1		   /** 优先级队列数目                */
                                           );
-    log_info("ThreadPool Init Success!");
+    log_debug("ThreadPool Init Success!");
     MySqlConnPool=sql_pool_create(36);
-    log_info("MySQLConnPoll Init Success!");
+    log_debug("MySQLConnPoll Init Success!");
 #ifdef MemPool
     InitMemPool(200000,sizeof(CLN));
 #else
@@ -114,7 +114,7 @@ int initServer(int port,char *ServerId)
     mem_size_t mem_pool_size = 300 * MB;
     mp = MemoryPoolInit(max_mem, mem_pool_size);
 #endif // MemPool
-    log_info("MemPoll Init Success!");
+    log_debug("MemPoll Init Success!");
     /**********************************/
 #else
     ThreadPool_ExecuteMsg = libThreadPool_Init(10,30,60);

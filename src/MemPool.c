@@ -48,9 +48,9 @@ void *mallocNode(int *flag/*sup user a index which mem is providing */)
 //                log_error("%d",index);
 //            }
 //            *flag = index;
-//            log_info("%d",index);
+//            log_debug("%d",index);
 //            memset(MemPoolList[index],0,MallocNodesize);
-//             log_info("%d",index);
+//             log_debug("%d",index);
 //            MemPoolAvailable--;
 //            return MemPoolList[index];
 //        }

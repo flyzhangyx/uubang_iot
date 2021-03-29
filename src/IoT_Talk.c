@@ -9,7 +9,7 @@
                 }\
                 memcpy(SendBuf,&SendStruct,sizeof(IotPacketInterface));\
                 SendBuf[sizeof(IotPacketInterface)-1] = _HC_;\
-                len=SyncSend(a->SOCKET,SendBuf,sizeof(IotPacketInterface),&(a->t));\
+                len=SyncSend(a->SOCKET,SendBuf,sizeof(IotPacketInterface),&(a->conn->t));\
                 if(len==SOCKET_ERROR||len==0)\
                 {\
                     closesocket(a->SOCKET);\
@@ -25,7 +25,7 @@ int IoTtalk(CLN* a)
 //    if(iot==NULL)
 //        return 0;
 //    IotReadSelfSceneCmd(b,iot->USERKEY_ID);
-//    //SyncSend(b->SOCKET,str,strlen(str)+1,a->t);
+//    //SyncSend(b->SOCKET,str,strlen(str)+1,&(a->conn->t));
 //    //return 1;
     int len = 0;
     IotPacketInterface SendStruct;
@@ -53,7 +53,7 @@ int IoTtalk(CLN* a)
             return 0;
         }
         generateRandIntStr(a->Pin,6);
-        log_info("%s",a->Pin);
+        log_debug("%s",a->Pin);
         memcpy(a->conn->Pin,a->Pin,7);
         memset(&SendStruct,0,sizeof(IotPacketInterface));
         memset(SendBuf,0,sizeof(IotPacketInterface));
@@ -129,7 +129,7 @@ int IoTtalk(CLN* a)
                 }
             }
             break;
-            case 1://tempture
+            case 1://temperature
             {
                 sprintf(a->data,"%s",outStr[i+1]);
                 if(IotUpdateStatus(a,1,0))
@@ -141,9 +141,14 @@ int IoTtalk(CLN* a)
                     SEND_OP_BACK("24");
                 }
             }
-            case 2:
+            case 2://humidity
             {
 
+
+            }
+            break;
+            case 3://brightness
+            {
 
             }
             break;
@@ -214,11 +219,11 @@ int IoTtalk(CLN* a)
 //        len=recv(c,IoTdata,30*sizeof(char),0);///*****************************1
 //        if(len==SOCKET_ERROR||len==0)
 //        {
-//            log_info("连接%I64d退出",c);
+//            log_debug("连接%I64d退出",c);
 //            closesocket(c);
 //            if(signIN)
 //            {
-//                log_info("SIGNIN?2TIMES?");
+//                log_debug("SIGNIN?2TIMES?");
 //                delete_out_user(a);
 //            }
 //            return 0;
@@ -252,7 +257,7 @@ int IoTtalk(CLN* a)
 //                    strcpy(mes->TalktoID,a->USERID);
 //                    strcpy(mes->USERID,RecDataStruct.TalktoID);
 //                    strcpy(mes->data,RecDataStruct.DATA);
-//                    log_info("用户%s不在线TAN",RecDataStruct.TalktoID);
+//                    log_debug("用户%s不在线TAN",RecDataStruct.TalktoID);
 //                    char talkto[15]= {'0'};
 //                    strcpy(talkto,RecDataStruct.TalktoID);
 //                    strcat(talkto,"ME");
@@ -266,7 +271,7 @@ int IoTtalk(CLN* a)
 //                    len=SyncSend(c,IoTdata,30*sizeof(char),0);
 //                    if(len==SOCKET_ERROR||len==0)
 //                    {
-//                        log_info("连接%I64d退出",c);
+//                        log_debug("连接%I64d退出",c);
 //                        closesocket(c);
 //                        delete_out_user(a);
 //                        return 0;
@@ -279,14 +284,14 @@ int IoTtalk(CLN* a)
 //                    RecDataStruct.save[99]=_HC_;
 //                    char temp[12]= {0};
 //                    strcpy(temp,RecDataStruct.USERID);
-//                    log_info("%s",temp);
+//                    log_debug("%s",temp);
 //                    strcpy(RecDataStruct.USERID,RecDataStruct.TalktoID);
 //                    strcpy(RecDataStruct.TalktoID,a->USERID);
 //                    memcpy(SendBuf,&RecDataStruct,sizeof(RecDataStruct));
 //                    len=SyncSend(talktouser->USER_SOCKET,SendBuf,sizeof(sendbag),0);
 //                    if(len==SOCKET_ERROR||len==0)
 //                    {
-//                        log_info("连接%I64d退出",c);
+//                        log_debug("连接%I64d退出",c);
 //                        closesocket(talktouser->USER_SOCKET);
 //                        return 0;
 //                    }
@@ -295,7 +300,7 @@ int IoTtalk(CLN* a)
 //                    len=SyncSend(c,IoTdata,30*sizeof(char),0);
 //                    if(len==SOCKET_ERROR||len==0)
 //                    {
-//                        log_info("连接%I64d退出",c);
+//                        log_debug("连接%I64d退出",c);
 //                        closesocket(c);
 //                        delete_out_user(a);
 //                        return 0;
@@ -304,13 +309,13 @@ int IoTtalk(CLN* a)
 //            }
 //            else
 //            {
-//                log_info("用户%s不存在",RecDataStruct.TalktoID);
+//                log_debug("用户%s不存在",RecDataStruct.TalktoID);
 //                strcpy(IoTdata,"Taa");
 //                strcat(IoTdata,RecDataStruct.TalktoID);
 //                len=SyncSend(c,IoTdata,30*sizeof(char),0);
 //                if(len==SOCKET_ERROR||len==0)
 //                {
-//                    log_info("连接%I64d退出",c);
+//                    log_debug("连接%I64d退出",c);
 //                    closesocket(c);
 //                    delete_out_user(a);
 //                    return 0;
@@ -349,7 +354,7 @@ int IoTtalk(CLN* a)
 //            len=SyncSend(c,IoTdata,30*sizeof(char),0);
 //            if(len==SOCKET_ERROR||len==0)
 //            {
-//                log_info("连接%I64d退出",c);
+//                log_debug("连接%I64d退出",c);
 //                closesocket(c);
 //                delete_out_user(a);
 //                return 0;
@@ -362,10 +367,10 @@ int IoTtalk(CLN* a)
 //            strcpy(IoTdata,"HBI");
 //            strncat(IoTdata,timenow,24);
 //            len=SyncSend(c,IoTdata,30*sizeof(char),0);
-//            log_info("HBI");
+//            log_debug("HBI");
 //            if(len==SOCKET_ERROR||len==0)
 //            {
-//                log_info("连接%I64d退出",c);
+//                log_debug("连接%I64d退出",c);
 //                closesocket(c);
 //                delete_out_user(a);
 //                return 0;
@@ -378,7 +383,7 @@ int IoTtalk(CLN* a)
 //        }
 //        else
 //        {
-//            log_info("%s",IoTdata);
+//            log_debug("%s",IoTdata);
 //        }
 //    }
 //    */

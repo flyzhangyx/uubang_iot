@@ -16,9 +16,10 @@ int newOnlineUserOrIotDev(CLN *a)
     }
     strcpy(newuser->USERID,a->USERID);
     strcpy(newuser->USERPASSWORD,a->USERPASSWORD);
-    newuser->USER_ADDR=a->ADDR;
-    newuser->USER_SOCKET=a->SOCKET;
-    newuser->USERKEY_ID=a->USERKEY_ID;
+    newuser->USER_ADDR = a->ADDR;
+    newuser->USER_SOCKET = a->SOCKET;
+    newuser->USERKEY_ID = a->USERKEY_ID;
+    newuser->CONNHANDLE = a->conn;
     if(strlen(a->USERID)<11)
     {
         pthread_mutex_lock(&(onlineIotHead->mute));

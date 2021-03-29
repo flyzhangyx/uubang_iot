@@ -25,13 +25,13 @@ int Check_Id_Pwd(int n,CLN *a)//0 SIGN 1 REG
                             Tag=Tag->next;
                         }
                     }
-                    log_info("已注册用户列表中用户%s账号或者%s密码错误,请检查服务",a->USERID,a->USERPASSWORD);
+                    log_debug("已注册用户列表中用户%s账号或者%s密码错误,请检查服务",a->USERID,a->USERPASSWORD);
                     return -1;
                 }
             }
             else
             {
-                log_info("已注册用户列表中用户%s账号或者%s密码错误,请检查服务",a->USERID,a->USERPASSWORD);
+                log_debug("已注册用户列表中用户%s账号或者%s密码错误,请检查服务",a->USERID,a->USERPASSWORD);
                 return -1;
             }
         }
@@ -49,7 +49,7 @@ int Check_Id_Pwd(int n,CLN *a)//0 SIGN 1 REG
                     {
                         if(!strcmp(a->USERID,Tag->USERID))
                         {
-                            //log_info("已注册用户列表中有此用户%s,禁止注册",a->USERID);
+                            //log_debug("已注册用户列表中有此用户%s,禁止注册",a->USERID);
                             return 1;
                         }
                         else
@@ -57,13 +57,13 @@ int Check_Id_Pwd(int n,CLN *a)//0 SIGN 1 REG
                             Tag=Tag->next;
                         }
                     }
-                    //log_info("已注册用户列表中无此用户%s,准许注册",a->USERID);
+                    //log_debug("已注册用户列表中无此用户%s,准许注册",a->USERID);
                     return -1;
                 }
             }
             else
             {
-                log_info("已注册用户列表中无此用户%s,准许注册",a->USERID);
+                log_debug("已注册用户列表中无此用户%s,准许注册",a->USERID);
                 return -1;
             }
         }
@@ -93,13 +93,13 @@ int Check_Id_Pwd(int n,CLN *a)//0 SIGN 1 REG
                             Tag=Tag->next;
                         }
                     }
-                    log_info("已注册用户列表中用户%s账号或者%s密码错误,请检查服务",a->USERID,a->USERPASSWORD);
+                    log_debug("已注册用户列表中用户%s账号或者%s密码错误,请检查服务",a->USERID,a->USERPASSWORD);
                     return -1;
                 }
             }
             else
             {
-                log_info("已注册用户列表中用户%s账号或者%s密码错误,请检查服务",a->USERID,a->USERPASSWORD);
+                log_debug("已注册用户列表中用户%s账号或者%s密码错误,请检查服务",a->USERID,a->USERPASSWORD);
                 return -1;
             }
         }
@@ -117,7 +117,7 @@ int Check_Id_Pwd(int n,CLN *a)//0 SIGN 1 REG
                     {
                         if(!strcmp(a->USERID,Tag->USERID))
                         {
-                            //log_info("已注册用户列表中有此用户%s,禁止注册",a->USERID);
+                            //log_debug("已注册用户列表中有此用户%s,禁止注册",a->USERID);
                             return 1;
                         }
                         else
@@ -125,13 +125,13 @@ int Check_Id_Pwd(int n,CLN *a)//0 SIGN 1 REG
                             Tag=Tag->next;
                         }
                     }
-                    //log_info("已注册用户列表中无此用户%s,准许注册",a->USERID);
+                    //log_debug("已注册用户列表中无此用户%s,准许注册",a->USERID);
                     return -1;
                 }
             }
             else
             {
-                log_info("已注册用户列表中无此用户%s,准许注册",a->USERID);
+                log_debug("已注册用户列表中无此用户%s,准许注册",a->USERID);
                 return -1;
             }
         }

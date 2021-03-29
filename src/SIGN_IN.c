@@ -4,6 +4,7 @@
             arg.ADDR = a->ADDR;\
             sprintf(arg.TalktoID,"%s",a->USERID);\
             sprintf(arg.USERID,"%s",a->USERID);\
+            sprintf(arg.data,"%s",inet_ntoa((a->ADDR.sin_addr)));\
             arg.USERKEY_ID = a->USERKEY_ID;\
             Send2OnlineUserViaTopServer(arg);}while(0)
 

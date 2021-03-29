@@ -21,7 +21,7 @@ MYSQL* MySqlInit(MYSQL *mysql)
     }
     else
     {
-        //log_info("Connect to MySQL SUCCESS! ");
+        //log_debug("Connect to MySQL SUCCESS! ");
         return conn;
     }
 }

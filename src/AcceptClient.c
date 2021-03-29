@@ -68,7 +68,7 @@ int AcceptClient()
         }
         Add2MallocConnList(CONNHANDLE,PerIoData);
         AcceptClientNum++;
-        log_debug("Accept %I64d , MemAddr 0x%x",CONNHANDLE->SOCKET,CONNHANDLE);
+        log_debug("Accept %I64d , MemAddr 0x%p",CONNHANDLE->SOCKET,(void*)CONNHANDLE);
         CreateIoCompletionPort((HANDLE)(CONNHANDLE ->SOCKET), completionPort, (ULONG_PTR)CONNHANDLE, 0);//Create relation between CONNHANDLE and COmpletionPort
         memset(PerIoData,0, sizeof(PER_IO_DATA));
         memset(&(PerIoData -> overlapped),0, sizeof(OVERLAPPED));

@@ -27,7 +27,7 @@ int addConnMemWait4Free(struct sttask *ptask)
     log_debug("Add 2 Thread Pool Reason: %s",ptask->task_name);
     Con2FreeArg* arg =(Con2FreeArg*) (ptask->task_arg);
     CLN* Conn = arg->Conn;
-    log_debug("MemAddr: 0x%x",Conn);
+    log_debug("MemAddr: 0x%p",(void*)Conn);
     LPPER_IO_DATA PerIoData=arg->PerIoData;
     CLN_LINK *cursor=&Head;
     while(cursor->next!=NULL)
@@ -97,7 +97,7 @@ void PingMallocConnList()
     int HBAlen = strlen(HBA);
     HBA[HBAlen]=_HC_;
     CLN_LINK* cursor=&MallocHead;
-    //log_info("CONN2BEPING %d",cursor->time);
+    //log_debug("CONN2BEPING %d",cursor->time);
     int len = 0;
     while(cursor->next!=NULL)
     {
@@ -146,18 +146,18 @@ void freeConnMemWait4Free()
 {
     if(WAIT_TIMEOUT==WaitForSingleObject(Con2FreeLink_mutex, 0))
     {
-        //log_info("LOCK CONN2BEFREE_LINK FAIL");
+        //log_debug("LOCK CONN2BEFREE_LINK FAIL");
         return;
     }
     CLN_LINK* cursor=&Head;
-    //log_info("CONN2BEFREE %d",cursor->time);
+    //log_debug("CONN2BEFREE %d",cursor->time);
     while(cursor->next!=NULL)
     {
         if(cursor->next->CONNHANDLE!=NULL)
         {
             if((cursor->next->time==1&&cursor->next->CONNHANDLE->info[2]==0)||(cursor->next->left_time>=100))
             {
-                log_debug("Free Conn :%I64d  MemAddr :0x%x",cursor->next->CONNHANDLE->SOCKET,cursor->next->CONNHANDLE);
+                log_debug("Free Conn :%I64d  MemAddr :0x%p",cursor->next->CONNHANDLE->SOCKET,(void*)cursor->next->CONNHANDLE);
                 delete_out_user(cursor->next->CONNHANDLE);
                 closesocket(cursor->next->CONNHANDLE->SOCKET);
                 pthread_mutex_destroy(&(cursor->next->CONNHANDLE->t));

@@ -8,7 +8,7 @@ SQL_CONN_POOL *sql_pool_create(int connect_pool_number)
     SQL_CONN_POOL *sp = NULL;
     if (connect_pool_number < 1)
     {
-        log_info("connect_pool_number < 1. defalut 1 \n");
+        log_debug("connect_pool_number < 1. defalut 1 \n");
         connect_pool_number = 1;
     }
     if ((sp=(SQL_CONN_POOL *)malloc(sizeof(SQL_CONN_POOL))) == NULL)
@@ -76,7 +76,7 @@ int create_db_connect(SQL_CONN_POOL *sp, SQL_NODE *node)
 /*销毁连接池*/
 void sql_pool_destroy(SQL_CONN_POOL *sp)
 {
-    log_info("destroy sql pool");
+    log_debug("destroy sql pool");
 
     sp->shutdown = 1; //关闭连接池
     for (int index=0; index < sp->pool_number; index++)
@@ -174,7 +174,7 @@ SQL_CONN_POOL *changeNodeNum(SQL_CONN_POOL *sp, int op)  //增加或减少5个�
             //创建成功
             sp->sql_pool[index].index = index;
             sp->pool_number++;
-            log_info("create database pool connect:-%d-.",sp->sql_pool[index].index);
+            log_debug("create database pool connect:-%d-.",sp->sql_pool[index].index);
         }
     }
     else if (op == 0)
@@ -190,7 +190,7 @@ SQL_CONN_POOL *changeNodeNum(SQL_CONN_POOL *sp, int op)  //增加或减少5个�
             }
             sp->sql_pool[index].sql_state = DB_DISCONN;
             sp->pool_number--;
-            log_info ("delete database pool connect:-%d-.\n",sp->sql_pool[index].index);
+            log_debug ("delete database pool connect:-%d-.\n",sp->sql_pool[index].index);
         }
     }
     return sp;

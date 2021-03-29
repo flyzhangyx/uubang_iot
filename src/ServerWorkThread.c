@@ -47,7 +47,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
             {
                 if(dwErr==WAIT_TIMEOUT)
                 {
-                    log_info("GETIOCPQUEUE TIMEOUT");
+                    log_debug("GETIOCPQUEUE TIMEOUT");
                 }
                 else
                 {
@@ -86,7 +86,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
 #endif
                 if(ARG_CONN==NULL)
                 {
-                    SyncSend(CONNHANDLE->SOCKET,OOM,5,CONNHANDLE->t);//OUTOFMEM
+                    SyncSend(CONNHANDLE->SOCKET,OOM,5,&(CONNHANDLE->t));//OUTOFMEM
                     log_error("OOE");
                 }
                 else
@@ -111,7 +111,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
 #endif
                 if(ARG_CONN==NULL)
                 {
-                    SyncSend(CONNHANDLE->SOCKET,OOM,5,CONNHANDLE->t);//OUTOFMEM
+                    SyncSend(CONNHANDLE->SOCKET,OOM,5,&(CONNHANDLE->t));//OUTOFMEM
                     log_error("OOE");
                 }
                 else
@@ -142,12 +142,12 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
                 else
                 {
                     //OLD VERSION
-                    SyncSend(CONNHANDLE->SOCKET,UPD,5,CONNHANDLE->t);
+                    SyncSend(CONNHANDLE->SOCKET,UPD,5,&(CONNHANDLE->t));
                 }
             }
             if(CONNHANDLE->info[1]!='Y')
             {
-                log_info("[Illegal User] %s:%d , Con = %I64d ",inet_ntoa((CONNHANDLE->ADDR.sin_addr)),CONNHANDLE->ADDR.sin_port,CONNHANDLE->SOCKET);
+                log_debug("[Illegal User] %s:%d , Con = %I64d ",inet_ntoa((CONNHANDLE->ADDR.sin_addr)),CONNHANDLE->ADDR.sin_port,CONNHANDLE->SOCKET);
                 closesocket(CONNHANDLE->SOCKET);
                 //AddToFreeThread(CONNHANDLE,PerIoData);
 #ifdef MemPool
@@ -168,7 +168,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
             }
             else
             {
-                SyncSend(CONNHANDLE->SOCKET,OOM,5,CONNHANDLE->t);//OUTOFMEM
+                SyncSend(CONNHANDLE->SOCKET,OOM,5,&(CONNHANDLE->t));//OUTOFMEM
 #ifdef MemPool
                 freeNode(ARG_CONN->MemMark,ARG_CONN);
 #else

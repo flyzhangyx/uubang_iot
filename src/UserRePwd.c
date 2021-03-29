@@ -6,7 +6,7 @@ int UserRePwd(CLN *a)
     {
         if(Tag==NULL)
         {
-            log_info("注册用户列表%s不匹配,请检查服务器",a->USERID);
+            log_debug("注册用户列表%s不匹配,请检查服务器",a->USERID);
             return -1;
         }
         else

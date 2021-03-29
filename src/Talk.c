@@ -61,7 +61,7 @@ int talk(LPVOID b)
         strcpy(SendDataStruct.checkcode, "HBA");
         SendDataStruct.save[99] = _HC_;
         memcpy(sendbuf, &SendDataStruct, sizeof(SendDataStruct));
-        len = send(c, sendbuf, sizeof(UserPacketInterface), 0);
+        len = SyncSend(c, sendbuf, sizeof(UserPacketInterface), &(a->conn->t));
         if (len == SOCKET_ERROR || len == 0)
         {
             closesocket(c);
@@ -80,17 +80,17 @@ int talk(LPVOID b)
         InitRSA(&(a->key));//Create RSAKey, need srand(time(NULL)) first
         InitRSA(&(a->key));//twice ,it is a bug left to be fixed
         a->conn->key = a->key;
-        log_info("Public Key (%d,%d) | Private Key (%d,%d)",a->key.publicKey,a->key.commonKey,a->key.privateKey,a->key.commonKey);
+        log_debug("Public Key (%d,%d) | Private Key (%d,%d)",a->key.publicKey,a->key.commonKey,a->key.privateKey,a->key.commonKey);
         memset(&SendDataStruct,0,sizeof(UserPacketInterface));
         memset(sendbuf,0,sizeof(UserPacketInterface));
         strcpy(SendDataStruct.checkcode,"RSA");
         sprintf(SendDataStruct.DATA,"%d_%d_%d_",a->key.publicKey,a->key.commonKey,a->key.encryptBlockBytes);
         SendDataStruct.save[99]=_HC_;
         memcpy(sendbuf,&SendDataStruct,sizeof(SendDataStruct));
-        len=send(a->SOCKET,sendbuf,sizeof(UserPacketInterface),0);
+        len=SyncSend(a->SOCKET,sendbuf,sizeof(UserPacketInterface),&(a->conn->t));
         if(len==SOCKET_ERROR||len==0)
         {
-            log_info("连接%I64d退出",c);
+            log_debug("连接%I64d退出",c);
             closesocket(c);
             //pthread_mutex_unlock(&(a->t));
             InterlockedDecrement((LPLONG) &(a->conn->info[2]));
@@ -130,15 +130,15 @@ int talk(LPVOID b)
             char email[50]="";
             memcpy(email,a->data,50);
             sprintf(cmd,"%s %s %s","cmd.exe /c \"PINSend.bat\"",email,a->Pin);
-            log_info("%s",cmd);
+            log_debug("%s",cmd);
             system(cmd);
         }
         SendDataStruct.save[99]=_HC_;
         memcpy(sendbuf,&SendDataStruct,sizeof(SendDataStruct));
-        len=send(a->SOCKET,sendbuf,sizeof(UserPacketInterface),0);
+        len=SyncSend(a->SOCKET,sendbuf,sizeof(UserPacketInterface),&(a->conn->t));
         if(len==SOCKET_ERROR||len==0)
         {
-            log_info("连接%I64d退出",c);
+            log_debug("连接%I64d退出",c);
             closesocket(c);
             //pthread_mutex_unlock(&(a->t));
             InterlockedDecrement((LPLONG) &(a->conn->info[2]));
@@ -174,7 +174,7 @@ int talk(LPVOID b)
             strcpy(SendDataStruct.checkcode, "SIA");
             SendDataStruct.save[99] = _HC_;
             memcpy(sendbuf, &SendDataStruct, sizeof(UserPacketInterface));
-            len = send(c, sendbuf, sizeof(UserPacketInterface), 0);
+            len = SyncSend(c, sendbuf, sizeof(UserPacketInterface), &(a->conn->t));
             if (len == SOCKET_ERROR || len == 0)
             {
                 closesocket(c);
@@ -194,7 +194,7 @@ int talk(LPVOID b)
             strcpy(SendDataStruct.checkcode, "SiA");
             SendDataStruct.save[99] = _HC_;
             memcpy(sendbuf, &SendDataStruct, sizeof(SendDataStruct));
-            len = send(c, sendbuf, sizeof(UserPacketInterface), 0);
+            len = SyncSend(c, sendbuf, sizeof(UserPacketInterface), &(a->conn->t));
             if (len == SOCKET_ERROR || len == 0)
             {
                 closesocket(c);
@@ -221,7 +221,7 @@ int talk(LPVOID b)
             strcpy(SendDataStruct.checkcode, "RPE");//Reg PinCode Err
             SendDataStruct.save[99] = _HC_;
             memcpy(sendbuf, &SendDataStruct, sizeof(SendDataStruct));
-            len = send(c, sendbuf, sizeof(SendDataStruct), 0);
+            len = SyncSend(c, sendbuf, sizeof(SendDataStruct),&(a->conn->t));
             if (len == SOCKET_ERROR || len == 0)
             {
                 closesocket(c);
@@ -247,7 +247,7 @@ int talk(LPVOID b)
             strcpy(SendDataStruct.checkcode, "REA");
             SendDataStruct.save[99] = _HC_;
             memcpy(sendbuf, &SendDataStruct, sizeof(SendDataStruct));
-            len = send(c, sendbuf, sizeof(SendDataStruct), 0);
+            len = SyncSend(c, sendbuf, sizeof(SendDataStruct), &(a->conn->t));
             if (len == SOCKET_ERROR || len == 0)
             {
                 closesocket(c);
@@ -268,7 +268,7 @@ int talk(LPVOID b)
             strcpy(SendDataStruct.checkcode, "ReA");
             SendDataStruct.save[99] = _HC_;
             memcpy(sendbuf, &SendDataStruct, sizeof(SendDataStruct));
-            len = send(c, sendbuf, sizeof(UserPacketInterface), 0);
+            len = SyncSend(c, sendbuf, sizeof(UserPacketInterface), &(a->conn->t));
             if (len == SOCKET_ERROR || len == 0)
             {
                 closesocket(c);
@@ -310,7 +310,7 @@ int talk(LPVOID b)
         strcpy(SendDataStruct.checkcode, "TAN"); //TA but not online
         SendDataStruct.save[99] = _HC_;
         memcpy(sendbuf, &SendDataStruct, sizeof(UserPacketInterface));
-        len = send(c, sendbuf, sizeof(UserPacketInterface), 0);
+        len = SyncSend(c, sendbuf, sizeof(UserPacketInterface), &(a->conn->t));
         if (len == SOCKET_ERROR || len == 0)
         {
             closesocket(c);
@@ -332,7 +332,7 @@ int talk(LPVOID b)
         strcpy(SendDataStruct.checkcode, "STO");
         SendDataStruct.save[99] = _HC_;
         memcpy(sendbuf, &SendDataStruct, sizeof(SendDataStruct));
-        len = send(a->SOCKET, sendbuf, sizeof(UserPacketInterface), 0);
+        len = SyncSend(a->SOCKET, sendbuf, sizeof(UserPacketInterface), &(a->conn->t));
         if (len == SOCKET_ERROR || len == 0)
         {
             closesocket(c);
@@ -357,7 +357,7 @@ int talk(LPVOID b)
         strcpy(SendDataStruct.DATA, app_version);
         SendDataStruct.save[99] = _HC_;
         memcpy(sendbuf, &SendDataStruct, sizeof(SendDataStruct));
-        len = send(c, sendbuf, sizeof(UserPacketInterface), 0);
+        len = SyncSend(c, sendbuf, sizeof(UserPacketInterface), &(a->conn->t));
     }
     break;
     case 50094: //ADD
@@ -380,7 +380,7 @@ int talk(LPVOID b)
         strcpy(SendDataStruct.checkcode, "ADN"); //ADD
         SendDataStruct.save[99] = _HC_;
         memcpy(sendbuf, &SendDataStruct, sizeof(UserPacketInterface));
-        len = send(c, sendbuf, sizeof(UserPacketInterface), 0);
+        len = SyncSend(c, sendbuf, sizeof(UserPacketInterface), &(a->conn->t));
         if (len == SOCKET_ERROR || len == 0)
         {
             closesocket(c);
@@ -410,7 +410,7 @@ int talk(LPVOID b)
         }
         SendDataStruct.save[99] = _HC_;
         memcpy(sendbuf, &SendDataStruct, sizeof(UserPacketInterface));
-        len = send(c, sendbuf, sizeof(UserPacketInterface), 0);
+        len = SyncSend(c, sendbuf, sizeof(UserPacketInterface), &(a->conn->t));
         if (len == SOCKET_ERROR || len == 0)
         {
             closesocket(c);
@@ -457,7 +457,7 @@ int talk(LPVOID b)
             strcpy(SendDataStruct.checkcode, "RPA");
             SendDataStruct.save[99] = _HC_;
             memcpy(sendbuf, &SendDataStruct, sizeof(SendDataStruct));
-            len = send(c, sendbuf, sizeof(SendDataStruct), 0);
+            len = SyncSend(c, sendbuf, sizeof(SendDataStruct), &(a->conn->t));
             if (len == SOCKET_ERROR || len == 0)
             {
                 closesocket(c);
@@ -478,7 +478,7 @@ int talk(LPVOID b)
             strcpy(SendDataStruct.checkcode, "RPF");//RE PASSWORD FAIL
             SendDataStruct.save[99] = _HC_;
             memcpy(sendbuf, &SendDataStruct, sizeof(SendDataStruct));
-            len = send(c, sendbuf, sizeof(UserPacketInterface), 0);
+            len = SyncSend(c, sendbuf, sizeof(UserPacketInterface), &(a->conn->t));
             if (len == SOCKET_ERROR || len == 0)
             {
                 closesocket(c);
@@ -501,7 +501,7 @@ int talk(LPVOID b)
         strcpy(SendDataStruct.checkcode, "ERR");//OPCODE ERR
         SendDataStruct.save[99] = _HC_;
         memcpy(sendbuf, &SendDataStruct, sizeof(SendDataStruct));
-        len = send(c, sendbuf, sizeof(UserPacketInterface), 0);
+        len = SyncSend(c, sendbuf, sizeof(UserPacketInterface), &(a->conn->t));
         if (len == SOCKET_ERROR || len == 0)
         {
             closesocket(c);

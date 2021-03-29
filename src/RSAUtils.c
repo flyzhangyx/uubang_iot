@@ -206,7 +206,7 @@ void encodeMessage(int len, int bytes, char* message,int* outCrypto, int exponen
         for(j = 0; j < bytes; j++) x += message[i + j] * (1 << (7 * j));
         outCrypto[i/bytes] = decode(x, exponent, modulus);
 #ifdef EncryptPrint
-        log_info("%d", outCrypto[i/bytes]);
+        log_debug("%d", outCrypto[i/bytes]);
 #endif
     }
     return ;
@@ -227,7 +227,7 @@ void decodeMessage(int len, int bytes, int* cryptogram,char *outSource, int expo
         {
             outSource[i*bytes + j] = (x >> (7 * j)) % 128;
 #ifdef EncryptPrint
-            if(outSource[i*bytes + j] != '\0') log_info("%c", outDecode[i*bytes + j]);
+            if(outSource[i*bytes + j] != '\0') log_debug("%c", outDecode[i*bytes + j]);
 #endif
         }
     }

@@ -26,6 +26,34 @@
 #define _HC_ '\n'
 #include "../src/log_print.c"
 ///**************在线用户节点****************
+typedef struct
+{
+    int publicKey;
+    int privateKey;
+    int commonKey;
+    int encryptBlockBytes;
+} RSAKey;
+///********函数接口*************
+typedef struct cln
+{
+    SOCKET SOCKET;
+    SOCKADDR_IN ADDR;
+    char USERID[12];
+    int USERKEY_ID;
+    char USERPASSWORD[33];
+    char checkcode[18];
+    char DATE[100];
+    char TalktoID[12];
+    char REUSERPASSWORD[33];
+    char data[513];
+    char info[100];//[0]是否注销登录,N_Y;
+    char Pin[7];
+    RSAKey key;
+    pthread_mutex_t t;
+    struct cln* conn;
+    int MemMark;
+    char SeqNum;
+} CLN;
 
 struct user
 {
@@ -35,6 +63,7 @@ struct user
     int USERKEY_ID;
     char USERPASSWORD[33];
     char info[100];
+    CLN *CONNHANDLE;
     struct user *next;
 };
 typedef struct user * USER;
@@ -65,35 +94,6 @@ typedef struct
     char save[100];
 } UserPacketInterface;
 
-
-typedef struct
-{
-    int publicKey;
-    int privateKey;
-    int commonKey;
-    int encryptBlockBytes;
-} RSAKey;
-///********函数接口*************
-typedef struct cln
-{
-    SOCKET SOCKET;
-    SOCKADDR_IN ADDR;
-    char USERID[12];
-    int USERKEY_ID;
-    char USERPASSWORD[33];
-    char checkcode[18];
-    char DATE[100];
-    char TalktoID[12];
-    char REUSERPASSWORD[33];
-    char data[513];
-    char info[100];//[0]是否注销登录,N_Y;
-    char Pin[7];
-    RSAKey key;
-    pthread_mutex_t t;
-    struct cln* conn;
-    int MemMark;
-    char SeqNum;
-} CLN;
 typedef struct
 {
     OVERLAPPED overlapped;
