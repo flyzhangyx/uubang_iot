@@ -13,7 +13,7 @@ DWORD WINAPI fun(LPVOID qn)
             if(strcmp(RecDataStruct_udp.checkcode,"UD1"))///其他情况
             {
                 rec=RecDataStruct_udp;
-                log_info("%s:%d",inet_ntoa(remoteAddr.sin_addr),remoteAddr.sin_port);
+                log_debug("%s:%d",inet_ntoa(remoteAddr.sin_addr),remoteAddr.sin_port);
                 CreateThread(NULL,0,(LPTHREAD_START_ROUTINE)UdpPackResolve,&rec,0,NULL);
             }
             else if(!strcmp(RecDataStruct_udp.checkcode,"UD1"))///表示首次连接
@@ -21,13 +21,13 @@ DWORD WINAPI fun(LPVOID qn)
                 USER talktouser=FindOnlineUserOrIot(0,RecDataStruct_udp.USERID,0);
                 if(talktouser!=NULL)
                 {
-                    log_info("%s:%d",inet_ntoa(remoteAddr.sin_addr),remoteAddr.sin_port);
+                    log_debug("%s:%d",inet_ntoa(remoteAddr.sin_addr),remoteAddr.sin_port);
                     talktouser->USER_socket_udp=remoteAddr;///存入相应链表
                     strcpy(RecDataStruct_udp.checkcode,"UDP");///
                     memset(SendBuf,0,sizeof(UserPacketInterface));
                     RecDataStruct_udp.save[99]=_HC_;
                     memcpy(SendBuf,&RecDataStruct_udp,sizeof(RecDataStruct_udp));
-                    //log_info("qwqw");
+                    //log_debug("qwqw");
                     sendto(server_sockfd_udp, SendBuf, sizeof(RecDataStruct_udp), 0, (SOCKADDR *)&remoteAddr, nAddrLen);
                 }
                 else
@@ -41,13 +41,13 @@ DWORD WINAPI fun(LPVOID qn)
             }
             else
             {
-                log_info("\nUDP 异常:%s,用户:%s\n",RecDataStruct_udp.checkcode,RecDataStruct_udp.USERID);
+                log_debug("\nUDP 异常:%s,用户:%s\n",RecDataStruct_udp.checkcode,RecDataStruct_udp.USERID);
             }
         }
     }
     /*FILE *f=fopen("pic.png","r");
                     strcpy(a->TalktoID,"12345678908");
-                    log_info("|%d",bitmapfigure(a,f,"PNG"));
+                    log_debug("|%d",bitmapfigure(a,f,"PNG"));
                     fclose(f);*/
     return 0;
 }

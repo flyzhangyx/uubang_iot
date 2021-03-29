@@ -28,6 +28,7 @@ int IotReadSelfSceneCmd(CLN *a,int Iot_key)
         memset(sendbuf,0,sizeof(IotPacketInterface));
         strcpy(RecDataStruct.opCode,"06");//SCE
         sprintf(RecDataStruct.payLoad,"%s_%s_%s_%s_%s_%s_%s_",row[2],row[3],row[4],row[5],row[6],row[7],row[8]);//devclass_cmdcontent_status_cmdTime_Exedate_cmdgroup_fromUserid
+        Encrypt(RecDataStruct.payLoad,strlen(RecDataStruct.payLoad),a->Pin,RecDataStruct.payLoad);//Encrypt with Pin
         InterlockedIncrement((LPLONG) &(a->conn->SeqNum));
         RecDataStruct.SeqNum[0] = a->conn->SeqNum;
         if(a->conn->SeqNum==127)

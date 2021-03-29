@@ -12,7 +12,6 @@
         }\
         }while(0)
 
-
 SOCKET LocalSocket;
 int isConnected;
 #ifdef STPOOL
@@ -30,9 +29,9 @@ int talk(LPVOID b)
 {
     int len;
     UserPacketInterface SendDataStruct;
-    char sendbuf[721]="";
-//    IotPacketInterface IotSendDataStruct;
-//    char Iotsendbuf[200]="";
+    char sendbuf[sizeof(UserPacketInterface)]="";
+    IotPacketInterface IotSendDataStruct;
+    char Iotsendbuf[sizeof(IotPacketInterface)]="";
 #ifdef STPOOL
     if(ptask->task_arg==NULL)
     {
@@ -43,12 +42,21 @@ int talk(LPVOID b)
 #else
     CLN* a = (CLN*)b;
 #endif
+    int opCode = 0;
     char tag[4];
-    memset(tag,0,4);
-    memcpy(tag,a->checkcode,3);
+    if(strlen(a->checkcode)==2)
+    {
+        opCode = atoi(a->checkcode);
+    }
+    else
+    {
+        memset(tag,0,4);
+        memcpy(tag,a->checkcode,3);
+        opCode = DJBHash(tag, 3);
+    }
     CLN ReUseCLN;
     /*******************************/
-    switch (DJBHash(tag, 3))
+    switch (opCode)
     {
     case 70235://STO
     {
@@ -61,40 +69,25 @@ int talk(LPVOID b)
         delete_out_user(&ReUseCLN);
         break;
     }
-    case 12333:
-        break;
-    }
-
-    if(strlen(a->TalktoID)<11)
+    case 0:
     {
-        USER Temp = FindOnlineUserOrIot(10,a->TalktoID,0);
-        if(Temp!=NULL)
+        USER tmp = FindOnlineUserOrIot(10,NULL,a->USERKEY_ID);
+        if(tmp == NULL)
+            return;
+        memset(&IotSendDataStruct,0,sizeof(IotSendDataStruct));
+        sprintf(IotSendDataStruct.opCode,"%s","00");
+        IotSendDataStruct.SeqNum[0] = 0;//For other server ctrl ,not local
+        Stringcut(a->data,0,199,IotSendDataStruct.payLoad);
+        Encrypt(IotSendDataStruct.payLoad,strlen(IotSendDataStruct.payLoad),tmp->CONNHANDLE->Pin,IotSendDataStruct.payLoad);
+        memcpy(Iotsendbuf,&IotSendDataStruct,sizeof(IotPacketInterface));
+        Iotsendbuf[sizeof(IotPacketInterface)-1] = _HC_;
+        len=SyncSend(tmp->USER_SOCKET,Iotsendbuf,sizeof(IotPacketInterface),&(tmp->CONNHANDLE->t));
+        if(len==SOCKET_ERROR||len==0)
         {
-
+            closesocket(tmp->USER_SOCKET);
         }
     }
-    else
-    {
-        USER Temp = FindOnlineUserOrIot(0,a->TalktoID,0);
-        if(Temp!=NULL)
-        {
-            memset(&SendDataStruct, 0, sizeof(UserPacketInterface));
-            memset(sendbuf, 0, sizeof(UserPacketInterface));
-            sprintf(SendDataStruct.DATA, "%s",a->data);
-            sprintf(SendDataStruct.REUSERPASSWORD, "%s",a->REUSERPASSWORD);
-            sprintf(SendDataStruct.save, "%s",a->info);
-            sprintf(SendDataStruct.TalktoID, "%s",a->TalktoID);
-            sprintf(SendDataStruct.USERID, "%s",a->USERID);
-            sprintf(SendDataStruct.USERPASSWORD, "%s",a->USERPASSWORD);
-            sprintf(SendDataStruct.checkcode, "%s",a->checkcode);
-            SendDataStruct.save[99] = _HC_;
-            memcpy(sendbuf, &SendDataStruct, sizeof(SendDataStruct));
-            len = SyncSend(Temp->USER_SOCKET, sendbuf, sizeof(UserPacketInterface), &(Temp->CONNHANDLE->t));
-            if (len == SOCKET_ERROR || len == 0)
-            {
-                closesocket(Temp->USER_SOCKET);
-            }
-        }
+    break;
     }
     free(a);
 }

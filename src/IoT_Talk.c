@@ -49,12 +49,10 @@ int IoTtalk(CLN* a)
     case 2://PIN
     {
         if(a->key.encryptBlockBytes==0)
-        {
             return 0;
-        }
         generateRandIntStr(a->Pin,6);
-        log_debug("%s",a->Pin);
         memcpy(a->conn->Pin,a->Pin,7);
+        log_debug("%s",a->Pin);
         memset(&SendStruct,0,sizeof(IotPacketInterface));
         memset(SendBuf,0,sizeof(IotPacketInterface));
         int encodedCrypto[100]= {0};
@@ -107,9 +105,12 @@ int IoTtalk(CLN* a)
     break;
     case 4://UPDATE DATA
     {
+        if(a->info[0] != 'Y')
+            return 0;
         ///Multi data format to resolve
         int OutStrSize = 0;
         int i = 0;
+        Decrypt(a->data,strlen(a->data),a->Pin,a->data);
         char** outStr = StrSplit(a->data,&OutStrSize,'_');
         a->USERKEY_ID = 1;
         while(i<OutStrSize)
@@ -162,24 +163,26 @@ int IoTtalk(CLN* a)
     break;
     case 5://READ CMD
     {
+        if(a->info[0] != 'Y')
+            return 0;
         IotReadCmd(a,0,0);
         IotReadCmd(a,0,1);//After Read  Deletion
-        Stringcut(a->data,0,199,SendStruct.payLoad);
+        memset(&SendStruct,0,sizeof(IotPacketInterface));
+        Encrypt(a->data,strlen(a->data),a->Pin,SendStruct.payLoad);
         SEND_OP_BACK("05");
     }
     break;
     case 6://READ SCENE CMD
     {
         if(a->info[0]!='Y')
-        {
-            SEND_OP_BACK("26");
             return 0;
-        }
         IotReadSelfSceneCmd(a,a->USERKEY_ID);
     }
     break;
     case 7://READ IOT DATA
     {
+        if(a->info[0] != 'Y')
+            return 0;
         int OutStrSize = 0;
         int i = 0;
         char** outStr = StrSplit(a->data,&OutStrSize,'_');
@@ -192,7 +195,27 @@ int IoTtalk(CLN* a)
     break;
     case 8://SEND CMD TO OTHER DEV
     {
-
+        if(a->info[0] != 'Y')
+            return 0;
+        int OutStrSize = 0;
+        Decrypt(a->data,strlen(a->data),a->Pin,a->data);
+        char** outStr = StrSplit(a->data,&OutStrSize,'_');
+        USER temp = FindOnlineUserOrIot(10,NULL,atoi(outStr[0]));
+        if(temp==NULL)
+        {
+            CLN tmp;
+            sprintf(tmp.checkcode,"%s","00");
+            sprintf(tmp.data,"%s_%s_",outStr[1],outStr[2]);
+            tmp.USERKEY_ID = atoi(outStr[0]);
+            Send2OnlineUserViaTopServer(*a);
+        }
+        else
+        {
+            sprintf(SendStruct.payLoad,"%s_%s_",outStr[1],outStr[2]);
+            Encrypt(SendStruct.payLoad,strlen(SendStruct.payLoad),temp->CONNHANDLE->Pin,SendStruct.payLoad);
+            SEND_OP_BACK("00");//IOT CMD OPCODE
+        }
+        releaseStr(outStr,OutStrSize);
     }
     break;
     default:

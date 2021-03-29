@@ -28,6 +28,7 @@ int IotGetIotData(CLN *a,int ReadIotId)
         memset(sendbuf,0,sizeof(IotPacketInterface));
         strcpy(RecDataStruct.opCode,"07");
         sprintf(RecDataStruct.payLoad,"%d_%d_%s_%s_",atoi(row[1]),atoi(row[2]),row[3],row[4]);//
+        Encrypt(RecDataStruct.payLoad,strlen(RecDataStruct.payLoad),a->Pin,RecDataStruct.payLoad);//Encrypt
         InterlockedIncrement((LPLONG) &(a->conn->SeqNum));
         RecDataStruct.SeqNum[0] = a->conn->SeqNum;
         if(a->conn->SeqNum==127)
