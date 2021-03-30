@@ -43,8 +43,7 @@ DWORD WINAPI CheckUserSceneCmd()
             float UsedMem = MemoryPoolGetUsage(mp)*100*500;
             log_info("ONLINE_USER:[%d] ONLINE_IOT:[%d] THREAD/TASK:[%d/%d] MEM_POOL:[%.2f%%] %s",onlineUserHead->OnlineUserNum,onlineIotHead->OnlineUserNum,temp.curthreads_active,temp.curtasks_pending,MemoryPoolGetUsage(mp)*100,isConnected?"CONNECT":"DISCONNECT");
 #endif // MemPool
-            if(printCount%10==0)
-                UpdateServerRunInfo(GetCPUUseRate(),UsedMem,temp.curtasks_pending,onlineUserHead->OnlineUserNum,onlineIotHead->OnlineUserNum);
+            UpdateServerRunInfo(GetCPUUseRate(),UsedMem,temp.curtasks_pending,onlineUserHead->OnlineUserNum,onlineIotHead->OnlineUserNum);
         }
         Sleep(200);
     }

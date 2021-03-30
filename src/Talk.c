@@ -65,7 +65,7 @@ int talk(LPVOID b)
         if (len == SOCKET_ERROR || len == 0)
         {
             closesocket(c);
-            //pthread_mutex_unlock(&(a->t));
+
             InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
             freeNode(a->MemMark,a);
@@ -92,7 +92,6 @@ int talk(LPVOID b)
         {
             log_debug("连接%I64d退出",c);
             closesocket(c);
-            //pthread_mutex_unlock(&(a->t));
             InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
             freeNode(a->MemMark,a);
@@ -140,7 +139,7 @@ int talk(LPVOID b)
         {
             log_debug("连接%I64d退出",c);
             closesocket(c);
-            //pthread_mutex_unlock(&(a->t));
+
             InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
             freeNode(a->MemMark,a);
@@ -225,7 +224,7 @@ int talk(LPVOID b)
             if (len == SOCKET_ERROR || len == 0)
             {
                 closesocket(c);
-                //pthread_mutex_unlock(&(a->t));
+
                 InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
                 freeNode(a->MemMark,a);
@@ -251,7 +250,7 @@ int talk(LPVOID b)
             if (len == SOCKET_ERROR || len == 0)
             {
                 closesocket(c);
-                //pthread_mutex_unlock(&(a->t));
+
                 InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
                 freeNode(a->MemMark,a);
@@ -272,7 +271,7 @@ int talk(LPVOID b)
             if (len == SOCKET_ERROR || len == 0)
             {
                 closesocket(c);
-                //pthread_mutex_unlock(&(a->t));
+
                 InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
                 freeNode(a->MemMark,a);
@@ -295,7 +294,7 @@ int talk(LPVOID b)
         USER find = FindRegisterUserOrIotNode(0, a->TalktoID, 0);
         if (find == NULL)
         {
-            //pthread_mutex_unlock(&(a->t));
+
             InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
             freeNode(a->MemMark,a);
@@ -314,7 +313,7 @@ int talk(LPVOID b)
         if (len == SOCKET_ERROR || len == 0)
         {
             closesocket(c);
-            //pthread_mutex_unlock(&(a->t));
+
             InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
             freeNode(a->MemMark,a);
@@ -336,7 +335,7 @@ int talk(LPVOID b)
         if (len == SOCKET_ERROR || len == 0)
         {
             closesocket(c);
-            //pthread_mutex_unlock(&(a->t));
+
             InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
             freeNode(a->MemMark,a);
@@ -414,7 +413,7 @@ int talk(LPVOID b)
         if (len == SOCKET_ERROR || len == 0)
         {
             closesocket(c);
-            //pthread_mutex_unlock(&(a->t));
+
             InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
             freeNode(a->MemMark,a);
@@ -461,7 +460,7 @@ int talk(LPVOID b)
             if (len == SOCKET_ERROR || len == 0)
             {
                 closesocket(c);
-                //pthread_mutex_unlock(&(a->t));
+
                 InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
                 freeNode(a->MemMark,a);
@@ -482,7 +481,7 @@ int talk(LPVOID b)
             if (len == SOCKET_ERROR || len == 0)
             {
                 closesocket(c);
-                //pthread_mutex_unlock(&(a->t));
+
                 InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
                 freeNode(a->MemMark,a);
@@ -516,7 +515,7 @@ int talk(LPVOID b)
         break;
     }
     }
-    //pthread_mutex_unlock(&(a->t));
+
     InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
     freeNode(a->MemMark,a);

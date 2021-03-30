@@ -2,7 +2,6 @@
 extern int isConnected;
 int initServer(int port,char *ServerId)
 {
-    int scan;
     ManualCtrl = 0;
     isShutDown = 0;
     isConnected = 0;
@@ -57,17 +56,9 @@ int initServer(int port,char *ServerId)
         }
         else
         {
-            log_error("socket not established! If continue to establish? Yes press 1;No press 0");
-            scanf("%d",&scan);
-            if(scan==0)
-                exit(0);
-            else if(scan==1)
-                continue;
-            else
-            {
-                log_error("Input err! Late exit!");
-                exit(0);
-            }
+            log_error("SOCKET ESTABLISH FIALED!");
+            Sleep(1000);
+            continue;
         }
     }
     ///*************************************************

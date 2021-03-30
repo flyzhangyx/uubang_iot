@@ -122,18 +122,19 @@ USER FindOnlineUserOrIot(int n,char *USERID,int id)///n为检查方法，0为查找USERID
             int paixu=1;
             while(Tag!=NULL)
             {
-                printf("%d_Online_USERID:%s\t| Id-Key:%d\n",paixu,Tag->USERID,Tag->USERKEY_ID);
+                printf("|%d_Online_USERID:%s\t| Id-Key:%d\t|\n",paixu,Tag->USERID,Tag->USERKEY_ID);
                 Tag=Tag->next;
                 paixu++;
             }
+            printf("\n");
             paixu = 1;
             while(Tag_iot!=NULL)
             {
-                printf("%d_Online_IOTDeviceID:%s\t| Id-Key:%d\t| Class:%d\n",paixu,Tag_iot->USERID,Tag_iot->USERKEY_ID,atoi(Tag_iot->info));
+                printf("%d_Online_IotDevID:%s\t| Id-Key:%d\t|\n",paixu,Tag_iot->USERID,Tag_iot->USERKEY_ID);
                 Tag_iot=Tag_iot->next;
                 paixu++;
             }
-            printf("Print User And IotDeviceOK!\n");
+            printf("\nPrint User And IotDeviceOK!\n");
         }
     }
     return NULL;

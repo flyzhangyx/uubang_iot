@@ -15,7 +15,7 @@
                 strcpy(as.checkcode,"STO");\
                 as.save[99]=_HC_;\
                 memcpy(sendbuf,&as,sizeof(UserPacketInterface));\
-                SyncSend(checkuser->USER_SOCKET,sendbuf,sizeof(UserPacketInterface),0);}while(0)
+                SyncSend(checkuser->USER_SOCKET,sendbuf,sizeof(UserPacketInterface),&(checkuser->CONNHANDLE->t));}while(0)
 
 int SIGNIN(CLN *a)
 {

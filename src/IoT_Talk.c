@@ -73,6 +73,11 @@ int IoTtalk(CLN* a)
         {
             int OutStrSize = 0;
             char** outStr = StrSplit(a->data,&OutStrSize,'_');
+            if(OutStrSize<2)
+            {
+                releaseStr(outStr,OutStrSize);
+                return 0;
+            }
             int encodedCrypto[100]= {0};
             memcpy(encodedCrypto,outStr[1],sizeof(int)*32*a->key.encryptBlockBytes);
             decodeMessage(32, a->key.encryptBlockBytes, encodedCrypto,a->USERPASSWORD,a->key.privateKey, a->key.commonKey);
@@ -108,11 +113,11 @@ int IoTtalk(CLN* a)
         if(a->info[0] != 'Y')
             return 0;
         ///Multi data format to resolve
-        int OutStrSize = 0;
-        int i = 0;
         Decrypt(a->data,strlen(a->data),a->Pin,a->data);
+        int OutStrSize = 0;
         char** outStr = StrSplit(a->data,&OutStrSize,'_');
         a->USERKEY_ID = 1;
+        int i = 0;
         while(i<OutStrSize)
         {
             switch (atoi(outStr[i]))
@@ -184,8 +189,8 @@ int IoTtalk(CLN* a)
         if(a->info[0] != 'Y')
             return 0;
         int OutStrSize = 0;
-        int i = 0;
         char** outStr = StrSplit(a->data,&OutStrSize,'_');
+        int i = 0;
         while(i++<OutStrSize)
         {
             IotGetIotData(a,atoi(outStr[i-1]));
@@ -197,9 +202,14 @@ int IoTtalk(CLN* a)
     {
         if(a->info[0] != 'Y')
             return 0;
-        int OutStrSize = 0;
         Decrypt(a->data,strlen(a->data),a->Pin,a->data);
+        int OutStrSize = 0;
         char** outStr = StrSplit(a->data,&OutStrSize,'_');
+        if(OutStrSize<3)
+        {
+            releaseStr(outStr,OutStrSize);
+            return 0;
+        }
         USER temp = FindOnlineUserOrIot(10,NULL,atoi(outStr[0]));
         if(temp==NULL)
         {

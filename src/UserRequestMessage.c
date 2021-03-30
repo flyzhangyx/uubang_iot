@@ -8,6 +8,7 @@
  * \return int
  *
  */
+
 int UserRequestMessage(CLN *a,int Direction,char *DateFirst,char *DateLast,struct tm *SqlTime)
 {
     UserPacketInterface RecDataStruct;

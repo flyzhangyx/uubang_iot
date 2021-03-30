@@ -20,6 +20,7 @@
 					<Add option="-DNDEBUG" />
 					<Add option="-DSTPOOL" />
 					<Add option="-DPRINT_LOG" />
+					<Add option="-DDEBUG_PRINT" />
 					<Add option="-DINFO_PRINT" />
 					<Add option="-D_Z_MEMORYPOOL_THREAD_" />
 					<Add option="-DMemPool" />

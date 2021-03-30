@@ -61,7 +61,7 @@ DWORD WINAPI ServerWorkThread(LPVOID lpParam)
         {
             if(lpOverlapped==NULL||CONNHANDLE==NULL)
             {
-                log_error("Recv Success, but Mem is Null");
+                log_error("Recv Success, but Memory is Null");
                 continue;
             }
             PerIoData = (LPPER_IO_DATA)CONTAINING_RECORD(lpOverlapped, PER_IO_DATA, overlapped);
