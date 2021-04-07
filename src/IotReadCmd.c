@@ -26,7 +26,7 @@ int IotReadCmd(CLN *a/*key_id*/,int Devclass,int del)
         MYSQL_ROW row;
         res = mysql_store_result(mysql);
         row = mysql_fetch_row(res);
-        sprintf(a->data,"%s_%s_%s_%s_",row[2],row[3],row[4],row[5]);//status_cmd_fromid_cmdDate_cmdStatus//
+        sprintf(a->data,"%s_%s_%s_%s_%s_",row[1],row[2],row[3],row[4],row[5]);//class_status_cmd_fromid_cmdDate_//
         return 1;
     }
     else

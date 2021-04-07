@@ -1,5 +1,5 @@
 #include "../head/SERVER.h"
-char** StrSplit(char *srcStr,int *outBufferLen ,char delim)
+char** StrSplit(char *srcStr,int srcStrLen,int *outBufferLen,char delim)
 {
     int i = 0;
     int j = 0;
@@ -7,7 +7,7 @@ char** StrSplit(char *srcStr,int *outBufferLen ,char delim)
     int l = 0;
     int m = 0;
     char** outStr;
-    while(srcStr[i] != 0)
+    while (i<srcStrLen)
     {
         if(srcStr[i] == delim)
         {
@@ -17,7 +17,7 @@ char** StrSplit(char *srcStr,int *outBufferLen ,char delim)
     }
     outStr = (char**)malloc(sizeof(char*)*j);
     i = 0;
-    while(srcStr[i] != 0)
+    while (i<srcStrLen)
     {
         if(srcStr[i] != delim)
         {

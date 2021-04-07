@@ -199,7 +199,7 @@ int getAppVersion();
 void CreateServerInfoInSQL();
 int UpdateServerRunInfo(int CpuRate,int Mem,int TaskNum,int OnlineUserNum,int OnlineIotNum);
 int IotReadSelfSceneCmd(CLN *,int);
-char** StrSplit(char*,int*,char);
+char** StrSplit(char*,int,int*,char);
 void releaseStr(char**,int);
 int IotGetIotData(CLN*,int);
 int SyncSend(SOCKET socket,char *buf,int buflen,pthread_mutex_t *t);

@@ -785,7 +785,7 @@
 1614876013 source:g:\2017210415\uubang_iot\src\hash.c
 	"../head/SERVER.h"
 
-1615030538 g:\2017210415\uubang_iot\head\server.h
+1617772259 g:\2017210415\uubang_iot\head\server.h
 	<stdio.h>
 	<WinSock2.h>
 	<windows.h>
@@ -795,11 +795,13 @@
 	<pthread.h>
 	<direct.h>
 	<time.h>
-	"mysql.h"
 	<malloc.h>
 	"stpool.h"
-	"../head/libThreadPool.h"
+	"libThreadPool.h"
+	"memorypool.h"
 	"sqlpool.h"
+	"mysql.h"
+	"../src/log_print.c"
 
 1614876012 g:\2017210415\uubang_iot\mysql\include\mysql.h
 	<standards.h>
@@ -840,48 +842,49 @@
 	<pthread.h>
 	<signal.h>
 
-1614876013 g:\2017210415\uubang_iot\head\sqlpool.h
+1616859617 g:\2017210415\uubang_iot\head\sqlpool.h
+	"mysql.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\main.c
+1616859617 source:g:\2017210415\uubang_iot\src\main.c
 	"../head/SERVER.h"
 
-1615034964 source:g:\2017210415\uubang_iot\src\initserver.c
+1617440826 source:g:\2017210415\uubang_iot\src\initserver.c
 	"../head/SERVER.h"
 
-1615030538 source:g:\2017210415\uubang_iot\src\acceptclient.c
+1617440826 source:g:\2017210415\uubang_iot\src\acceptclient.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\addtolcoal.c
+1616859617 source:g:\2017210415\uubang_iot\src\addtolcoal.c
 	"../head/SERVER.h"
 
-1615911268 source:g:\2017210415\uubang_iot\src\checkid_pwd.c
+1617440826 source:g:\2017210415\uubang_iot\src\checkid_pwd.c
 	"../head/SERVER.h"
 
-1615030538 source:g:\2017210415\uubang_iot\src\checkuserscenecmd.c
+1617440826 source:g:\2017210415\uubang_iot\src\checkuserscenecmd.c
 	"../head/SERVER.h"
 
 1615738087 source:g:\2017210415\uubang_iot\src\copycln2sendbag.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\copyiotdata.c
+1617775152 source:g:\2017210415\uubang_iot\src\copyiotdata.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\createdailymsgdb.c
+1617440826 source:g:\2017210415\uubang_iot\src\createdailymsgdb.c
 	"../head/SERVER.h"
 
 1614876013 source:g:\2017210415\uubang_iot\src\datecmp.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\delete_outlineuser.c
+1616859617 source:g:\2017210415\uubang_iot\src\delete_outlineuser.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\findonlineuseroriot.c
+1617440826 source:g:\2017210415\uubang_iot\src\findonlineuseroriot.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\finduseroriotnode.c
+1617440826 source:g:\2017210415\uubang_iot\src\finduseroriotnode.c
 	"../head/SERVER.h"
 
-1615916123 source:g:\2017210415\uubang_iot\src\freeoutconnmem.c
+1617440826 source:g:\2017210415\uubang_iot\src\freeoutconnmem.c
 	"../head/SERVER.h"
 
 1614876013 source:g:\2017210415\uubang_iot\src\generaterandstr.c
@@ -892,26 +895,27 @@
 	<stdio.h>
 	<conio.h>
 
-1614876013 source:g:\2017210415\uubang_iot\src\getinternetpublicip.c
+1617440826 source:g:\2017210415\uubang_iot\src\getinternetpublicip.c
 	"../head/SERVER.h"
 
-1615090224 source:g:\2017210415\uubang_iot\src\iot_talk.c
+1617776780 source:g:\2017210415\uubang_iot\src\iot_talk.c
+	"../head/SERVER.h"
+	"../libmd5utils/md5.h"
+
+1616859617 source:g:\2017210415\uubang_iot\src\iotdevregister.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\iotdevregister.c
+1617783276 source:g:\2017210415\uubang_iot\src\iotreadcmd.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\iotreadcmd.c
-	"../head/SERVER.h"
-
-1614876013 source:g:\2017210415\uubang_iot\src\iotupdatedata.c
+1616859617 source:g:\2017210415\uubang_iot\src\iotupdatedata.c
 	"../head/SERVER.h"
 
 1614876013 source:g:\2017210415\uubang_iot\src\kaisaencrypt.c
 	<stdio.h>
 	<string.h>
 
-1614876013 source:g:\2017210415\uubang_iot\src\libthreadpool.c
+1617440826 source:g:\2017210415\uubang_iot\src\libthreadpool.c
 	"../head/libThreadPool.h"
 	"../head/SERVER.h"
 
@@ -921,52 +925,52 @@
 1614876013 source:g:\2017210415\uubang_iot\src\mysqlconncheck.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\mysqlconninit.c
+1617440826 source:g:\2017210415\uubang_iot\src\mysqlconninit.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\newiotcmdtobeexecute.c
+1617440826 source:g:\2017210415\uubang_iot\src\newiotcmdtobeexecute.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\newonlineuseroriotdev.c
+1617440826 source:g:\2017210415\uubang_iot\src\newonlineuseroriotdev.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\newuserfriend.c
+1616859617 source:g:\2017210415\uubang_iot\src\newuserfriend.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\newuseriot.c
+1616859617 source:g:\2017210415\uubang_iot\src\newuseriot.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\newusermsgstorge.c
+1616859617 source:g:\2017210415\uubang_iot\src\newusermsgstorge.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\newusermsgtalbleinsql.c
+1616859617 source:g:\2017210415\uubang_iot\src\newusermsgtalbleinsql.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\newuserscenecmd.c
+1616859617 source:g:\2017210415\uubang_iot\src\newuserscenecmd.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\printalluserandiotdevice.c
+1617440826 source:g:\2017210415\uubang_iot\src\printalluserandiotdevice.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\readordeleteuserscenecmd.c
+1617440826 source:g:\2017210415\uubang_iot\src\readordeleteuserscenecmd.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\register.c
+1617777801 source:g:\2017210415\uubang_iot\src\register.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\rsautils.c
+1617440826 source:g:\2017210415\uubang_iot\src\rsautils.c
 	"../head/SERVER.h"
 
-1615030538 source:g:\2017210415\uubang_iot\src\send2onlineuserviaallserver.c
+1617440826 source:g:\2017210415\uubang_iot\src\send2onlineuserviaallserver.c
 	"../head/SERVER.h"
 
-1615915563 source:g:\2017210415\uubang_iot\src\serverworkthread.c
+1617440826 source:g:\2017210415\uubang_iot\src\serverworkthread.c
 	"../head/SERVER.h"
 
-1615913800 source:g:\2017210415\uubang_iot\src\sign_in.c
+1617440826 source:g:\2017210415\uubang_iot\src\sign_in.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\sqlpool.c
+1617440826 source:g:\2017210415\uubang_iot\src\sqlpool.c
 	"../head/SERVER.h"
 	"../head/sqlpool.h"
 
@@ -976,9 +980,9 @@
 1614876013 source:g:\2017210415\uubang_iot\src\string.c
 	"../head/SERVER.h"
 
-1615915052 source:g:\2017210415\uubang_iot\src\talk.c
+1617640811 source:g:\2017210415\uubang_iot\src\talk.c
 	"../head/SERVER.h"
-	"../head/md5.h"
+	"../libmd5utils/md5.h"
 
 1614876013 g:\2017210415\uubang_iot\head\md5.h
 	<stdio.h>
@@ -989,31 +993,31 @@
 	<sys/stat.h>
 	<fcntl.h>
 
-1614876013 source:g:\2017210415\uubang_iot\src\updateregiteriotanduser.c
+1616859617 source:g:\2017210415\uubang_iot\src\updateregiteriotanduser.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\updatesqlinfotimestamp.c
+1616859617 source:g:\2017210415\uubang_iot\src\updatesqlinfotimestamp.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\usergetiotdata.c
+1617440826 source:g:\2017210415\uubang_iot\src\usergetiotdata.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\userregister.c
+1616859617 source:g:\2017210415\uubang_iot\src\userregister.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\userrepwd.c
+1617440826 source:g:\2017210415\uubang_iot\src\userrepwd.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\userreqfriendrelation.c
+1617440826 source:g:\2017210415\uubang_iot\src\userreqfriendrelation.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\userreqiotrel.c
+1617440826 source:g:\2017210415\uubang_iot\src\userreqiotrel.c
 	"../head/SERVER.h"
 
-1614876013 source:g:\2017210415\uubang_iot\src\userrequestmessage.c
+1617440826 source:g:\2017210415\uubang_iot\src\userrequestmessage.c
 	"../head/SERVER.h"
 
-1615058112 source:g:\2017210415\uubang_iot\src\getsqlupdatetime.c
+1616859617 source:g:\2017210415\uubang_iot\src\getsqlupdatetime.c
 	"../head/SERVER.h"
 
 1617002830 source:c:\users\bescd\desktop\test\uubang_iot\src\mempool.c
@@ -1061,4 +1065,50 @@
 
 1617009169 source:c:\users\bescd\desktop\test\uubang_iot\src\iotreadiotdata.c
 	"../head/SERVER.h"
+
+1614876013 g:\2017210415\uubang_iot\libstpool\stpool.h
+	<time.h>
+	"stpool_caps.h"
+
+1614876013 g:\2017210415\uubang_iot\libstpool\stpool_caps.h
+
+1616859617 g:\2017210415\uubang_iot\memorypool\memorypool.h
+	<pthread.h>
+	<stdlib.h>
+	<string.h>
+
+1617440826 g:\2017210415\uubang_iot\src\log_print.c
+
+1616859617 source:g:\2017210415\uubang_iot\memorypool\memorypool.c
+	"../head/SERVER.h"
+
+1617440826 source:g:\2017210415\uubang_iot\src\getappversion.c
+	"../head/SERVER.h"
+
+1617440826 source:g:\2017210415\uubang_iot\src\iotreadiotdata.c
+	"../head/SERVER.h"
+
+1617440826 source:g:\2017210415\uubang_iot\src\iotreadscenecmd.c
+	"../head/SERVER.h"
+
+1617633247 source:g:\2017210415\uubang_iot\src\manualctrlmode.c
+	"../head/SERVER.h"
+
+1617440826 source:g:\2017210415\uubang_iot\src\mempool.c
+	"../head/SERVER.h"
+
+1617772005 source:g:\2017210415\uubang_iot\src\strsplit.c
+	"../head/SERVER.h"
+
+1616859617 source:g:\2017210415\uubang_iot\src\updateserverruninfo.c
+	"../head/SERVER.h"
+
+1616859617 g:\2017210415\uubang_iot\libmd5utils\md5.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<unistd.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<fcntl.h>
 

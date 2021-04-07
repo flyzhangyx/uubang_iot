@@ -62,7 +62,7 @@ int SIGNIN(CLN *a)
         {
             return -1;
         }
-        if(checkuser==NULL)
+        if(checkuser == NULL )
         {
             USER temp = FindRegisterUserOrIotNode(10,a->USERID,0);
             if(temp!=NULL)
@@ -76,6 +76,15 @@ int SIGNIN(CLN *a)
             newOnlineUserOrIotDev(a);
             return 1;
         }
-        return -1;
+        else
+        {
+            CLN b;
+            a->USERKEY_ID = checkuser->USERKEY_ID;
+            memcpy(&b,a,sizeof(CLN));
+            b.SOCKET = checkuser->USER_SOCKET;
+            delete_out_user(&b);
+            newOnlineUserOrIotDev(a);
+            return 1;
+        }
     }
 }
