@@ -34,6 +34,7 @@ int SIGNIN(CLN *a)
             if(temp!=NULL)
             {
                 a->USERKEY_ID=temp->USERKEY_ID;
+                a->conn->USERKEY_ID = temp->USERKEY_ID;
             }
             else
             {
@@ -68,6 +69,7 @@ int SIGNIN(CLN *a)
             if(temp!=NULL)
             {
                 a->USERKEY_ID=temp->USERKEY_ID;
+                a->conn->USERKEY_ID = temp->USERKEY_ID;
             }
             else
             {
@@ -79,7 +81,12 @@ int SIGNIN(CLN *a)
         else
         {
             CLN b;
-            a->USERKEY_ID = checkuser->USERKEY_ID;
+            USER temp = FindRegisterUserOrIotNode(10,a->USERID,0);
+            if(temp!=NULL)
+            {
+                a->USERKEY_ID=temp->USERKEY_ID;
+                a->conn->USERKEY_ID = temp->USERKEY_ID;
+            }
             memcpy(&b,a,sizeof(CLN));
             b.SOCKET = checkuser->USER_SOCKET;
             delete_out_user(&b);

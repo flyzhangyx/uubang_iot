@@ -11,22 +11,29 @@ int IotReadCmd(CLN *a/*key_id*/,int Devclass,int del)
                 Devclass,
                 "'");
         SQL_NODE *temmp;
-    if((temmp=get_db_connect(MySqlConnPool))==NULL)
-    {
-        log_error("SQL NODE NULL");
-        return 0;
-    }
+        if((temmp=get_db_connect(MySqlConnPool))==NULL)
+        {
+            log_error("SQL NODE NULL");
+            return 0;
+        }
         MYSQL *mysql=&(temmp->fd);
         if(mysql_real_query(mysql,read,strlen(read)))
         {
             log_error("MySQL ERR(IOT READ CMD) :%s",mysql_error(mysql));
+            release_node(MySqlConnPool, temmp);
             return 0;
         }
         MYSQL_RES *res;
         MYSQL_ROW row;
         res = mysql_store_result(mysql);
         row = mysql_fetch_row(res);
+        if(row == NULL)
+        {
+            release_node(MySqlConnPool, temmp);
+            return 0;
+        }
         sprintf(a->data,"%s_%s_%s_%s_%s_",row[1],row[2],row[3],row[4],row[5]);//class_status_cmd_fromid_cmdDate_//
+        release_node(MySqlConnPool, temmp);
         return 1;
     }
     else
@@ -39,11 +46,11 @@ int IotReadCmd(CLN *a/*key_id*/,int Devclass,int del)
                 Devclass,
                 "'");
         SQL_NODE *temmp;
-    if((temmp=get_db_connect(MySqlConnPool))==NULL)
-    {
-        log_error("SQL NODE NULL");
-        return 0;
-    }
+        if((temmp=get_db_connect(MySqlConnPool))==NULL)
+        {
+            log_error("SQL NODE NULL");
+            return 0;
+        }
         MYSQL *mysql=&(temmp->fd);
         if(mysql_real_query(mysql,del,strlen(del)))
         {

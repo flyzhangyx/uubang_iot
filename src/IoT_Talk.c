@@ -106,7 +106,6 @@ int IoTtalk(CLN* a)
         Decrypt(a->data,strlen(a->data),a->Pin,a->data);
         int OutStrSize = 0;
         char** outStr = StrSplit(a->data,200,&OutStrSize,'_');
-        a->USERKEY_ID = 1;
         int i = 0;
         while(i<OutStrSize)
         {
@@ -160,8 +159,17 @@ int IoTtalk(CLN* a)
     {
         if(a->info[0] != 'Y')
             return 0;
-        IotReadCmd(a,0,0);
-        IotReadCmd(a,0,1);//After Read  Deletion
+        Decrypt(a->data,strlen(a->data),a->Pin,a->data);
+        int OutStrSize = 0;
+        char** outStr = StrSplit(a->data,200,&OutStrSize,'_');
+        if(OutStrSize<1)
+            break;
+        if(!IotReadCmd(a,atoi(outStr[0]),0))
+        {
+            SEND_OP_BACK("25");
+            break;
+        }
+        IotReadCmd(a,atoi(outStr[0]),1);//After Read  Deletion
         memset(&SendStruct,0,sizeof(IotPacketInterface));
         Encrypt(a->data,strlen(a->data),a->Pin,SendStruct.payLoad);
         SEND_OP_BACK("05");
@@ -207,14 +215,45 @@ int IoTtalk(CLN* a)
             sprintf(tmp.checkcode,"%s","00");
             sprintf(tmp.data,"%s_%s_",outStr[1],outStr[2]);
             tmp.USERKEY_ID = atoi(outStr[0]);
-            Send2OnlineUserViaTopServer(*a);
+            Send2OnlineUserViaTopServer(tmp);
         }
         else
         {
+            a->SOCKET = temp->USER_SOCKET;
             sprintf(SendStruct.payLoad,"%s_%s_",outStr[1],outStr[2]);
             Encrypt(SendStruct.payLoad,strlen(SendStruct.payLoad),temp->CONNHANDLE->Pin,SendStruct.payLoad);
             SEND_OP_BACK("00");//IOT CMD OPCODE
         }
+        releaseStr(outStr,OutStrSize);
+    }
+    break;
+    case 9://STORE CMD 4 OTHER DEV
+    {
+        if(a->info[0] != 'Y')
+            return 0;
+        Decrypt(a->data,strlen(a->data),a->Pin,a->data);
+        int OutStrSize = 0;
+        char** outStr = StrSplit(a->data,200,&OutStrSize,'_');
+        if(OutStrSize!=3)
+        {
+            releaseStr(outStr,OutStrSize);
+            return 0;
+        }
+        USER tmp = FindRegisterUserOrIotNode(10,NULL,atoi(outStr[0]));
+        if(tmp == NULL)
+        {
+            releaseStr(outStr,OutStrSize);
+            SEND_OP_BACK("29");//I
+            return 0;
+        }
+        sprintf(a->TalktoID,"%s",tmp->USERID);
+        if(NewIotCmdToBeExecute(a,outStr[2],atoi(outStr[1]),atoi(outStr[1])==0?atoi(outStr[1]):0,"00:00:00") != 1)
+        {
+            releaseStr(outStr,OutStrSize);
+            SEND_OP_BACK("29");//I
+            return 0;
+        }
+        SEND_OP_BACK("09");//I
         releaseStr(outStr,OutStrSize);
     }
     break;

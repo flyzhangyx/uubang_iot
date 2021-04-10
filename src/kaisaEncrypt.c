@@ -2,7 +2,6 @@
 #include<string.h>
 void Encrypt(char *source_in ,int len,char *PinCode,char *source_out)
 {
-    memset(source_out,0,len+1);
     int i = 0;
     while(i<len)
     {
@@ -14,7 +13,6 @@ void Encrypt(char *source_in ,int len,char *PinCode,char *source_out)
 
 void Decrypt(char *source_in ,int len,char *PinCode,char *source_out)
 {
-    memset(source_out,0,len+1);
     int i = 0;
     while(i<len)
     {
