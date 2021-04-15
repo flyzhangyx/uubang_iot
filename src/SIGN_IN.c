@@ -65,7 +65,7 @@ int SIGNIN(CLN *a)
         }
         if(checkuser == NULL )
         {
-            USER temp = FindRegisterUserOrIotNode(10,a->USERID,0);
+            USER temp = FindRegisterUserOrIotNode(10,a->USERID,0);\
             if(temp!=NULL)
             {
                 a->USERKEY_ID=temp->USERKEY_ID;

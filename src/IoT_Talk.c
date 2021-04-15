@@ -107,6 +107,8 @@ int IoTtalk(CLN* a)
         int OutStrSize = 0;
         char** outStr = StrSplit(a->data,200,&OutStrSize,'_');
         int i = 0;
+        if(OutStrSize%2!=0)
+            return 0;
         while(i<OutStrSize)
         {
             switch (atoi(outStr[i]))
@@ -136,6 +138,7 @@ int IoTtalk(CLN* a)
                     SEND_OP_BACK("24");
                 }
             }
+            break;
             case 2://humidity
             {
 
@@ -144,7 +147,15 @@ int IoTtalk(CLN* a)
             break;
             case 3://brightness
             {
-
+                sprintf(a->data,"%s",outStr[i+1]);
+                if(IotUpdateStatus(a,3,0))
+                {
+                    SEND_OP_BACK("04");
+                }
+                else
+                {
+                    SEND_OP_BACK("24");
+                }
             }
             break;
             default:
@@ -247,7 +258,7 @@ int IoTtalk(CLN* a)
             return 0;
         }
         sprintf(a->TalktoID,"%s",tmp->USERID);
-        if(NewIotCmdToBeExecute(a,outStr[2],atoi(outStr[1]),atoi(outStr[1])==0?atoi(outStr[1]):0,"00:00:00") != 1)
+        if(NewIotCmdToBeExecute(a,outStr[2],atoi(outStr[1]),atoi(outStr[1])==0?atoi(outStr[2]):0,"00:00:00") != 1)
         {
             releaseStr(outStr,OutStrSize);
             SEND_OP_BACK("29");//I

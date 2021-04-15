@@ -34,7 +34,8 @@ DWORD WINAPI CheckUserSceneCmd()
         if(printCount==24)
         {
             stpool_stat(ThreadPool_ExecuteTask, &temp);
-            log_debug("CONN2BEFREE_THREAD/TASK:[%d/%d]",temp.curthreads_active,temp.curtasks_pending);
+            int cpurate = GetCPUUseRate();
+            log_debug("CONN2BEFREE_THREAD/TASK:[%d/%d] CPU :[%d]",temp.curthreads_active,temp.curtasks_pending,cpurate);
             stpool_stat(ThreadPool_ExecuteMsg, &temp);
 #ifdef MemPool
             float UsedMem = (float)MemPoolAvailable*sizeof(CLN)/(1024*1024);
@@ -43,7 +44,7 @@ DWORD WINAPI CheckUserSceneCmd()
             float UsedMem = MemoryPoolGetUsage(mp)*100*500;
             log_info("ONLINE_USER:[%d] ONLINE_IOT:[%d] THREAD/TASK:[%d/%d] MEM_POOL:[%.2f%%] %s",onlineUserHead->OnlineUserNum,onlineIotHead->OnlineUserNum,temp.curthreads_active,temp.curtasks_pending,MemoryPoolGetUsage(mp)*100,isConnected?"CONNECT":"DISCONNECT");
 #endif // MemPool
-            UpdateServerRunInfo(GetCPUUseRate(),UsedMem,temp.curtasks_pending,onlineUserHead->OnlineUserNum,onlineIotHead->OnlineUserNum);
+            UpdateServerRunInfo(cpurate,UsedMem,temp.curtasks_pending,onlineUserHead->OnlineUserNum,onlineIotHead->OnlineUserNum);
         }
         Sleep(200);
     }

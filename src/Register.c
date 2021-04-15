@@ -3,7 +3,7 @@ int Register(CLN *a,int method)
 {
     if(Check_Id_Pwd(1,a)==1)
     {
-        //log_debug("USER_IOT:%s has Registed",a->USERID);
+        log_debug("USER_IOT:%s has Registed",a->USERID);
         return -1;
     }
     else

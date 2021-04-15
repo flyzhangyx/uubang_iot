@@ -47,12 +47,12 @@ int IotUpdateStatus(CLN *a,int EvtClass,int status)
         }
         else
         {
-            SQL_NODE *temmp;
-    if((temmp=get_db_connect(MySqlConnPool))==NULL)
-    {
-        log_error("SQL NODE NULL");
-        return 0;
-    }
+            release_node(MySqlConnPool, temmp);
+            if((temmp=get_db_connect(MySqlConnPool))==NULL)
+            {
+                log_error("SQL NODE NULL");
+                return 0;
+            }
             MYSQL *mysql=&(temmp->fd);
             mysql_real_query(mysql,update,strlen(update));
             if(mysql_affected_rows(mysql)==0)

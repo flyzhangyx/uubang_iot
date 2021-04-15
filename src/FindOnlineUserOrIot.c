@@ -26,7 +26,7 @@ USER FindOnlineUserOrIot(int n,char *USERID,int id)///n为检查方法，0为查找USERID
                     }
                     else
                     {
-                        Tag=Tag_iot->next;
+                        Tag_iot=Tag_iot->next;
                     }
                 }
                 // printf("2.Printonlineuser:在线用户列表中无此用户%s",USERID);
@@ -49,7 +49,7 @@ USER FindOnlineUserOrIot(int n,char *USERID,int id)///n为检查方法，0为查找USERID
                     }
                     else
                     {
-                        Tag=Tag_iot->next;
+                        Tag_iot=Tag_iot->next;
                     }
                 }
                 // printf("2.Printonlineuser:在线用户列表中无此用户%s",USERID);
