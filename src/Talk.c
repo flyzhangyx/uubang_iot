@@ -289,6 +289,32 @@ int talk(LPVOID b)
         //UserRequestMessage(a,)
     }
     break;
+    case 69664://SCE
+    {
+        int OutStrSize = 0;
+        char** outStr = StrSplit(a->data,200,&OutStrSize,'-');
+        if(OutStrSize<7)
+        {
+            log_debug("SCE ERR");
+            releaseStr(outStr,OutStrSize);
+            return 0;
+        }
+        char Cmd[200];
+        memset(Cmd,0,200);
+        sprintf(Cmd,"%s-%s-%s-%d-98-%s+%s+%s+-",outStr[0],outStr[1],outStr[2],FindRegisterUserOrIotNode(10,a->TalktoID,0)->USERKEY_ID,outStr[0],outStr[1],outStr[2]);
+        CLN tmp;
+        tmp.USERKEY_ID = a->USERKEY_ID;
+        sprintf(tmp.TalktoID,"%s",FindRegisterUserOrIotNode(10,NULL,atoi(outStr[0]))->USERID);
+        NewUserSceneCmdStore(&tmp,Cmd,0,atoi(outStr[1]),0,"00:00:00","1111111");
+        NewUserSceneCmdStore(a,a->data,0,99,0,"00:00:00","1111111");
+        releaseStr(outStr,OutStrSize);
+    }
+    break;
+    case 59185://IOT
+    {
+        UserGetIotData(a);
+    }
+    break;
     case 70683: //TAA
     {
         USER find = FindRegisterUserOrIotNode(0, a->TalktoID, 0);
@@ -424,14 +450,83 @@ int talk(LPVOID b)
         }
     }
     break;
+    case 58782://ICM
+    {
+        int OutStrSize = 0;
+        char** outStr = StrSplit(a->data,strlen(a->data),&OutStrSize,'_');
+        if(OutStrSize<2)
+        {
+            releaseStr(outStr,OutStrSize);
+            return 0;
+        }
+        USER temp = FindOnlineUserOrIot(10,a->TalktoID,0);
+        if(temp==NULL)
+        {
+            temp = FindRegisterUserOrIotNode(10,a->TalktoID,0);
+            if(temp==NULL)
+            {
+                return 0;
+            }
+            CLN tmp;
+            sprintf(tmp.checkcode,"%s","00");
+            sprintf(tmp.data,"%s_%s_",outStr[0],outStr[1]);
+            tmp.USERKEY_ID = temp->USERKEY_ID;
+            Send2OnlineUserViaTopServer(tmp);
+        }
+        else
+        {
+            IotPacketInterface SendStruct;
+            strcpy(SendStruct.opCode,"00");
+            sprintf(SendStruct.payLoad,"%s_%s_",outStr[0],outStr[1]);
+            Encrypt(SendStruct.payLoad,strlen(SendStruct.payLoad),temp->CONNHANDLE->Pin,SendStruct.payLoad);
+            InterlockedIncrement((LPLONG) &(temp->CONNHANDLE->SeqNum));
+            SendStruct.SeqNum[0] = temp->CONNHANDLE->SeqNum;
+            if(temp->CONNHANDLE->SeqNum==127)
+            {
+                temp->CONNHANDLE->SeqNum = 1;
+            }
+            char SendBuf[sizeof(IotPacketInterface)];
+            memcpy(SendBuf,&SendStruct,sizeof(IotPacketInterface));
+            SendBuf[sizeof(IotPacketInterface)-1] = _HC_;
+            len=SyncSend(temp->USER_SOCKET,SendBuf,sizeof(IotPacketInterface),&(temp->CONNHANDLE->t));
+            if(len==SOCKET_ERROR||len==0)
+            {
+                closesocket(temp->USER_SOCKET);
+            }
+        }
+        releaseStr(outStr,OutStrSize);
+    }
+    break;
     case 59168://IOC
     {
-        sprintf(a->TalktoID,"%s","12345678901");
-        sprintf(a->USERID,"%s","r1qIAVlK");
         CLN temp;
-        temp.USERKEY_ID=FindRegisterUserOrIotNode(0,a->TalktoID,0)->USERKEY_ID;
-        sprintf(temp.TalktoID,"%s",a->USERID);
-        NewUserIot(&temp,0);
+        temp.USERKEY_ID=a->USERKEY_ID;
+        sprintf(temp.TalktoID,"%s",a->TalktoID);
+        memset(&SendDataStruct, 0, sizeof(UserPacketInterface));
+        memset(sendbuf, 0, sizeof(UserPacketInterface));
+        if(NewUserIot(&temp,0))
+        {
+            strcpy(SendDataStruct.checkcode, "IOC");//
+
+        }
+        else
+        {
+            strcpy(SendDataStruct.checkcode, "ioc");//
+        }
+        SendDataStruct.save[99] = _HC_;
+        memcpy(sendbuf, &SendDataStruct, sizeof(SendDataStruct));
+        len = SyncSend(c, sendbuf, sizeof(UserPacketInterface), &(a->conn->t));
+        if (len == SOCKET_ERROR || len == 0)
+        {
+            closesocket(c);
+            InterlockedDecrement((LPLONG) &(a->conn->info[2]));
+#ifdef MemPool
+            freeNode(a->MemMark,a);
+#else
+            MemoryPoolFree(mp, a);
+#endif
+            return 0;
+        }
     }
     break;
     case 68585: //RCO

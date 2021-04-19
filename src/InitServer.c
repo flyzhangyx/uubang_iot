@@ -46,6 +46,7 @@ int initServer(int port,char *ServerId)
     log_debug("IOC%d",IOTCFM_HASH);//iot cfm add friend cmd
 #endif // HASH_CODE
     ///***********socket≥ı ºªØ***********************
+
     WSADATA wsaData;
     while(1)
     {
@@ -197,7 +198,7 @@ int initServer(int port,char *ServerId)
         strcpy(a.USERID,row_iot[1]);
         strcpy(a.USERPASSWORD, row_iot[3]);
         a.USERKEY_ID=atoi(row_iot[0]);
-        strcpy(a.info,row_iot[4]) ;
+        strcpy(a.info,row_iot[0]) ;
         strcpy(a.checkcode,row_iot[2]);
         AddtoLocal(&a);
     }

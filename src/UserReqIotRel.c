@@ -35,7 +35,8 @@ int UserReqIotRel(CLN *a)
             mysql_free_result(res);
             return 0;
         }
-        strcpy(RecDataStruct.TalktoID,Temp->USERID);
+        sprintf(RecDataStruct.TalktoID,"%s",Temp->USERID);
+        sprintf(RecDataStruct.DATA,"%s",Temp->info);
         strcpy(RecDataStruct.save,row[2]);//RelationCreateDate
         RecDataStruct.save[99]=_HC_;
         memcpy(sendbuf,&RecDataStruct,sizeof(RecDataStruct));

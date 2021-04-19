@@ -848,13 +848,13 @@
 1616859617 source:g:\2017210415\uubang_iot\src\main.c
 	"../head/SERVER.h"
 
-1617440826 source:g:\2017210415\uubang_iot\src\initserver.c
+1618845739 source:g:\2017210415\uubang_iot\src\initserver.c
 	"../head/SERVER.h"
 
 1617440826 source:g:\2017210415\uubang_iot\src\acceptclient.c
 	"../head/SERVER.h"
 
-1616859617 source:g:\2017210415\uubang_iot\src\addtolcoal.c
+1618763635 source:g:\2017210415\uubang_iot\src\addtolcoal.c
 	"../head/SERVER.h"
 
 1617440826 source:g:\2017210415\uubang_iot\src\checkid_pwd.c
@@ -980,7 +980,7 @@
 1614876013 source:g:\2017210415\uubang_iot\src\string.c
 	"../head/SERVER.h"
 
-1618548945 source:g:\2017210415\uubang_iot\src\talk.c
+1618815921 source:g:\2017210415\uubang_iot\src\talk.c
 	"../head/SERVER.h"
 	"../libmd5utils/md5.h"
 
@@ -1011,7 +1011,7 @@
 1617440826 source:g:\2017210415\uubang_iot\src\userreqfriendrelation.c
 	"../head/SERVER.h"
 
-1617440826 source:g:\2017210415\uubang_iot\src\userreqiotrel.c
+1618764854 source:g:\2017210415\uubang_iot\src\userreqiotrel.c
 	"../head/SERVER.h"
 
 1617440826 source:g:\2017210415\uubang_iot\src\userrequestmessage.c
@@ -1082,7 +1082,7 @@
 1616859617 source:g:\2017210415\uubang_iot\memorypool\memorypool.c
 	"../head/SERVER.h"
 
-1617440826 source:g:\2017210415\uubang_iot\src\getappversion.c
+1618820059 source:g:\2017210415\uubang_iot\src\getappversion.c
 	"../head/SERVER.h"
 
 1617880382 source:g:\2017210415\uubang_iot\src\iotreadiotdata.c

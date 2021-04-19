@@ -21,7 +21,7 @@ int AddtoLocal(CLN *a)
     if(strlen(a->USERID)<11)
     {
         newuser->next=RegistedIotHead->next;
-        strcpy(newuser->info,a->info);
+        sprintf(newuser->info,"%s_%s_",a->checkcode,a->info);//Class_CreateDate_
         RegistedIotHead->next=newuser;
         InterlockedIncrement((LPLONG) &(RegistedIotHead->OnlineUserNum));
     }

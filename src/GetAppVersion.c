@@ -23,14 +23,14 @@ int getAppVersion()
     row = mysql_fetch_row(res);//only a record
     release_node(MySqlConnPool, temmp);
     mysql_free_result(res);
-    if(row[0]==NULL)
+    if(row[1]==NULL)
     {
         log_error("更新文件读取失败!");
         return 0;
     }
     else
     {
-        sprintf(app_version,"%s",row[0]);
+        sprintf(app_version,"%s",row[1]);
         app_version[3]=0;
         log_info("APP版本-%s",app_version);
         return 1;
