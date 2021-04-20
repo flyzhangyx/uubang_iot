@@ -288,6 +288,9 @@
 		<Unit filename="src/UpdateSqlInfoTimestamp.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="src/UserDeleteSce.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="src/UserGetIotData.c">
 			<Option compilerVar="CC" />
 		</Unit>
