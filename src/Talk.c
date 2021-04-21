@@ -291,45 +291,96 @@ int talk(LPVOID b)
     break;
     case 69664://SCE
     {
-        int OutStrSize = 0;
-        char** outStr = StrSplit(a->data,200,&OutStrSize,'-');
-        if(OutStrSize<7)
+        int OutStrSizeT = 0;
+        char** outStrT = StrSplit(a->data,200,&OutStrSizeT,'~');
+        if(OutStrSizeT<2)
         {
-            log_debug("SCE ERR");
-            releaseStr(outStr,OutStrSize);
-            return 0;
-        }
-        char Cmd[200];
-        memset(Cmd,0,200);
-        sprintf(Cmd,"%s-%s-%s-%d-98-%s+%s+%s+-",outStr[0],outStr[1],outStr[2],FindRegisterUserOrIotNode(10,a->TalktoID,0)->USERKEY_ID,outStr[0],outStr[1],outStr[2]);
-        int OutStrSize1 = 0;
-        char** outStr1 = StrSplit(a->DATE,strlen(a->DATE),&OutStrSize,'_');//TIME_DATE_
-        if(OutStrSize1<2)
-        {
-            if(atoi(outStr[0])!=0)
+            releaseStr(outStrT,OutStrSizeT);
+            int OutStrSize = 0;
+            char** outStr = StrSplit(a->data,200,&OutStrSize,'-');
+            if(OutStrSize<7)
             {
-                UserDeleteSce(a,atoi(outStr[0]));
-                CLN tmp;
-                tmp.USERKEY_ID = a->USERKEY_ID;
-                sprintf(tmp.TalktoID,"%s",FindRegisterUserOrIotNode(10,NULL,atoi(outStr[0]))->USERID);
-                NewUserSceneCmdStore(&tmp,Cmd,0,atoi(outStr[1]),0,"00:00:00","1111111");
+                log_debug("SCE ERR");
+                releaseStr(outStr,OutStrSize);
+                return 0;
             }
-            NewUserSceneCmdStore(a,a->data,0,99,0,"00:00:00","1111111");
+            char Cmd[200];
+            memset(Cmd,0,200);
+            sprintf(Cmd,"%s-%s-%s-%d-98-%s+%s+%s+-",outStr[0],outStr[1],outStr[2],FindRegisterUserOrIotNode(10,a->TalktoID,0)->USERKEY_ID,outStr[0],outStr[1],outStr[2]);
+            int OutStrSize1 = 0;
+            char** outStr1 = StrSplit(a->DATE,strlen(a->DATE),&OutStrSize,'_');//TIME_DATE_
+            if(OutStrSize1<2)
+            {
+                if(atoi(outStr[0])!=0)
+                {
+                    UserDeleteSce(a,atoi(outStr[0]));
+                    CLN tmp;
+                    tmp.USERKEY_ID = a->USERKEY_ID;
+                    sprintf(tmp.TalktoID,"%s",FindRegisterUserOrIotNode(10,NULL,atoi(outStr[0]))->USERID);
+                    NewUserSceneCmdStore(&tmp,Cmd,0,atoi(outStr[1]),0,"00:00:00","1111111");
+                }
+                NewUserSceneCmdStore(a,a->data,0,99,0,"00:00:00","1111111");
+            }
+            else
+            {
+                if(atoi(outStr[0])!=0)
+                {
+                    UserDeleteSce(a,atoi(outStr[0]));
+                    CLN tmp;
+                    tmp.USERKEY_ID = a->USERKEY_ID;
+                    sprintf(tmp.TalktoID,"%s",FindRegisterUserOrIotNode(10,NULL,atoi(outStr[0]))->USERID);
+                    NewUserSceneCmdStore(&tmp,Cmd,0,atoi(outStr[1]),0,outStr1[0],outStr1[1]);
+                }
+                NewUserSceneCmdStore(a,a->data,0,99,0,outStr1[0],outStr1[1]);
+            }
+            releaseStr(outStr1,OutStrSize1);
+            releaseStr(outStr,OutStrSize);
         }
         else
         {
-            if(atoi(outStr[0])!=0)
+            sprintf(a->data,"%s",outStrT[0]);
+            sprintf(a->DATE,"%s",outStrT[1]);
+            releaseStr(outStrT,OutStrSizeT);
+            int OutStrSize = 0;
+            char** outStr = StrSplit(a->data,200,&OutStrSize,'-');
+            if(OutStrSize<7)
             {
-                UserDeleteSce(a,atoi(outStr[0]));
-                CLN tmp;
-                tmp.USERKEY_ID = a->USERKEY_ID;
-                sprintf(tmp.TalktoID,"%s",FindRegisterUserOrIotNode(10,NULL,atoi(outStr[0]))->USERID);
-                NewUserSceneCmdStore(&tmp,Cmd,0,atoi(outStr[1]),0,outStr1[0],outStr1[1]);
+                log_debug("SCE ERR");
+                releaseStr(outStr,OutStrSize);
+                return 0;
             }
-            NewUserSceneCmdStore(a,a->data,0,99,0,outStr1[0],outStr1[1]);
+            char Cmd[200];
+            memset(Cmd,0,200);
+            sprintf(Cmd,"%s-%s-%s-%d-98-%s+%s+%s+-",outStr[0],outStr[1],outStr[2],FindRegisterUserOrIotNode(10,a->TalktoID,0)->USERKEY_ID,outStr[0],outStr[1],outStr[2]);
+            int OutStrSize1 = 0;
+            char** outStr1 = StrSplit(a->DATE,strlen(a->DATE),&OutStrSize,'_');//TIME_DATE_
+            if(OutStrSize1<2)
+            {
+                if(atoi(outStr[0])!=0)
+                {
+                    UserDeleteSce(a,atoi(outStr[0]));
+                    CLN tmp;
+                    tmp.USERKEY_ID = a->USERKEY_ID;
+                    sprintf(tmp.TalktoID,"%s",FindRegisterUserOrIotNode(10,NULL,atoi(outStr[0]))->USERID);
+                    NewUserSceneCmdStore(&tmp,Cmd,0,atoi(outStr[1]),0,"00:00:00","1111111");
+                }
+                NewUserSceneCmdStore(a,a->data,0,99,0,"00:00:00","1111111");
+            }
+            else
+            {
+                if(atoi(outStr[0])!=0)
+                {
+                    UserDeleteSce(a,atoi(outStr[0]));
+                    CLN tmp;
+                    tmp.USERKEY_ID = a->USERKEY_ID;
+                    sprintf(tmp.TalktoID,"%s",FindRegisterUserOrIotNode(10,NULL,atoi(outStr[0]))->USERID);
+                    NewUserSceneCmdStore(&tmp,Cmd,0,atoi(outStr[1]),0,outStr1[0],outStr1[1]);
+                }
+                NewUserSceneCmdStore(a,a->data,0,99,0,outStr1[0],outStr1[1]);
+            }
+            releaseStr(outStr1,OutStrSize1);
+            releaseStr(outStr,OutStrSize);
         }
-        releaseStr(outStr1,OutStrSize1);
-        releaseStr(outStr,OutStrSize);
     }
     break;
     case 59185://IOT
@@ -521,39 +572,89 @@ int talk(LPVOID b)
     break;
     case 53855://DSC
     {
-        int OutStrSize = 0;
-        char** outStr = StrSplit(a->data,strlen(a->data),&OutStrSize,'-');
-        if(OutStrSize<6)
+        int OutStrSizeT = 0;
+        char** outStrT = StrSplit(a->data,200,&OutStrSizeT,'~');
+        log_debug("%s",a->data);
+        if(OutStrSizeT<2)
         {
+            releaseStr(outStrT,OutStrSizeT);
+            int OutStrSize = 0;
+            char** outStr = StrSplit(a->data,strlen(a->data),&OutStrSize,'-');
+            if(OutStrSize<6)
+            {
+                releaseStr(outStr,OutStrSize);
+                return 0;
+            }
+            USER temp = FindRegisterUserOrIotNode(10,NULL,atoi(outStr[0]));
+            if(temp==NULL)
+                return 0;
+            if(!UserDeleteSce(a,atoi(outStr[0]))||!NewUserSceneCmdStore(a,a->data,0,atoi(outStr[1]),0,"00:00:00","1111111"))
+            {
+                strcpy(SendDataStruct.checkcode, "DSC"); //
+            }
+            else
+            {
+                strcpy(SendDataStruct.checkcode, "DSc"); //
+            }
             releaseStr(outStr,OutStrSize);
-            return 0;
-        }
-        USER temp = FindRegisterUserOrIotNode(10,NULL,atoi(outStr[0]));
-        if(temp==NULL)
-            return 0;
-        if(!UserDeleteSce(a,atoi(outStr[0]))||!NewUserSceneCmdStore(a,a->data,0,atoi(outStr[1]),0,"00:00:00","1111111"))
-        {
-            strcpy(SendDataStruct.checkcode, "DSC"); //
+            SendDataStruct.save[99] = _HC_;
+            memcpy(sendbuf, &SendDataStruct, sizeof(UserPacketInterface));
+            len = SyncSend(c, sendbuf, sizeof(UserPacketInterface), &(a->conn->t));
+            if (len == SOCKET_ERROR || len == 0)
+            {
+                closesocket(c);
+
+                InterlockedDecrement((LPLONG) &(a->conn->info[2]));
+#ifdef MemPool
+                freeNode(a->MemMark,a);
+#else
+                MemoryPoolFree(mp, a);
+#endif
+                return 0;
+            }
         }
         else
         {
-            strcpy(SendDataStruct.checkcode, "DSc"); //
-        }
-        releaseStr(outStr,OutStrSize);
-        SendDataStruct.save[99] = _HC_;
-        memcpy(sendbuf, &SendDataStruct, sizeof(UserPacketInterface));
-        len = SyncSend(c, sendbuf, sizeof(UserPacketInterface), &(a->conn->t));
-        if (len == SOCKET_ERROR || len == 0)
-        {
-            closesocket(c);
+             int OutStrSizet = 0;
+            char** outStrt = StrSplit(outStrT[1],strlen(outStrT[1]),&OutStrSizet,'_');
+            sprintf(a->data,"%s",outStrT[0]);
+            releaseStr(outStrT,OutStrSizeT);
+            int OutStrSize = 0;
+            char** outStr = StrSplit(a->data,strlen(a->data),&OutStrSize,'-');
+            if(OutStrSize<3)
+            {
+                releaseStr(outStrt,OutStrSizet);
+                releaseStr(outStr,OutStrSize);
+                return 0;
+            }
+            USER temp = FindRegisterUserOrIotNode(10,NULL,atoi(outStr[0]));
+            if(temp==NULL)
+                return 0;
+            if(!UserDeleteSce(a,atoi(outStr[0]))||!NewUserSceneCmdStore(a,a->data,0,atoi(outStr[1]),0,outStrt[0],outStrt[1]))
+            {
+                strcpy(SendDataStruct.checkcode, "DSc"); //
+            }
+            else
+            {
+                strcpy(SendDataStruct.checkcode, "DSC"); //
+            }
+            releaseStr(outStrt,OutStrSizet);
+            releaseStr(outStr,OutStrSize);
+            SendDataStruct.save[99] = _HC_;
+            memcpy(sendbuf, &SendDataStruct, sizeof(UserPacketInterface));
+            len = SyncSend(c, sendbuf, sizeof(UserPacketInterface), &(a->conn->t));
+            if (len == SOCKET_ERROR || len == 0)
+            {
+                closesocket(c);
 
-            InterlockedDecrement((LPLONG) &(a->conn->info[2]));
+                InterlockedDecrement((LPLONG) &(a->conn->info[2]));
 #ifdef MemPool
-            freeNode(a->MemMark,a);
+                freeNode(a->MemMark,a);
 #else
-            MemoryPoolFree(mp, a);
+                MemoryPoolFree(mp, a);
 #endif
-            return 0;
+                return 0;
+            }
         }
     }
     break;
