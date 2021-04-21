@@ -353,7 +353,7 @@ int talk(LPVOID b)
             memset(Cmd,0,200);
             sprintf(Cmd,"%s-%s-%s-%d-98-%s+%s+%s+-",outStr[0],outStr[1],outStr[2],FindRegisterUserOrIotNode(10,a->TalktoID,0)->USERKEY_ID,outStr[0],outStr[1],outStr[2]);
             int OutStrSize1 = 0;
-            char** outStr1 = StrSplit(a->DATE,strlen(a->DATE),&OutStrSize,'_');//TIME_DATE_
+            char** outStr1 = StrSplit(a->DATE,strlen(a->DATE),&OutStrSize1,'_');//TIME_DATE_
             if(OutStrSize1<2)
             {
                 if(atoi(outStr[0])!=0)
