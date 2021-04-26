@@ -222,11 +222,28 @@ int IoTtalk(CLN* a)
         USER temp = FindOnlineUserOrIot(10,NULL,atoi(outStr[0]));
         if(temp==NULL)
         {
-            CLN tmp;
-            sprintf(tmp.checkcode,"%s","00");
-            sprintf(tmp.data,"%s_%s_",outStr[1],outStr[2]);
-            tmp.USERKEY_ID = atoi(outStr[0]);
-            Send2OnlineUserViaTopServer(tmp);
+            CLN tmpw;
+            sprintf(tmpw.checkcode,"%s","00");
+            sprintf(tmpw.data,"%s_%s_",outStr[1],outStr[2]);
+            tmpw.USERKEY_ID = atoi(outStr[0]);
+            sprintf(tmpw.USERID,"%s",FindRegisterUserOrIotNode(10,NULL,tmpw.USERKEY_ID)->USERID);
+            Send2OnlineUserViaTopServer(tmpw);
+            ///***********************************///
+            /*USER tmp = FindRegisterUserOrIotNode(10,NULL,atoi(outStr[0]));
+            if(tmp == NULL)
+            {
+                releaseStr(outStr,OutStrSize);
+                SEND_OP_BACK("28");//I
+                return 0;
+            }
+            sprintf(a->TalktoID,"%s",tmp->USERID);
+            if(NewIotCmdToBeExecute(a,outStr[2],atoi(outStr[1]),atoi(outStr[1])==0?atoi(outStr[2]):0,"00:00:00") != 1)
+            {
+                releaseStr(outStr,OutStrSize);
+                SEND_OP_BACK("28");//I
+                return 0;
+            }
+            SEND_OP_BACK("08");//I*/
         }
         else
         {

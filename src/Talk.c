@@ -541,10 +541,13 @@ int talk(LPVOID b)
                 return 0;
             }
             CLN tmp;
+            sprintf(tmp.TalktoID,"%s",a->TalktoID);
             sprintf(tmp.checkcode,"%s","00");
             sprintf(tmp.data,"%s_%s_",outStr[0],outStr[1]);
             tmp.USERKEY_ID = temp->USERKEY_ID;
             Send2OnlineUserViaTopServer(tmp);
+            /***************************************/
+            /*NewIotCmdToBeExecute(a,outStr[1],atoi(outStr[0]),atoi(outStr[0])==0?atoi(outStr[1]):0,"00:00:00");*/
         }
         else
         {

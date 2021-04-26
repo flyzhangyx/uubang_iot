@@ -29,7 +29,7 @@ int SIGNIN(CLN *a)
         }
         else if(checkuser==NULL)
         {
-            SEND_STO_2_ALL_SERVER();//Tell All Server To Logout This User
+            //SEND_STO_2_ALL_SERVER();//Tell All Server To Logout This User
             USER temp = FindRegisterUserOrIotNode(0,a->USERID,0);
             if(temp!=NULL)
             {

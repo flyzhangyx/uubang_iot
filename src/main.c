@@ -43,12 +43,6 @@ int main(int argc,char**argv)
     char time_now[50];
     strftime(time_now,80,"%Y-%m-%d %X",localtime(&now_time));
     log_info("%s",time_now);
-    CLN a;
-    a.USERKEY_ID = 22947;
-    strcpy(a.TalktoID,"ZZzoidFy");
-    strcpy(a.checkcode,"123");
-    sprintf(a.data,"%s","12345678901");
-    Send2OnlineUserViaTopServer(a);
     ///*****************************************************************
     AcceptClient();
     Sleep(5000);

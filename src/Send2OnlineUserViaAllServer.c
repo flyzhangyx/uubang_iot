@@ -71,7 +71,8 @@ int talk(LPVOID b)
     }
     case 0:
     {
-        USER tmp = FindOnlineUserOrIot(10,NULL,a->USERKEY_ID);
+        USER tmp = FindOnlineUserOrIot(10,a->TalktoID,0.);
+        //log_debug("%x",tmp);
         if(tmp == NULL)
             return;
         memset(&IotSendDataStruct,0,sizeof(IotSendDataStruct));
@@ -120,6 +121,7 @@ DWORD WINAPI ReceiveMsgFromTopServer()
         }
         else
         {
+            log_debug("%s",buf);
             memcpy(&pack,buf,sizeof(UserPacketInterface));
             memset(CONNHANDLE,0,sizeof(CLN));
             CopyUserPacketInterface2Cln(pack,CONNHANDLE);
@@ -134,6 +136,8 @@ DWORD WINAPI ReceiveMsgFromTopServer()
 }
 void ConnectToTopServer()
 {
+    closesocket(LocalSocket);
+    isConnected = 0;
     if(isConnected)
         return;
     struct sockaddr_in addr;
@@ -156,6 +160,10 @@ void ConnectToTopServer()
     }
     CloseHandle(CreateThread(NULL,0,(LPTHREAD_START_ROUTINE)ReceiveMsgFromTopServer,NULL,0,NULL));
     isConnected = 1;
+}
+int Send2TopServerTest()
+{
+    return send(LocalSocket,"HBA",4,0);
 }
 int Send2OnlineUserViaTopServer(CLN a)
 {

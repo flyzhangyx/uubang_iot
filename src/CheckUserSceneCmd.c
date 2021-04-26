@@ -1,6 +1,7 @@
 #include"../head/SERVER.h"
 extern int MemPoolAvailable;
 extern int isConnected;
+extern int Send2TopServerTest();
 DWORD WINAPI CheckUserSceneCmd()
 {
     int printCount = 0;
@@ -33,6 +34,10 @@ DWORD WINAPI CheckUserSceneCmd()
         }
         if(printCount==24)
         {
+            if(Send2TopServerTest()<=0)
+            {
+                ConnectToTopServer();
+            }
             stpool_stat(ThreadPool_ExecuteTask, &temp);
             int cpurate = GetCPUUseRate();
             log_debug("CONN2BEFREE_THREAD/TASK:[%d/%d] CPU :[%d]",temp.curthreads_active,temp.curtasks_pending,cpurate);
