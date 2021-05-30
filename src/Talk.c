@@ -28,7 +28,18 @@ int talk(LPVOID b)
 #else
     CLN* a = (CLN*)b;
 #endif
-    log_debug("%s",a->checkcode);
+    //log_debug("%s",a->checkcode);
+    if(a->checkcode[0]=='t')
+    {
+        send(a->SOCKET,"TEST",5,0);
+        InterlockedDecrement((LPLONG) &(a->conn->info[2]));
+#ifdef MemPool
+        freeNode(a->MemMark,a);
+#else
+        MemoryPoolFree(mp, a);
+#endif
+        return 0;
+    }
     if(strlen(a->checkcode)<3)//IotDev
     {
         IoTtalk(a);

@@ -223,10 +223,11 @@ int IoTtalk(CLN* a)
         if(temp==NULL)
         {
             CLN tmpw;
+            memset(&tmpw,0,sizeof(CLN));
             sprintf(tmpw.checkcode,"%s","00");
             sprintf(tmpw.data,"%s_%s_",outStr[1],outStr[2]);
             tmpw.USERKEY_ID = atoi(outStr[0]);
-            sprintf(tmpw.USERID,"%s",FindRegisterUserOrIotNode(10,NULL,tmpw.USERKEY_ID)->USERID);
+            sprintf(tmpw.TalktoID,"%s",FindRegisterUserOrIotNode(10,NULL,tmpw.USERKEY_ID)->USERID);
             Send2OnlineUserViaTopServer(tmpw);
             ///***********************************///
             /*USER tmp = FindRegisterUserOrIotNode(10,NULL,atoi(outStr[0]));

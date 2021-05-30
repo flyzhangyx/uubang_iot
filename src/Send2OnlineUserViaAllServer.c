@@ -71,6 +71,7 @@ int talk(LPVOID b)
     }
     case 0:
     {
+        //log_debug("%s",a->TalktoID);
         USER tmp = FindOnlineUserOrIot(10,a->TalktoID,0.);
         //log_debug("%x",tmp);
         if(tmp == NULL)
@@ -121,7 +122,6 @@ DWORD WINAPI ReceiveMsgFromTopServer()
         }
         else
         {
-            log_debug("%s",buf);
             memcpy(&pack,buf,sizeof(UserPacketInterface));
             memset(CONNHANDLE,0,sizeof(CLN));
             CopyUserPacketInterface2Cln(pack,CONNHANDLE);
